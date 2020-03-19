@@ -1,0 +1,26 @@
+1. Tabel intrebari:
+-(id) -PK /int
+-(descriere) -  String
+
+
+2. Relatie intrebari-categorii
+-(id_intrebare) -FK /int
+-(id_categorie) -FK /int
+-(valoare) /int >reprezinta valoarea asociata unei categorii pentru o anumita intrebare
+
+3. Categorie
+-(id) -PK /int
+-valoare_globala /int (va fi eliminata in iteratiile viitoare)
+
+4. Relatie categorie-raspunsuri
+-(id_categorie) -FK /int
+-(id_raspunsuri) -FK /int
+-(valoare) /int
+
+5. Raspunsuri
+-(id) -PK /int
+-(descriere) - String
+
+
+
+

@@ -1,0 +1,21 @@
+Backlog echipa AI:
+
+Pana la sfarsitul semestrului va trebui sa construim o baza de date pentru scorul individual al cartilor de joc si un program executabil care sa preia argumente de la linia de comanda si sa ofere functionalitati precum alegerea unei carti de joc in mod probabilistic si selectarea unei carti pentru a fi jucate de AI.
+
+Iteratia 1:
+
+Functionalitati de baza pentru testare + Construirea logicii bazei de date
+
+Iteratia 2:
+
+Populare baza de date + Construirea unui algoritm minimal + apeluri catre baza de date
+
+Iteratia 3: 
+
+Construirea algoritmului genetic + Integrarea cu Back-end
+
+Iteratia 4:
+
+Trainingul algoritmului genetic + bug-fixing
+
+Perioadele de desfasurare a iteratiilor se pot modifica in functie de timpul de implementare a algoritmului/pentru bugfixing/integrare.
