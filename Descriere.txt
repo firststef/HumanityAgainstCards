@@ -1,0 +1,184 @@
+Interactiunea dintre componente
+-------------------------------
+4 componente principale: Frontend, Backend, Game (sau Core) si AI.
+
+Un ciclu de comunicare:
+1.Frontend-ul expune interfata, leaga evenimentele de input de la user cu functiile proprii.
+
+2.In unele functii, frontendul apeleaza api-uri ale GameObjectClient. 
+
+Ex: 
+
+function selectCard(x){//typeof(x)==Number
+    //... functionalitati de display
+    gameObjectClient.select(x);
+}
+
+3.GameObjectClient va avea de asemenea niste functii in care va apela functiile front endului.
+
+Ex:
+
+//Frontend space
+function requestToServer(json){
+    fetch(url, {body:json});
+    .then((data) => gameObjectClient.receiveData(data));
+}
+
+//Core space
+class GameObjectClient {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            requestToServer('{...}');
+        }
+    }
+
+    receiveData(data){
+        //prelucrare
+    }
+}
+
+4.Serverul va prelua datele de la frontend, si va apela GameObjectServer cu ce a primit
+
+Ex:
+
+const server = http.createServer(function(request, response) {
+
+    var body = request.onData();
+
+    gameObjectServer.receiveData(body);
+})
+
+5.Dupa care, GameObjectServer poate apela functii din codul back-endului pentru a accesa AI-ul, sau pentru baza de date.
+
+Ex:
+
+var callAI = function(){
+   exec('veryAdvancedAI.exe', function(err, data) {  
+        console.log(err);             
+        return data.toString();
+    });  
+}
+
+var getCards(){
+    return cursor.execute("select * from studenti");
+    //desi sper ca vom folosi MongoDB
+}
+
+class GameObjectServer {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            let cards = getCards();
+            processAI(callAI());
+        }
+    }
+
+    processAI(data){
+        //prelucrare
+    }
+}
+
+5.5 AI-ul acceseaza baza de date prin functii proprii
+
+Ex:
+
+6.GameObjectServer se foloseste de functiile backend sa trimita raspunsul la client.
+
+function sendToClient(data){
+    //etc
+}
+
+class GameObjectServer {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            processAI(callAI());
+        }
+        if (haveData){
+            sendToClient(data);
+        }
+    }
+}
+
+Acest cod NU este sintactic corect sau complet, dar are rol sa dea o idee de baza. Pe baza lui se pot intocmi clase si pentru celelalte 3 functionalitati, ale caror metode ni le puteti trimite ca sa avem toti o schema UML (relativ) completa.
+
+Functiile specifice, cum ar fi pe front end handlere pentru evenimente declansate de GOC pentru expirarea timpului de exemplu, la care frontendul trebuie sa afiseze/ascunda diverse butoane, etc - NU (consider) ca sunt necesare sa apara pe schema UML, dar se pot pune - orientativ.
+
+Backlog echipa GameDev:
+//Iteratia 1 (sau saptamana 6)
+
+O implementare minimala{
+    In Command line a logicii jocului in consola (comenzi de tip "Trage carte", "Alege raspuns")
+}
+
+Basic game rules{
+    Initial setup - Trage cele 10 carti - fara duplicate etc
+    Runda:
+    - Se alege random un Czar si primeste automat o carte neagra
+    - Fiecare selecteaza o carte, intr-o limita de timp 30-45 secunde
+    - Czar-ul alege una din cartile respective - tot cu time limit
+    Jucatorul a carei carti a fost alese primeste cartea respectiva
+    Fiecare jucator primeste inapoi numarul de carti
+    -Se repeta runda pana se ajunge la X puncte
+}
+
+Single game{
+    O singura camera de joc
+}
+
+//Iteratia 2
+Basic interface{
+    Integrare minimala cu echipa de FrontEnd
+}
+
+Basic database calls{
+    Ia carti.
+}
+
+Full game rules {
+    Adauga optiune pentru a selecta mai multe carti.
+}
+
+Test APIs - Sincronizare din cod {
+    Functii de tip "Draw card" cu apeluri complete
+}
+
+//Iteratia 3
+Advanced interface calls (Simple house rules){
+    Alegere limita de puncte pentru terminarea jocului
+}
+
+Multiple room system {
+    Meniu cu camere, alegere camere jocuri neincepute pentru a juca, altfel spectate
+}
+
+//Iteratia 4
+Bug fixing {
+    Practic sa mearga perfect jocul in forma lui reala, fara AI, cu mai multe camere si interfata completa
+}
+
+//Iteratia 5
+AI Integration
+
+//Iteratia 6
+Bug fixing V2{
+    Posibil cea mai grea parte ca sa mearga AI-ul cum trebuie
+}
+
+Adaugati aici backlog-uri - adica milestone-uri pe care considerati ca le-ati realiza de la o saptamana la alta. Puneti-le separat, le vom concatena la final daca e nevoie. De asemenea cel mai probabil vom modifica de la o saptamana la alta acest document
