@@ -1,0 +1,121 @@
+Interactiunea dintre componente
+-------------------------------
+4 componente principale: Frontend, Backend, Game (sau Core) si AI.
+
+Un ciclu de comunicare:
+1.Frontend-ul expune interfata, leaga evenimentele de input de la user cu functiile proprii.
+
+2.In unele functii, frontendul apeleaza api-uri ale GameObjectClient. 
+
+Ex: 
+
+function selectCard(x){//typeof(x)==Number
+    //... functionalitati de display
+    gameObjectClient.select(x);
+}
+
+3.GameObjectClient va avea de asemenea niste functii in care va apela functiile front endului.
+
+Ex:
+
+//Frontend space
+function requestToServer(json){
+    fetch(url, {body:json});
+    .then((data) => gameObjectClient.receiveData(data));
+}
+
+//Core space
+class GameObjectClient {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            requestToServer('{...}');
+        }
+    }
+
+    receiveData(data){
+        //prelucrare
+    }
+}
+
+4.Serverul va prelua datele de la frontend, si va apela GameObjectServer cu ce a primit
+
+Ex:
+
+const server = http.createServer(function(request, response) {
+
+    var body = request.onData();
+
+    gameObjectServer.receiveData(body);
+})
+
+5.Dupa care, GameObjectServer poate apela functii din codul back-endului pentru a accesa AI-ul, sau pentru baza de date.
+
+Ex:
+
+var callAI = function(){
+   exec('veryAdvancedAI.exe', function(err, data) {  
+        console.log(err);             
+        return data.toString();
+    });  
+}
+
+var getCards(){
+    return cursor.execute("select * from studenti");
+    //desi sper ca vom folosi MongoDB
+}
+
+class GameObjectServer {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            let cards = getCards();
+            processAI(callAI());
+        }
+    }
+
+    processAI(data){
+        //prelucrare
+    }
+}
+
+5.5 AI-ul acceseaza baza de date prin functii proprii
+
+Ex:
+
+6.GameObjectServer se foloseste de functiile backend sa trimita raspunsul la client.
+
+function sendToClient(data){
+    //etc
+}
+
+class GameObjectServer {
+    //other
+
+    constructor() {
+        setTimeout(update, 1000);
+    }
+
+    update(){
+        if (needData){
+            processAI(callAI());
+        }
+        if (haveData){
+            sendToClient(data);
+        }
+    }
+}
+
+Acest cod NU este sintactic corect sau complet, dar are rol sa dea o idee de baza. Pe baza lui se pot intocmi clase si pentru celelalte 3 functionalitati, ale caror metode ni le puteti trimite ca sa avem toti o schema UML (relativ) completa.
+
+Functiile specifice, cum ar fi pe front end handlere pentru evenimente declansate de GOC pentru expirarea timpului de exemplu, la care frontendul trebuie sa afiseze/ascunda diverse butoane, etc - NU (consider) ca sunt necesare sa apara pe schema UML, dar se pot pune - orientativ.

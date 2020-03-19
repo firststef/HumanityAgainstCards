@@ -1,0 +1,60 @@
+Backlog echipa GameDev:
+//Iteratia 1 (sau saptamana 6)
+
+O implementare minimala{
+    In Command line a logicii jocului in consola (comenzi de tip "Trage carte", "Alege raspuns")
+}
+
+Basic game rules{
+    Initial setup - Trage cele 10 carti - fara duplicate etc
+    Runda:
+    - Se alege random un Czar si primeste automat o carte neagra
+    - Fiecare selecteaza o carte, intr-o limita de timp 30-45 secunde
+    - Czar-ul alege una din cartile respective - tot cu time limit
+    Jucatorul a carei carti a fost alese primeste cartea respectiva
+    Fiecare jucator primeste inapoi numarul de carti
+    -Se repeta runda pana se ajunge la X puncte
+}
+
+Single game{
+    O singura camera de joc
+}
+
+//Iteratia 2
+Basic interface{
+    Integrare minimala cu echipa de FrontEnd
+}
+
+Basic database calls{
+    Ia carti.
+}
+
+Full game rules {
+    Adauga optiune pentru a selecta mai multe carti.
+}
+
+Test APIs - Sincronizare din cod {
+    Functii de tip "Draw card" cu apeluri complete
+}
+
+//Iteratia 3
+Advanced interface calls (Simple house rules){
+    Alegere limita de puncte pentru terminarea jocului
+}
+
+Multiple room system {
+    Meniu cu camere, alegere camere jocuri neincepute pentru a juca, altfel spectate
+}
+
+//Iteratia 4
+Bug fixing {
+    Practic sa mearga perfect jocul in forma lui reala, fara AI, cu mai multe camere si interfata completa
+}
+
+//Iteratia 5
+AI Integration
+
+//Iteratia 6
+Bug fixing V2{
+    Posibil cea mai grea parte ca sa mearga AI-ul cum trebuie
+}
