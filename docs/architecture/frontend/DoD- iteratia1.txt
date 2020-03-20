@@ -1,0 +1,11 @@
+Iteratia 1 ar trebui sa cuprinda:
+Home Page : 
+	-pagina principal pe care utilizatorul care ii va fi afisata utilizatorului la accesare
+	-utilizatorul va avea posibilitatea de a-si seta un username, pentru a putea avea  acces la      Lobby Page
+Lobby Page : 
+	-pagina catre care utilizatorul va fi redirectionat dupa introducerea unui username in Home Page
+	-aceasta va  contine un layout a tuturor game session urilor active, la care utilizatorul ar putea lua parte ca spectator sau ca jucator 
+	-layout game session urilor va oferi anumite detalii, cum ar fi numarul participatilor, numarul spectatorilor, categoriile de carti alese de creator , starea unei sesiuni (In progess sau Waiting for players).
+Ambele pagini trebuie sa fie usor de folosit, sa respecte principiilor designului Web responsive, sa ofera utilizatorului o experienta cat mai placuta.
+Ele trebuie sa functioneze fara problem impreuna, tranzitia nefiind perceptibila.
+Timpul estimate pentru prima itearatie ar fi de 72 de ore.

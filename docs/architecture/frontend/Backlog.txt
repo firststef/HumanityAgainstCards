@@ -1,0 +1,108 @@
+Iteratia 1
+
+Implementarea unui home page in care utilizatorul sa poata sa isi aleaga un nume fara a fi nevoit sa isi faca cont
+Implementarea paginii care va contine mai multe camere de joc
+
+joinGameAsPlayer {
+	Un buton care va conecta utilizatorul in GameSession ca si jucator
+}
+
+joinGameAsSpectator {
+	Un buton care va conecta utilizatorul in GameSession ca si jucator
+}
+
+drawLobby {
+	Un container ce va contine butoanele de join game precum si alte informatii ale camerei precum:
+	- Jucatorii conectati momentan in sesiunea de joc respectiva
+	- Spectatorii conectati momentan in sesiunea de joc respectiva
+	- Numarul maxim de jucatori pe care le permite camera
+	- Numarul maxim de spectatori pe care le permite camera
+	- Un status pentru sesiunea de joc (Not Started/ In Progress)
+}
+
+Iteratia 2
+
+Implementarea unui design pentru lobby-uri
+Afisarea setarilor ce vor putea fi modificate de catre host inainte de a incepe jocul
+
+gameOptions {
+	Un container ce va contine configuratiile sesiunii de joc precum:
+	- Scorul limita pentru a castiga jocul
+	- Limita de jucatori al camerei
+	- Limita de spectatori al camerei
+	- Un form care va lasa hostul sa introduca o parola pentru camera
+}
+
+gameID {
+	Un ID ce va fi afisat si va aduce posibilitatea utilizatorilor de a se conecta usor intr-o anumita camera
+}
+
+playerList {
+	Un container cu lista de jucatori + spectatori
+}
+
+Iteratia 3
+
+Implementarea game layout-ului + Integrare echipa backend
+
+showHand() {
+	Functie care afiseaza cartile unui jucator
+}
+
+createStartingCard() {
+	Functie care creeaza cartea de inceput
+}
+
+startingCard {
+	Un container ce va contine textul cartii de inceput generate de functia createStartingCard
+}
+
+handCards {
+	Un container ce va contine cartile jucatorului
+}
+
+placedCards {
+	Un container ce va contine cartile selectate de jucatori drept raspuns cartii de inceput
+}
+
+
+selectedCard {
+	Un container cu un id care va fi initial face_down
+}
+
+confirmSelectedCard {
+	Un buton care va aparea doar pentru jucatorii care nu sunt Czar cu scopul de a confirma selectia unei carti din mana.
+}
+
+confirmWinningCard {
+	Un buton care va aparea doar pentru Czar pentru a confirma cartea castigatoare.
+}
+
+Iteratia 4
+
+Implementarea unei pagini de inregistrare
+
+Implementarea unui navbar care va permite utilizatorului: 
+- sa se conecteze
+- sa se deconecteze
+- conectarea intr-o camera de joc printr-un gameID
+- sa isi verifice pagina de profil in care poate vedea numarul de jocuri castigate si pierdute
+
+Iteratia 5
+
+Adaugarea de animatii pentru:
+- cartile de joc
+- schimbarea czar-ului
+- sfarsitul unei runde
+- sfarsitul jocului
+
+Adaugarea paginei de profil care va contine:
+- numarul de jocuri castigate si pierdute
+- ultima zi in care a fost conectat un utilizator
+- ziua inregistrarii
+- activitate recenta care include numarul de jocuri jucate in ultimile 7 zile (care contin cel putin o sesiune de joc jucata)
+	
+Iteratia 6
+
+Implementarea unui container pentru chat room
+Adaugarea optiunei pentru schimbarea limbei Romana/Engleza
