@@ -3,7 +3,7 @@
 # Backlog
 - [x] [Do backlog for the following sprint](../docs/architecture/backend/README.md)
 - [x] [C4 diagram](../docs/architecture/backend/)
-- [x] [Uml diagram](../docs/architecture/backend/Uml Backend.svg)
+- [x] [Uml diagram](../docs/architecture/backend/)
 - [x] [Use case diargam](../docs/architecture/backend)
 - [x] \(Optional) Basic server shell
 
