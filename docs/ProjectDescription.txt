@@ -1,0 +1,23 @@
+Propunere proiect IP - grupa IIA5
+
+Cards against humanity pe browser/ Are you funnier than a computer?.
+Daca nu ati mai jucat, cand intrati pe acest joc vi se dau niste carti si sunt mai multi oameni, fiecare cu cartile lor. Serverul alege o propozitie random si jucatorii trebuie sa aleaga una din cartile lor care sa completeze propozitia si sa fie cat mai amuzanta. Unul din jucatori, "Judge"-ul, ales pe tura, sta pe margine si voteaza raspunsul cel mai amuzant. Cartea aleasa castiga puncte. Jocul continua cu alt arbitru, alta propozitie etc. pentru un anumit numar de runde. Castigatorul este bineinteles cel cu cel mai multe puncte.
+
+Elementul de noutate ar fi AI-ul
+AI - Unul din jucatori este un AI care va incerca sa aleaga cea mai amuzanta carte. In momentul in care "Judge-ul turei" alege cartea cea mai amuzanta, daca el alege cartea AI-ului, toti jucatorii pierd puncte. 
+
+(O alta optiune ar fi ca printre alegerile jucatorilor sa se afle un nr de raspunsuri proportional cu nr de jucatori alese de AI.)
+
+Propunere desfasurare joc
+Jocul se concentreaza pe tug-of-war-ul intre AI si jucatori. Scorul tuturor jucatorilor se insumeaza si se obtine scorul total al jucatorilor. La fiecare carte de jucator aleasa, punctajul acelui jucator este crescut si, normal, si scorul global. Dar, daca AI-ul castiga, el scade din acel scor global. Asa jucatorii sunt determinati sa aleaga chestii amuzante. Daca se termina rundele si jucatorii au scor pozitiv, atunci ei castiga, iar cel cu scorul cel mai mare este "Eroul", "Liderul" umanitatii.
+
+O alta varianta este si AI-ul sa aiba un scor, sa nu modifice cel al jucatorilor si sa se decida la final cine a castigat. Bineinteles, cand AI-ul castiga, lui i se adauga punctajul*(nr-ul de jucatori). Castigatorul din echipa oamenilor se decide in acelasi mod.
+
+Jocul poate fi gasit aici
+https://www.cardsagainsthumanity.com/
+  
+O varianta online a jocului poate fi gasita aici - dar se poate face o varianta mai interesanta la nivel de frontend
+https://pyx-1.pretendyoure.xyz/zy/game.jsp
+
+Cartile sunt free to download de pe site-ul oficial
+http://s3.amazonaws.com/cah/CAH_MainGame.pdf

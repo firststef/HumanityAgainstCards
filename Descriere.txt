@@ -1,3 +1,0 @@
-Mutat in docs/architecture/interaction.txt
-
-Puneti backlogurile fiecare in folderul respectiv.
