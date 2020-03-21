@@ -8,7 +8,7 @@
 - [x] [Definition of done](../docs/architecture/backend)
 - [x] \(Optional) Basic server shell
 
-# How to use
+# How to run
 
 Requires [nodejs](https://nodejs.org/en/)
 
