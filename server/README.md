@@ -8,7 +8,15 @@
 - [x] [Definition of done](../docs/architecture/backend)
 - [x] \(Optional) Basic server shell
 
+# How to use
 
+Requires [nodejs](https://nodejs.org/en/)
+
+- ```touch config.js``` Create a config.js file
+- Copy the contents of config.js.example to it
+- Contact a member of the backend team, for the database credentials
+- ```npm start```
+- Enjoy ! The server is now running on the port defined in the config file ^^
 
 ## Definition of done
 ### Sprint 1
