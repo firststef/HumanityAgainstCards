@@ -9,7 +9,7 @@ const express = require("express"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
-app.use(body_parserbody_parser.urlencoded({ extended: true, limit: "10mb" }));
+app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
 
 app.listen(config.server.port, function(err) {
