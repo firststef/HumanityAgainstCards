@@ -1,10 +1,10 @@
 module.exports = {
 	database: {
-		endpoint: "mongodb+srv://fluffypanda:theFluffA5@humansagainstcards-vfnzh.gcp.mongodb.net/test?retryWrites=true&w=majority", //db endpoint
-		db: "HumansAgainstCards", // clusters storage
+		endpoint: "", //db endpoint
+		db: "HumansAgainstCards", //db storage
 	},
 	server: {
-		port: 8080,
+		port: 7000,
 		endpoint: "localhost",
 		protocol: "http",
 	},

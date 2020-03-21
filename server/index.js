@@ -5,7 +5,7 @@ const express = require("express"),
 	log = require("./utils/log"),
 	color = require("./colors"),
 	cors = require("cors"),
-	//database = require("./utils/database"), // database hasn't been defined yet
+	database = require("./utils/database"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
@@ -13,21 +13,33 @@ app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
 
 app.listen(config.server.port, function(err) {
-    if (err) {
+	if (err) {
 		console.log(color.white + header, color.red, `Server could not start : `, err);
 	} else {
-        console.log(color.white + header, color.green, `Server running on port ${config.server.port} !`);
+		console.log(color.white + header, color.green, `Server running on port ${config.server.port} !`);
 		console.log(color.white + header, color.green, `The interface can be accesed at ${config.server.protocol}://${config.server.server}:${config.server.port} !`);
-        console.log("\n");
-        console.log(color.yellow, `)         *              ) (                            (       ) (                          (   (     (     `);
-        console.log(color.yellow, `     ( /(       (  \`    (     ( /( )\\ )     (     (       (     )\\ ) ( /( )\\ )  *   )     (    (     )\\ ))\\ )  )\\ )  `);
-        console.log(color.yellow, `     )\\())   (  )\\))(   )\\    )\\()|()/(     )\\    )\\ )    )\\   (()/( )\\()|()/(\` )  /(     )\\   )\\   (()/(()/( (()/(  `);
-        console.log(color.yellow, `    ((_)\\    )\\((_)()((((_)( ((_)\\ /(_)) ((((_)( (()/( ((((_)(  /(_)|(_)\\ /(_))( )(_))  (((_|(((_)(  /(_))(_)) /(_)) `);
-        console.log(color.yellow, `     _((_)_ ((_|_()((_)\\ _ )\\ _((_|_))    )\\ _ )\\ /(_))_)\\ _ )\\(_))  _((_|_)) (_(_())   )\\___)\\ _ )\\(_))(_))_ (_))   `);
-        console.log(color.yellow, `    | || | | | |  \\/  (_)_\\(_) \\| / __|   (_)_\\(_|_)) __(_)_\\(_)_ _|| \\| / __||_   _|  ((/ __(_)_\\(_) _ \\|   \\/ __|  `);
-        console.log(color.yellow, `    | __ | |_| | |\\/| |/ _ \\ | .\` \\__ \\    / _ \\   | (_ |/ _ \\  | | | .\` \\__ \\  | |     | (__ / _ \\ |   /| |) \\__ \\  `);
-        console.log(color.yellow, `    |_||_|\\___/|_|  |_/_/ \\_\\|_|\\_|___/   /_/ \\_\\   \\___/_/ \\_\\|___||_|\\_|___/  |_|      \\___/_/ \\_\\|_|_\\|___/|___/  `);
-        console.log("\n");
-    }
-})
+		console.log("\n");
+		console.log(color.yellow, `     )         *              ) (                            (       ) (                          (   (     (     `);
+		console.log(color.yellow, `     ( /(       (  \`    (     ( /( )\\ )     (     (       (     )\\ ) ( /( )\\ )  *   )     (    (     )\\ ))\\ )  )\\ )  `);
+		console.log(color.yellow, `     )\\())   (  )\\))(   )\\    )\\()|()/(     )\\    )\\ )    )\\   (()/( )\\()|()/(\` )  /(     )\\   )\\   (()/(()/( (()/(  `);
+		console.log(color.yellow, `    ((_)\\    )\\((_)()((((_)( ((_)\\ /(_)) ((((( (()/( ((((_)(  /(_)|(_)\\ /(_))( )(_))  (((_|(((_)(  /(_))(_)) /(_)) `);
+		console.log(color.yellow, `     _((_)_ ((_|_()((_)\\ _ )\\ _((_|_))    )\\ _\\ /(_))_)\\ _ )\\(_))  _((_|_)) (_(_())   )\\___)\\ _ )\\(_))(_))_ (_))   `);
+		console.log(color.yellow, `    | || | | | |  \\/  (_)_\\(_) \\| / __|   (_)_\\(_)) __(_)_\\(_)_ _|| \\| / __||_   _|  ((/ __(_)_\\(_) _ \\|   \\/ __|  `);
+		console.log(color.yellow, `    | __ | |_| | |\\/| |/ _ \\ | .\` \\__ \\    / _ \\ | (_ |/ _ \\  | | | .\` \\__ \\  | |     | (__ / _ \\ |   /| |) \\__ \\  `);
+		console.log(color.yellow, `    |_||_|\\___/|_|  |_/_/ \\_\\|_|\\_|___/   /_/ \\_\\ \\___/_/ \\_\\|___||_|\\_|___/  |_|      \\___/_/ \\_\\|_|_\\|___/|___/  `);
+		console.log("\n");
+	}
+});
 require("./routes/test/hello")(app);
+
+// Database querry test 
+// [RMN] Remove on next commit **
+//
+// setTimeout(() => {
+// 	console.log(color.white + header, color.white, `Start test !`);
+// 	let db = database.get_db();
+// 	db.db("HumansAgainstCards").createCollection("test", function(err, res) {
+// 		if (err) throw err;
+// 		console.log(color.white + header, color.white, `Colection created`);
+// 	});
+// }, 3000);
