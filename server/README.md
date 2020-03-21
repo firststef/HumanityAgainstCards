@@ -1,10 +1,10 @@
 # Backend server
 
 # Backlog
-- [x] Do backlog for the following sprint
-- [x] C4 diagram
-- [x] Uml diagram
-- [x] Use case diargam
+- [x] [Do backlog for the following sprint](../docs/architecture/backend/README.md)
+- [x] [C4 diagram](../docs/architecture/backend/)
+- [x] [Uml diagram](../docs/architecture/backend/Uml Backend.svg)
+- [x] [Use case diargam](../docs/architecture/backend)
 - [x] \(Optional) Basic server shell
 
 ## How to node
