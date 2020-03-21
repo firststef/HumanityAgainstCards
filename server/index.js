@@ -1,5 +1,5 @@
 const express = require("express"),
-	bodyParser = require("body-parser"),
+	body_parser = require("body-parser"),
 	config = require("./config.js"),
 	app = express(),
 	log = require("./utils/log"),
@@ -9,8 +9,8 @@ const express = require("express"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
-app.use(bodyParser.json());
+app.use(body_parserbody_parser.urlencoded({ extended: true, limit: "10mb" }));
+app.use(body_parser.json());
 
 app.listen(config.server.port, function(err) {
     if (err) {
