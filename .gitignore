@@ -105,3 +105,6 @@ dist
 
 #node-modules folder
 .node-modules
+
+#package-lock file
+.package-lock.json
