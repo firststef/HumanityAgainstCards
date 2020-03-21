@@ -1,7 +1,7 @@
 # Backend server
 
 # Backlog
-- [x] [Do backlog for the following sprint](../docs/architecture/backend/README.md)
+- [x] [Do backlog for the following sprint](../docs/architecture/backend/)
 - [x] [C4 diagram](../docs/architecture/backend/)
 - [x] [Uml diagram](../docs/architecture/backend/)
 - [x] [Use case diargam](../docs/architecture/backend)
