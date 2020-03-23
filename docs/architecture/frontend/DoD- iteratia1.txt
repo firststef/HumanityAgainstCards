@@ -10,3 +10,5 @@ Ambele pagini trebuie sa fie usor de folosit, sa fie responsive pe orice fel de 
 
 Bradatan Bogdan, Dinu Marius (Home Page)
 Miron Dorin-Marian, Potoroaca Ana-Maria, Zaharia Bogdan (Lobby Page)
+
+Vineri Frontend Meeting (10:00)
