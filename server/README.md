@@ -21,7 +21,7 @@ Requires [nodejs](https://nodejs.org/en/)
 ## Definition of done
 ### Sprint 1
 
-- [ ] Create and configurate a basic mongodb database 
+- [x] Create and configurate a basic mongodb database 
 - [ ] Create a database schema for all the required objects
 - [ ] Create a route (or a socket) that returns a list of all avaiable ongoing games
 - [ ] Create a route that allows autentification
