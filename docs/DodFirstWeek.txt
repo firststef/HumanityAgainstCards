@@ -12,8 +12,10 @@ Stim despre chat-ul cu grupa ca este joi la 18, iar noi ne-am sfatuit sa ne auzi
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Echipa AI
- : La sfarsitul iteratiei 1, va trebui sa cunoastem cum functioneaza un algoritm genetic si sa realizam o baza de date temporara, cu fisiere, cu care vom antrena ulterior algoritmul.
+Echipa AI:
+La sfarsitul iteratiei 1, va trebui sa:
+- cunoastem cum functioneaza un algoritm genetic si cum poate fi antrenat pe un set de date predefinit.
+- realizam o baza de date temporara, cu fisiere, cu care vom antrena ulterior algoritmul.
 
 Weekly AI Meeting: Marti 18:00
 
