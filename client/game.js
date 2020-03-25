@@ -2,7 +2,9 @@ const RequestHeaders = {
     REQUEST_ID: 1,
     RESPONSE_REQUEST_ID:2,
     REQUEST_CARDS:3,
-    RESPONSE_REQUEST_CARD:4
+    RESPONSE_REQUEST_CARD:4,
+    REQUEST_CHOSE_CARD:5,
+    RESPONSE_CHOSE_CARD:6
 };
 Object.freeze(RequestHeaders);
 
@@ -26,7 +28,7 @@ class Card {
     }
 }
 
-/** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameServer sa fie facut corect */
+/** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 class GameManager {
     constructor() { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
     }
@@ -95,7 +97,8 @@ class GameClient {
             this.cards += data.cards;
             this.state = GameStates.CHOOSE_WHITE_CARD;
             return {
-                header:'show_cards'
+                header:'show_cards',
+                cards: this.cards
             }
         }
         return 'error';
@@ -134,13 +137,16 @@ while (true){
 }
 
 //Functions
-function fakeRequest(data) {
-    return backEndFunction(data);
+function initFrontend(){
+    let request = fakeRequest(initialRequest);
+    if (request.header === RequestHeaders.RESPONSE_REQUEST_ID){
+        clientId = request.id;
+        gameClient = new GameClient(clientId);
+    }
 }
 
-function initFrontend(){
-    clientId = fakeRequest(initialRequest).id;
-    gameClient = new GameClient(clientId);
+function fakeRequest(data) {
+    return backEndFunction(data);
 }
 
 function update() {
