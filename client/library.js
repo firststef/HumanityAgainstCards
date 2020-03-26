@@ -104,6 +104,10 @@ class GameClient {
     }
 }
 
+function getRandomString() {
+    return Array(1).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
+}
+
 
 // module.exports.[ce nume vrei sa aibe in afara filei] = [variabila/functia/clasa din fila]
 module.exports.RequestHeaders = RequestHeaders;
@@ -111,3 +115,4 @@ module.exports.GameStates = GameStates;
 module.exports.Card = Card;
 module.exports.GameManager = GameManager;
 module.exports.GameClient = GameClient;
+module.exports.getRandomString= getRandomString();

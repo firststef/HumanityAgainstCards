@@ -74,6 +74,4 @@ setInterval(update, 1000); // application loop
 */
 
 //Utils
-function getRandomString() {
-    return Array(1).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
-}
+parent.getRandomString();
