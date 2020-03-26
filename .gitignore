@@ -111,3 +111,7 @@ dist
 
 #config file containing database credentials
 .config.js
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/HumanityAgainstCards.iml
