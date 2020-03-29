@@ -1,0 +1,214 @@
+body{
+    background: #E6E6FA;
+}
+.btn-facebook,
+.btn-google {
+    font-family: Montserrat-SemiBold;
+    font-size: 18px;
+    line-height: 1.2;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    width: calc((100% - 5px) / 2);
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-google::before,
+.btn-facebook::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    background: #86A3C3;
+    opacity: 0;
+    transition: all 0.4s;
+}
+
+.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+}
+
+.btn-facebook img {
+    width: 20px;
+    margin-right: 15px;
+    padding-bottom: 3px;
+}
+
+.btn-google {
+    color: #555555;
+    background-color: #fff;
+}
+
+.btn-google img {
+    width: 20px;
+    margin-right: 15px;
+    padding-bottom: 3px;
+}
+
+.btn-facebook:hover:before,
+.btn-google:hover:before {
+    opacity: 1;
+}
+
+.btn-facebook:hover,
+.btn-google:hover {
+    color: #fff;
+}
+
+.container{
+    margin-top: 7%;
+    margin-bottom: 5%;
+    flex-basis: auto;
+    overflow: auto;
+
+}
+.login-form{
+    padding: 5%;
+    background: #87CEEB;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form h3,
+.login-form h5{
+    text-align: center;
+    color: #333;
+}
+.signup-form{
+    padding: 5%;
+    background: #0062cc;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.signup-form h3{
+    text-align: center;
+    color: #fff;
+}
+.container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.login-form .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+.signup-form .btnSubmit{
+    font-weight: 600;
+    color: #0062cc;
+    background-color: #fff;
+}
+
+.login-form .ForgetPwd{
+    color: #0062cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+
+
+
+/*
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 70%;
+        width: 80%;
+
+    }
+
+
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+
+}
+
+
+
+
+/*
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    .container{
+        align-self: center;
+        margin-top: 5%;
+        height: 40%;
+
+    }
+
+}
+
+/*
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+
+}
+
+/*
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+}

@@ -1,0 +1,23 @@
+.lobbies {
+  padding-top: 60px;
+}
+
+.card {
+  text-shadow: 2px 2px black;
+}
+
+.card-header {
+  background-color: dimgray;
+  color: white;
+}
+
+.card-body {
+  background-color: #121212;
+  color: white;
+}
+
+.card-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
