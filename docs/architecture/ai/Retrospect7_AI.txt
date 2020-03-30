@@ -1,0 +1,18 @@
+Ce am facut bine:
+	- crearea bazei de date temporare
+	- faptul ca toata lumea a inteles cum functioneaza un algoritm genetic
+	- studiul suplimentar asupra AI-ului si gasirea unor noi posibilile
+	implementari in program
+
+Ce trebuie imbunatatit:
+	- adaugarea datelor in baza de date (trebuie discutat suplimentar cu
+	echipa de backend)
+	- conectarea cu mongoDB
+	- implementarea unui algoritm pe principii euristice, care utilizeaza 	datele din jocuri anterioare pentru a da un raspuns
+
+
+DoD saptamana 8:
+	- conexiunea programului la MongoDB si la baza de date permanenta
+	- popularea bazei de date cu valori
+	- (algoritm) creerea scorurilor initiale ale cartilor
+	pe baza valorilor globale ale acestora
