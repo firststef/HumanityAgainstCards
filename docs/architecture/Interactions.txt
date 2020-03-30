@@ -94,7 +94,7 @@ class GameObjectServer {
 Functiile disponibile:
 	-getProbability() //returneaza probabilitatea de alegere interna a algoritmului*100
 	-setProbability(probability) // seteaza probabilitate de alegere
-	-trainAI(selectedCard) // se apeleaza la sfarsitul rundei si ofera AI-ului id-ul cartii care a fost alese de czar pentru a actualiza scorul cartilor din baza de date
+	-trainAI(selectedWhiteCard, whiteCard1, whiteCard2 ...) // se apeleaza la sfarsitul rundei si ofera AI-ului id-ul cartii care a fost alese de czar pentru a actualiza scorul cartilor din baza de date
 	-getAIAnswer(blackCard,whiteCard1,whiteCard2,...) // se apeleaza la inceputul rundei si ofera id-ul cartii selectate de AI pentru a fi jucate de AI in runda respectiva.
 
 Aceste functii vor fi apelate din javascript cu parametrii, iar rezultatul va fi returnat prin codul de sfarsit al executiei programului.
