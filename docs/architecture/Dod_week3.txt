@@ -1,0 +1,73 @@
+AI
+
+DoD saptamana 8:
+	- conexiunea programului la MongoDB si la baza de date permanenta
+	- popularea bazei de date cu valori
+	- (algoritm) creerea scorurilor initiale ale cartilor
+	pe baza valorilor globale ale acestora
+
+Membrii:
+ Lead: Calin Crainiciuc
+ Stoica George
+ Camelia Lupancu
+ Stefan Tiperciuc
+ Dragos Olteanu
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+FRONT END
+
+Lobby settings :
+	- setari pe care hostul camerei le poate modifica (ex: punctajul la care jucatorii trebuie sa ajunga pentru a castiga, pachetele de carti ce vor fi utilizate pentru sesiunea de joc, limita jucatorilor ce pot intra, limita spectatorilor ce pot intra, setarea unei parole pe camera in cazul in care se doreste o camera privata)
+
+Lobby design :
+	- lobby-ul trebuie sa contina un ID unic care este afisat
+	- afisarea scorului pentru jucatori
+	- modul in care cartile din mana unui jucator sunt afisate
+	- afisarea cartii care trebuie completate
+	- un buton prin care utilizatorul isi confirma selectia cartii
+	
+
+Membrii:
+Lead: Dorin Miron
+Ana Potoroaca
+Bogdan Zaharia
+Bogdan Bradatan
+Marius Dinu
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+BACK END
+        
+
+DoD:  
+      -realizarea shemei bazei de date
+      -realizarea scriptului de populare a bazei de date
+      -rutarea serverului asa incat sa primeasaca cereri specifice delgate de baza de date si sa intoarca informatia necesara(probabil intr un json)
+      -introducerea executabilului de la AI intr-o functie care sa intoarca informatia cartii intoarese de executabil 
+
+
+Membrii:
+Lead: Birleanu Rebeca
+ Ionut Oancea
+ Stefan Dragoi
+ Bogdan Palasanu
+ Nassar Mahmoud
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+GAME DESIGN
+
+DoD: 
+   - să termine de implementat funcționalitatea de bază a modulului - GameCore Communication => rezolvarea funcțiilor de logică la nivel de Room, a interacții dintre GameManager și GameClient.
+   - să facă un mockup pentru interacțiunea dintre Frontend și GameClient care va fi după extins odată cu integrarea cu echipa de Frontend. Acesta ar trebui să conțină anumite wrappere peste funcțiile GameClient care să fie asincron. Se va simula interacțiunea utilizatorului cu interfața în contextul unei partide de joc. 
+   - urmează extinderea codului de la nivel de Single-Room la nivel de Multi-Room. Va fi necesar niște research/discuții pregătitoare acesteia.
+
+
+Membrii:
+Lead: Stefan Petrovici
+Tudor Paraschiv
+Andrei leuciuc
+Cotiuga Ilie
+Alex Paladi
+
