@@ -1,0 +1,11 @@
+Iteratia 2 ar trebui sa cuprinda
+
+Lobby settings :
+	- setari pe care hostul camerei le poate modifica (ex: punctajul la care jucatorii trebuie sa ajunga pentru a castiga, pachetele de carti ce vor fi utilizate pentru sesiunea de joc, limita jucatorilor ce pot intra, limita spectatorilor ce pot intra, setarea unei parole pe camera in cazul in care se doreste o camera privata)
+
+Lobby design :
+	- lobby-ul trebuie sa contina un ID unic care este afisat
+	- afisarea scorului pentru jucatori
+	- modul in care cartile din mana unui jucator sunt afisate
+	- afisarea cartii care trebuie completate
+	- un buton prin care utilizatorul isi confirma selectia cartii
