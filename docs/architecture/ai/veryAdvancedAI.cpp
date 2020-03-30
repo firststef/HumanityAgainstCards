@@ -24,9 +24,15 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 	if (strcmp(functionName, "trainAI") == 0) {
-		if (argc < 3)
+		if (argc < 4)
 			return -2; //Not enough arguments
-		trainDatabase(atoi(argv[2]));
+
+		int selectedCard = (atoi(argv[2]));
+		vector<int> whiteCards;
+		for (int i = 3; i < argc; i++)
+			whiteCards.push_back(atoi(argv[i]));
+
+		trainDatabase(selectedCard, whiteCards);
 		return 0;
 	}
 	if (strcmp(functionName, "getAIAnswer") == 0) {
@@ -42,7 +48,7 @@ int main(int argc, char *argv[]) {
 	return -3; //Unrecognized command
 }
 
-void trainDatabase(int answer) {
+void trainDatabase(int selectedcard, vector<int> whiteCards) {
 	//nothing here yet
 }
 
