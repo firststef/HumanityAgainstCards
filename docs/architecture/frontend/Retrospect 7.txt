@@ -1,0 +1,12 @@
+De imbunatatit:
+	- eliminarea navbar-ului din pagina de home
+	- descriere concisa in engleza a jocului in pagina de home 
+	- prezentare a jocului pe pagina de home (utilizarea unui carousel pentru un mic preview al jocului)
+	- modificarea forumlarului login/register (schimbarea culorilor, adaugare camp verificare parola)
+	- simplificarea informatiilor pentru pagina de lobby (eliminarea afisarii jucatorilor/spectatorilor din camera)
+	
+Ce ne-a placut:
+	- claritatea si simplitatea home page-ului
+	- optiunea de autentificare cu google sau facebook in pagina de login/register
+	- organizarea lobby-urilor in pagina de lobby
+	- elementele responsive din pagini
