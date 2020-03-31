@@ -107,10 +107,12 @@ dist
 .node-modules
 
 #package-lock file
-.package-lock.json
+./server/package-lock.json
 
 #config file containing database credentials
-.config.js
+./server/config.js
+
+
 .idea/vcs.xml
 .idea/modules.xml
 .idea/misc.xml
