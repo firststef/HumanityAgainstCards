@@ -1,0 +1,158 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-shadow: 2px 2px 4px #000000;
+    color: white;
+}
+
+.main {
+    background-color: black;
+}
+
+.text--my-center{
+    background-color:black;
+    text-align: center;
+}
+
+.lead {
+    font-size: 1.5rem;
+    font-weight: 300;
+    /*animation: pulse 4s infinite;*/
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+p.p1-my{
+    font-size:1rem;
+    font-weight:300;
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+
+.display-3-style{
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    font-family: "Segoe UI";
+    font-style: italic;
+    background: -webkit-linear-gradient(red, yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:5rem;
+    text-shadow: none;
+}
+
+h1-second {
+    font-weight: 500;
+    line-height: 1.2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:transparent;
+    -webkit-text-fill-color: transparent;
+    background: -webkit-linear-gradient(red, yellow);
+    -webkit-background-clip: text;
+    text-shadow:none;
+    font-size:5rem;
+}
+
+.button-Start {
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.8;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button-Start:hover {opacity: 1}
+
+.grid-container{
+    display: grid;
+    grid-gap: 5px 0px;
+}
+
+.cookieConsentContainer {
+    z-index: 999;
+    width:100%;
+    border-radius:18px;
+    box-sizing: border-box;
+    padding: 3px 20px 3px 20px;
+    background: #232323;
+    overflow: hidden;
+    position: fixed;
+    bottom: 1px;
+    right: 0px;
+    display: none;
+
+}
+.cookieConsentContainer .cookieTitle a {
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 22px;
+
+
+}
+.cookieConsentContainer .cookieDesc p {
+    padding: 0;
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 13px;
+    line-height: 20px;
+    margin-bottom: 2px;
+    margin-top: 2px ;
+} .cookieConsentContainer .cookieDesc a {
+      font-family: OpenSans, arial, "sans-serif";
+      color: #FFFFFF;
+      text-decoration: underline;
+  }
+.cookieConsentContainer .cookieButton a {
+    float:right;
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom:5px;
+    background: #000000;
+    box-sizing: border-box;
+    padding: 15px 24px;
+    text-align: center;
+    transition: background 0.3s;
+    border-radius:25px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+.cookieConsentContainer .cookieButton a:hover {
+    cursor: pointer;
+    background: #3E9B67;
+}
+
+@media (max-width: 980px) {
+    .cookieConsentContainer {
+        bottom: 0px !important;
+        left: 0px !important;
+        width: 100%  !important;
+    }
+}
