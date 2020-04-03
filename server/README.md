@@ -1,13 +1,5 @@
 # Backend server
 
-# Backlog
-- [x] [Do backlog for the following sprint](../docs/architecture/backend/)
-- [x] [C4 diagram](../docs/architecture/backend/)
-- [x] [Uml diagram](../docs/architecture/backend/)
-- [x] [Use case diargam](../docs/architecture/backend)
-- [x] [Definition of done](../docs/architecture/backend)
-- [x] \(Optional) Basic server shell
-
 # How to run
 
 Requires [nodejs](https://nodejs.org/en/)
@@ -19,13 +11,18 @@ Requires [nodejs](https://nodejs.org/en/)
 - Enjoy ! The server is now running on the port defined in the config file ^^
 
 ## Definition of done
-### Sprint 1
+### Sprint
 
 - [x] Create and configurate a basic mongodb database 
-- [ ] Create a database schema for all the required objects
-- [ ] Create a route (or a socket) that returns a list of all avaiable ongoing games
-- [ ] Create a route that allows autentification
-- [ ] Prepare for user page
+- [x] Create a database schema for all the required objects
+- [x] Create routes that allow addition of white & black cards
+- [x] Create a basic filter for the inserted cardsa
+- [x] Add routes to properly handle the game manager class
+- [x] Populate the database with a given set of cards
+- [x] Route to retrieve cards from thew database based on an id (an integer from 0 to .count())
+- Next sprint ** [ ] Create a route (or a socket) that returns a list of all avaiable ongoing games
+- Next sprint ** [ ] Create a route that allows autentification
+- Next sprint ** [ ] Prepare for user page
 
 ### Auth 
 - Using cookie sessions
