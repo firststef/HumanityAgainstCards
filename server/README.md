@@ -47,11 +47,42 @@ Requires [nodejs](https://nodejs.org/en/)
 - Basic routes to return basic info about an user
 
 
-## How to node
-# TODO
-
 ## How to express
-# TODO
+```js
+const express = require('express')
+const app = express()
+
+app.get('/', function (req, res) {
+  res.send('Hello World')
+})
+
+app.listen(3000)
+```
+
+### Notes
+- The route callback function contains 2 objects (request and response)
+Using the response methods data is beeing sent back to the chilent, while within the request object we have data about the request that has been made
+
+## Features
+
+  * Robust routing
+  * Focus on high performance
+  * Super-high test coverage
+  * HTTP helpers (redirection, caching, etc)
+  * View system supporting 14+ template engines
+  * Content negotiation
+  * Executable for generating applications quickly
+
+## Docs & Community
+
+  * [Website and Documentation](http://expressjs.com/) - [[website repo](https://github.com/expressjs/expressjs.com)]
+  * [#express](https://webchat.freenode.net/?channels=express) on freenode IRC
+  * [GitHub Organization](https://github.com/expressjs) for Official Middleware & Modules
+  * Visit the [Wiki](https://github.com/expressjs/express/wiki)
+  * [Google Group](https://groups.google.com/group/express-js) for discussion
+  * [Gitter](https://gitter.im/expressjs/express) for support and discussion
+  
+  
 
 ## How to mongo 
 | what          | where                                          |
