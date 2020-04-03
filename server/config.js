@@ -12,7 +12,7 @@ module.exports = {
 		timestamp: true,
 		colors: true,
     },
-    routes          : {
+    routes: {
         //Stores external routes
-    },
+	},
 };

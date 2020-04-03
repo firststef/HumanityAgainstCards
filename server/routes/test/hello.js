@@ -1,3 +1,4 @@
+
 module.exports = function(app){
     app.get("/hello/:user",(req, res) => {
         res.status(200).send({msg:`Hello ${req.params.user} !`});
