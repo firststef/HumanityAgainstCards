@@ -1,27 +1,13 @@
-1. Tabel intrebari:
--(id) -PK /int
--(descriere) -  String
-
-
-2. Relatie intrebari-categorii
--(id_intrebare) -FK /int
--(id_categorie) -FK /int
--(valoare) /int >reprezinta valoarea asociata unei categorii pentru o anumita intrebare
-
-3. Tabel categorii
--(id) -PK /int
--(valoare_globala) /int (va fi eliminata in iteratiile viitoare)
-
-4. Relatie categorie-raspunsuri
--(id_categorie) -FK /int
--(id_raspunsuri) -FK /int
--(valoare) /int
-
-5. Tabel Raspunsuri
--(id) -PK /int
+1. Tabel intrebari
+-(id) - int (PK)
 -(descriere) - String
 
-6. Relatie intrebari-raspunsuri (pentru statistica globala)
--(id_intrebare) -FK /int
--(id_raspuns) - FK /int
--(valoare_globala) /int
+2. Tabel Raspunsuri
+-(id) - int (PK)
+-(descriere) - String
+
+3. Relatie intrebari-raspunsuri
+- (id_intrebare) - int (FK)
+- (id_raspuns) - int (FK)
+- (valoare_globala) - int
+- (categorie) - String

@@ -17,7 +17,7 @@ app.listen(config.server.port, function(err) {
 		console.log(color.white + header, color.red, `Server could not start : `, err);
 	} else {
 		console.log(color.white + header, color.green, `Server running on port ${config.server.port} !`);
-		console.log(color.white + header, color.green, `The interface can be accesed at ${config.server.protocol}://${config.server.server}:${config.server.port} !`);
+		console.log(color.white + header, color.green, `The interface can be accesed at ${config.server.protocol}://${config.server.endpoint}:${config.server.port} !`);
 		console.log("\n");
 		console.log(color.yellow, `     )         *              ) (                            (       ) (                          (   (     (     `);
 		console.log(color.yellow, `     ( /(       (  \`    (     ( /( )\\ )     (     (       (     )\\ ) ( /( )\\ )  *   )     (    (     )\\ ))\\ )  )\\ )  `);
@@ -30,16 +30,8 @@ app.listen(config.server.port, function(err) {
 		console.log("\n");
 	}
 });
-require("./routes/test/hello")(app);
 
-// Database querry test 
-// [RMN] Remove on next commit **
-//
-// setTimeout(() => {
-// 	console.log(color.white + header, color.white, `Start test !`);
-// 	let db = database.get_db();
-// 	db.db("HumansAgainstCards").createCollection("test", function(err, res) {
-// 		if (err) throw err;
-// 		console.log(color.white + header, color.white, `Colection created`);
-// 	});
-// }, 3000);
+require("./routes/test/hello")(app);
+require("./routes/cards/add_cards")(app);
+require("./routes/cards/get_cards")(app);
+
