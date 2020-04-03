@@ -1,4 +1,9 @@
 module.exports = {
+	/**
+	 * Encodes a string to an md5 string.
+	 * Note that is impossible to convert an md5 back to the default form
+	 * @param {string}[value] The value you wish to encode
+	 */
 	md5: (value) => rstr2hex(binl2rstr(binl_md5(rstr2binl(value), 8 * value.length))),
 };
 

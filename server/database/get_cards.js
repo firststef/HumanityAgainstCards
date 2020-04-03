@@ -3,7 +3,6 @@ const config = require("../config"),
 	color = require("../colors"),
 	log = require("../utils/log"),
 	filter = require("../utils/filter"),
-	mongo = require("mongodb"),
 	f_header = "[database/upload_cards.js]";
 
 module.exports = {
