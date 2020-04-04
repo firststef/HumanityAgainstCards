@@ -2,7 +2,7 @@ const exec = require("child_process").execFile,
 	log = require("../utils/log"),
 	color = require("../colors"),
 	config = require("../config.js"),
-	ai_path = "some-path where the ai script lies";
+	ai_path = "C:\\Users\\nassa\\OneDrive\\Desktop\\HumanityAgainstCards\\server\\ai\\Project1.exe";
 f_header = "[routes/ai/execute_ai.js]";
 
 module.exports = {
