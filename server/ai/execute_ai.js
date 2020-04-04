@@ -10,7 +10,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			try {
 				if (!params) throw `No params provided !`;
-				exec("ai_path ${params}", function (err, data) {
+				exec(`ai_path ${params}`, function (err, data) {
 					if (err) throw `${err}`;
 					resolve(data);
 				});
