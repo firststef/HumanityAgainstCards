@@ -34,7 +34,7 @@ app.listen(config.server.port, function(err) {
 require("./routes/test/hello")(app);
 require("./routes/cards/add_cards")(app);
 require("./routes/cards/get_cards")(app);
-require("./routes/game/game_handler")(app);
+require("./routes/game/game_handler2")(app);
 require("./routes/auth/register")(app);
 
 
