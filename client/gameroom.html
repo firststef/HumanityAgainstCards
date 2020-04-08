@@ -5,16 +5,44 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="assets/css/game.css">
+        <link rel="stylesheet" href="gameroom/src/styles/game.css">
     </head>
     <body>
-        <div id="content">
+        <div id="root">
             Loading...
+        </div>
+        <div id="player-screen">
+            <Segment id="black_card" class="card"></Segment>
+            <div id="players_cards" class="rectangle">
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+            </div>
+            <div id="score_board" class="rectangle">
+                <div class="player-title">
+                    <p>Dorin</p>
+                    <p>100p</p>
+                </div>
+                <div class="player-title">
+                    <p>Dorin</p><p>100p</p>
+                </div>
+                <div class="player-title">
+                    <p>Dorin</p>
+                    <p>100p</p>
+                </div>
+            </div>
+        </div>
+        <div id="player-hand" class="rectangle">
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
         </div>
 
         <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-        <script src="client_library.js"></script>
-        <script src="gameroom.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="gameroom.jsx" type="text/babel"></script>
     </body>
 </html>

@@ -208,14 +208,9 @@ function initFrontend(){
     let request = fakeRequest(initialRequest);
     if (request.header === RequestHeaders.RESPONSE_REQUEST_ID){
         clientId = request.id;
-        let rootDiv = document.getElementById("content");
+        let rootDiv = document.getElementById("root");
         ReactDOM.render(
-            React.createElement(
-                App,
-                {
-                    gameClient: new GameClient(clientId)
-                }
-            ),
+            <App gameClient={new GameClient(clientId)} />,
             rootDiv
         )
     }
@@ -272,73 +267,10 @@ class App extends React.Component {
     }
 
     render(){
-        if (this.gameClient.getState() === GameStates.INITIAL){
-            return React.createElement(
-                'button',
-                {
-                    onClick: () => this.makeRequest(this.gameClient.getNecessaryData())
-                },
-                'Trage carti'
-            );
-        }
-        else {
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    PlayerHand,
-                    {
-                        children: this.props.gameClient.getCards().map(
-                            cardObj => React.createElement(
-                                CardRenderer,
-                                {
-                                    cardID: cardObj.id,
-                                    text: cardObj.text,
-                                    name: cardObj.name,
-                                    removeCallback: () => this.removeCard()
-                                }
-                            )
-                        )
-                    }
-                )
-            );
-        }
+
     }
 }
 
-class CardRenderer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return React.createElement(
-            'div',
-            {
-                onClick: () => {
-                    console.log('Reached');
-                    this.props.removeCallback();
-                },
-                class: 'card'
-            },
-            'Sunt o carte cu textul ' + this.props.text
-        );
-    }
-}
-
-class PlayerHand extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return React.createElement(
-            'div',
-            null,
-            this.props.children
-        );
-    }
-}
 /** REACT CLASSES END */
 
 //Code
