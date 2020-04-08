@@ -306,7 +306,7 @@ class GameClient {
     getNecessaryData(){
         if(this.state === null){
             return {
-                header: null //RequestHeaders.REQUEST_ID -- Commented out because it's already requested in game.js
+                header: null //RequestHeaders.REQUEST_ID -- Commented out because it's already requested in index.js
             }
         }
 
@@ -370,7 +370,7 @@ class GameClient {
     putData (data){
         /**
          * This if was supposed to receive a temp id from server
-         * but the id is already requested in game.js
+         * but the id is already requested in index.js
          */
         if (this.state === null){ //&& data.header === RequestHeaders.RESPONSE_REQUEST_ID){
             //this.id = data.id; -- id is set by constructor

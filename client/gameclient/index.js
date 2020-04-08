@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 // const nume = require(path-ul fisierului)
 const parent=require('./library');
 
@@ -13,8 +15,22 @@ function initBackend(){
     gameManager = new parent.GameManager();
 }
 
-function backEndFunction(data) {
-    return gameManager.response(data);
+async function backEndFunction(data) {
+    console.log(data);
+    return fetch('http://localhost:8081/game_manager/response',{
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+        }
+    ).then(res => res.json());
 }
 
 /** BACKEND CODE END */
@@ -29,10 +45,7 @@ let gameClient;
 initFrontend();
 //interval = setInterval(update, 3000); //main loop
 let iterations = 0;
-while (true){
-    update();
-}
-
+let interval = setInterval(update, 1000);
 
 //Functions
 function initFrontend(){
@@ -40,11 +53,14 @@ function initFrontend(){
     if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
         clientId = request.id;
         gameClient = new parent.GameClient(clientId);
+        console.log(gameClient);
     }
 }
 
-function fakeRequest(data) {
-    return backEndFunction(data);
+async function fakeRequest(data) {
+    let x = await backEndFunction(data);
+    console.log(x);
+    return x;
 }
 
 function update() {
