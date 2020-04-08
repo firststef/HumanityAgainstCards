@@ -15,24 +15,6 @@ function initBackend(){
     gameManager = new parent.GameManager();
 }
 
-async function backEndFunction(data) {
-    console.log(data);
-    return fetch('http://localhost:8081/game_manager/response',{
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-        }
-    ).then(res => res.json());
-}
-
 /** BACKEND CODE END */
 
 /** FRONTEND CODE START */
@@ -44,33 +26,49 @@ let gameClient;
 
 initFrontend();
 //interval = setInterval(update, 3000); //main loop
-let iterations = 0;
-let interval = setInterval(update, 1000);
 
 //Functions
 function initFrontend(){
-    let request = fakeRequest(initialRequest);
-    if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
-        clientId = request.id;
-        gameClient = new parent.GameClient(clientId);
-        console.log(gameClient);
-    }
+    fakeRequest(initialRequest, request => {
+        if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+            clientId = request.id;
+            gameClient = new parent.GameClient(clientId);
+
+            let interval = setInterval(()=>{
+                requestUpdate();
+            }, 1000);
+        }
+    });
 }
 
-async function fakeRequest(data) {
-    let x = await backEndFunction(data);
-    console.log(x);
-    return x;
+function fakeRequest(data, callback) {
+    fetch('http://localhost:8081/game_manager/response',{
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(data)
+        }
+    ).then(response => response.json()).then(response => {
+        //if valid
+        callback(response.data);
+    });
 }
 
-function update() {
+function requestUpdate() {
     let input = getUserInput();
     gameClient.update(input);
 
     let request = gameClient.getNecessaryData();
-    let response = fakeRequest(request);
+    fakeRequest(request, update);
+}
+function update(response){
     let changes = gameClient.putData(response);
-
     applyChanges(changes);
 }
 
