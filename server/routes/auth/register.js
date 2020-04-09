@@ -40,7 +40,7 @@ module.exports = function (app) {
 				// The chances that the same cookie to be generated twice is around ~ 1 to 1.531.653.719
 				cookie_session = generate.unique(req.body.username, 32);
 				//Check presence of the cookie in the database
-				if (!await user.session_is_unique()) {
+				if (!await user.session_is_unique(cookie_session)) {
 					cookie_session = "";
 				}
 			}
