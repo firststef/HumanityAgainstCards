@@ -6,12 +6,12 @@ const express = require("express"),
 	color = require("./colors"),
 	cors = require("cors"),
 	database = require("./utils/database"),
+	ai_nass = require("./ai/execute_ai"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
 app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
-
 app.listen(config.server.port, function(err) {
 	if (err) {
 		console.log(color.white + header, color.red, `Server could not start : `, err);
@@ -34,7 +34,7 @@ app.listen(config.server.port, function(err) {
 require("./routes/test/hello")(app);
 require("./routes/cards/add_cards")(app);
 require("./routes/cards/get_cards")(app);
-require("./routes/game/game_handler")(app);
+require("./routes/game/game_handler2")(app);
 require("./routes/auth/register")(app);
 
 
