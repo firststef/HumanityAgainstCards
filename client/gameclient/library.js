@@ -96,6 +96,9 @@ class GameManager {
     }
 
     response(data){
+
+        //TODO: in each case except REQUEST_ID the player must be validated, REQUEST_ID will be removed
+
         /**
          * Add players to the game and give them a temporary id
          */
@@ -105,7 +108,7 @@ class GameManager {
 
             //WARNING: player id might not match -- client creates its own id using its own constructor
             this.playerList.push(new Player(id_new));
-            this.playerList.push(new Player(this.newId())); //only for cycle preview
+            //this.playerList.push(new Player(this.newId())); //only for cycle preview
 
             console.log('[SERVER] Created new id');
             return {
@@ -118,9 +121,20 @@ class GameManager {
          * Give the player a set of white cards, the common black card, player list and whoever is the czar
          */
         if (data.header === RequestHeaders.REQUEST_BEGIN_GAME){
-            console.log('[SERVER] Client has begun game');
+            console.log('[SERVER] Client has begun game' + this.playerCount);
+            if (this.playerCount < 2) //TODO: add numberOfPlayer to GameManager, when this is reached begin game
+                return {
+
+                };
             let card_lst = []; //these are random but they need to be taken from a db
-            [...Array(10).keys()].forEach((x) => card_lst.push(new Card(x, getRandomString(), getRandomString())));
+
+            // - we will get the number of cards in the database
+            // - each used id will be put in usedCards[]
+            // - each client gets a unique set of id's (Cards)
+            if (this.generateCardId === undefined){ //will be replaced with actual cards
+                this.generateCardId = 0;
+            }
+            [...Array(10).keys()].forEach((x) => card_lst.push(new Card(this.generateCardId++, getRandomString(), getRandomString())));
             return {
                 header: RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: card_lst,
@@ -146,9 +160,12 @@ class GameManager {
             }
 
             if(data.player_type === PlayerTypes.PLAYER){
-                this.selectedWhiteCards.push(data.card_id);
+                if (data.card_id in PLAYERS[ID].CARDS)//todo:
+                {
+                    this.selectedWhiteCards.push(data.card_id);
+                }
             } else {
-                this.winningCard = data.card_id;
+                this.winningCard = data.card_id; //todo: valid
             }
 
             return {
@@ -276,8 +293,10 @@ class GameClient {
     update(data){//this will return maybe a response with accepted/invalid
         if (this.state === GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
-            this.choice = data.card_id;
-            this.state = GameStates.CHOSEN_WHITE_CARD;
+            if (data.card_index < this.cards.length) {
+                this.choice = this.cards[data.card_index].card_id;
+                this.state = GameStates.CHOSEN_WHITE_CARD;
+            }
         }
 
         if (this.state === GameStates.END_ROUND){
@@ -380,7 +399,7 @@ class GameClient {
             }
         }
 
-
+        console.log('[PID]' + this.id);
         /**
          * Init white cards, black card, player list and type
          */
@@ -454,7 +473,7 @@ class GameClient {
                 this.winningCard = data.winning_card;
 
                 if(this.choice === this.winningCard){
-                    this.points++;
+                    this.points++;//TODO: the player should not send points to the server
                 }
             }
             return {
@@ -478,7 +497,7 @@ class GameClient {
          * If no one won, request a new round otherwise end the game
          */
         if(this.state === GameStates.CHECK_WINNER && data.header === RequestHeaders.RESPONSE_CHECK_WINNER){
-            if(data.winner_player === null){
+            if(data.winner_player === null){//todo: check winner should actually have to read player points
                 this.playerList = data.player_list;
                 this.state = GameStates.NEW_ROUND;
             }
@@ -551,7 +570,7 @@ class GameClient {
 function getRandomString() {
     return Array(1).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
 }
-
+//TODO: sincronizat playerlist
 
 // module.exports.[ce nume vrei sa aibe in afara filei] = [variabila/functia/clasa din fila]
 module.exports.RequestHeaders = RequestHeaders;

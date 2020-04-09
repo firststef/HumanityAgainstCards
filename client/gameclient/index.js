@@ -36,7 +36,7 @@ function initFrontend(){
 
             let interval = setInterval(()=>{
                 requestUpdate();
-            }, 1000);
+            }, 3000);
         }
     });
 }
@@ -79,7 +79,7 @@ function applyChanges(changes) {
 function getUserInput() {
     console.log('Checked for input');
     return {
-        card_id: 0
+        card_index: 0
     };
 }
 /** FRONTEND CODE END*/
