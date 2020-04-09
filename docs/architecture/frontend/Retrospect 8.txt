@@ -1,0 +1,9 @@
+De imbunatatit:
+- Responsivness la pagina de login/register
+- Stilizare pentru modalul de room settings
+- Adaugarea posibilitatii de selectare a pachetelor dorite in room settings
+
+Ce ne-a placut:
+- Stabilirea tematicii pentru pagini
+- Aspectul schimbat pentru pagina de home
+- Utilizarea de tab/modal pentru cat mai putine redirectionari

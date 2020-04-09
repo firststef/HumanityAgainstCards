@@ -1,0 +1,7 @@
+Legarea paginilor
+Integrarea cu partea de back end pentru inregistrare
+Crearea unei pagini pentru o camera de joc care trebuie sa includa:
+	- afisarea scorului pentru fiecare jucator
+	- crearea de carti responsive
+	- modalitate de selectare a cartilor
+	- un navbar care aduce posibilitatea de deconectare

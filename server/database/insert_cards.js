@@ -6,10 +6,14 @@ const config = require("../config"),
 	f_header = "[database/upload_cards.js]";
 
 module.exports = {
+	/**
+	 * Inserts an array of cards into the database
+	 * @param {Array}[cards] An array of cards
+	 */
 	post_black_cards: (cards) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-			if (!cards[0]._id) {
+			if (cards[0]._id === undefined) {
 				reject({ err: `Please provide an id for the given cards !` });
 				return;
 			}
@@ -18,7 +22,6 @@ module.exports = {
 			db.db("HumansAgainstCards")
 				.collection("black_cards")
 				.insertMany(cards, (err) => {
-					console.log(4);
 					if (err) {
 						console.log(log.date_now() + f_header, color.red, "Error while inserting data !\n", color.white, err);
 						reject({ err: err });
@@ -28,11 +31,14 @@ module.exports = {
 					}
 				});
 		}),
+	/**
+	 * Inserts an array of cards into the database
+	 * @param {Array}[cards] An array of cards
+	 */
 	post_white_cards: (cards) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-
-			if (!cards[0]._id) {
+			if (cards[0]._id === undefined) {
 				reject({ err: `Please provide an id for the given cards !` });
 				return;
 			}

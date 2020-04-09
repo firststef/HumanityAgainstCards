@@ -6,6 +6,10 @@ const config = require("../config"),
 	f_header = "[database/upload_cards.js]";
 
 module.exports = {
+	/**
+	* Gets a specific card from the database
+	* @param {string}[id] An array of cards
+	*/
 	get_black_cards: (id) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
@@ -22,6 +26,10 @@ module.exports = {
 					}
 				});
 		}),
+	/**
+	* Gets a specific card from the database
+	* @param {string}[id] An array of cards
+	*/
 	get_white_cards: (id) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();

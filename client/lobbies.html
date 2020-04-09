@@ -7,6 +7,7 @@
     <title>Humanity Against Cards</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/lobby.css">
+    <link rel="stylesheet" href="assets/css/room.css">
 </head>
 
 <body>
@@ -19,14 +20,14 @@
         <div class="navbar-collapse collapse" id="navb">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">Create Game</a>
+              <button type="button" id="createGame" class="btn btn-secondary nav-link" data-toggle="modal" data-target="#room-settings">Create Game</button>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">Refresh Games</a>
+              <button id="refreshGames" class="btn btn-secondary nav-link">Refresh Games</button>
             </li>
             <li class="nav-item">
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <input id="search-bar" class="form-control mr-lg-2" type="text" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
                 </form>
             </li>
@@ -43,6 +44,46 @@
 
         </div>
     </nav>
+
+    <div id="room-settings" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Room Settings</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="settings">
+            <form action="" method="post" class="room-settings">
+              <fieldset>
+                <p>
+                  <label for="select">Score limit</label>
+                  <input type="number" id="input" min="1" max="999" required="required" value="10">
+                </p>
+                <p>
+                  <label for="select">Player limit</label>
+                  <input type="number" id="input" min="3" max="20" required="required" value="3">
+                </p>
+                <p>
+                  <label for="select">Spectator limit</label>
+                  <input type="number" id="input" min="0" max="20" required="required" value="0">
+                </p>
+                <p>
+                  <label for="select">Idle time</label>
+                  <input type="number" id="input" min="1" max="999" required="required" value="10">
+                </p>
+                <p>
+                  <label for="select">Password</label>
+                  <input type="password" name="password" placeholder="Enter Password">
+                </p>
+                <button type="submit" class="btn btn-success">Submit settings</button>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="lobbies">
         <div class="card">
@@ -108,5 +149,4 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   </body>
-
 </html>
