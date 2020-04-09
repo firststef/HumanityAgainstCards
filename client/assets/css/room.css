@@ -1,0 +1,31 @@
+label {
+  width: 120px;
+  font-size: 18px;
+}
+
+fieldset {
+  padding: 10px;
+}
+
+#room-settings .modal-header {
+  background-color: #343a40;
+  color: white;
+}
+
+#room-settings .settings {
+  background-color: #6c757d;
+  color: white;
+  text-shadow: 1px 1px black;
+}
+
+.modal-header button {
+  color: white;
+}
+
+.modal-header button:hover {
+  color: red;
+}
+
+.settings button {
+  text-shadow: 1px 1px black;
+}

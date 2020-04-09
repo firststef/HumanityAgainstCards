@@ -2,6 +2,16 @@
   padding-top: 60px;
 }
 
+#navb #createGame,#refreshGames {
+  background-color: #6c757d;
+  color: white;
+  margin-right: 10px;
+}
+
+#navb form {
+  padding-top: 3px;
+}
+
 .card {
   text-shadow: 2px 2px black;
 }
@@ -20,4 +30,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .navbar-nav button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (min-width:768px) and (max-width: 768px) {
+  #search-bar {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
