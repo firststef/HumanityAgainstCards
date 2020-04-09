@@ -1,6 +1,5 @@
-const fetch = require('node-fetch');
-
 // const nume = require(path-ul fisierului)
+const fetch = require('node-fetch');
 const parent=require('./library');
 
 /** BACKEND CODE START */

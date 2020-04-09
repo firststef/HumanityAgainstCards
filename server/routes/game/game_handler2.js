@@ -7,10 +7,6 @@ const config = require("../../config"),
 
     var game_manager = new engine.GameManager();
 
-    /game_manager/choose_room
-    /game_manager/response
-    /game_manager/view
-
     module.exports = function (app) {
         app.post("/game_manager/response", async (req, res) => {
             try {
