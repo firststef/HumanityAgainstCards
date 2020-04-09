@@ -1,4 +1,5 @@
 // const nume = require(path-ul fisierului)
+const fetch = require('node-fetch');
 const parent=require('./library');
 
 /** BACKEND CODE START */
@@ -13,10 +14,6 @@ function initBackend(){
     gameManager = new parent.GameManager();
 }
 
-function backEndFunction(data) {
-    return gameManager.response(data);
-}
-
 /** BACKEND CODE END */
 
 /** FRONTEND CODE START */
@@ -28,33 +25,49 @@ let gameClient;
 
 initFrontend();
 //interval = setInterval(update, 3000); //main loop
-let iterations = 0;
-while (true){
-    update();
-}
-
 
 //Functions
 function initFrontend(){
-    let request = fakeRequest(initialRequest);
-    if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
-        clientId = request.id;
-        gameClient = new parent.GameClient(clientId);
-    }
+    fakeRequest(initialRequest, request => {
+        if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+            clientId = request.id;
+            gameClient = new parent.GameClient(clientId);
+
+            let interval = setInterval(()=>{
+                requestUpdate();
+            }, 1000);
+        }
+    });
 }
 
-function fakeRequest(data) {
-    return backEndFunction(data);
+function fakeRequest(data, callback) {
+    fetch('http://localhost:8081/game_manager/response',{
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(data)
+        }
+    ).then(response => response.json()).then(response => {
+        //if valid
+        callback(response.data);
+    });
 }
 
-function update() {
+function requestUpdate() {
     let input = getUserInput();
     gameClient.update(input);
 
     let request = gameClient.getNecessaryData();
-    let response = fakeRequest(request);
+    fakeRequest(request, update);
+}
+function update(response){
     let changes = gameClient.putData(response);
-
     applyChanges(changes);
 }
 

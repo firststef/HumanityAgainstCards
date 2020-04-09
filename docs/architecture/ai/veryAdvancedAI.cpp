@@ -5,7 +5,7 @@ using namespace std;
 
 double probability = 0.3;
 
-void trainDatabase(int answer);
+void trainDatabase(int answer, vector<int> whiteCards);
 int getAnswer(int blackCard, vector<int> whiteCards);
 
 int main(int argc, char *argv[]) {

@@ -84,6 +84,14 @@ class GameClient {
         this.state = GameStates.INITIAL;
     }
 
+    getCards(){
+        return this.cards;
+    }
+
+    getState(){
+        return this.state;
+    }
+
     update(data){//this will return maybe a response with accepted/invalid
         if (this.state === GameStates.CHOOSE_WHITE_CARD){
             console.log('Chosen white card');
@@ -175,11 +183,97 @@ function getRandomString() {
     return Array(1).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
 }
 
+/** BACKEND CODE START */
+//Constants & Vars
+let gameManager;
+//Code
+//Functions
+function initBackend(){
+    gameManager = new GameManager();
+}
 
-// module.exports.[ce nume vrei sa aibe in afara filei] = [variabila/functia/clasa din fila]
-module.exports.RequestHeaders = RequestHeaders;
-module.exports.GameStates = GameStates;
-module.exports.Card = Card;
-module.exports.GameManager = GameManager;
-module.exports.GameClient = GameClient;
-module.exports.getRandomString= getRandomString;
+function backEndFunction(data) {
+    return gameManager.response(data);
+}
+
+/** BACKEND CODE END */
+
+/** FRONTEND CODE START */
+//Constants & Vars
+const initialRequest = {header: RequestHeaders.REQUEST_ID};
+let clientId;
+//Code
+//Functions
+function initFrontend(){
+    let request = fakeRequest(initialRequest);
+    if (request.header === RequestHeaders.RESPONSE_REQUEST_ID){
+        clientId = request.id;
+        let rootDiv = document.getElementById("root");
+        ReactDOM.render(
+            <App gameClient={new GameClient(clientId)} />,
+            rootDiv
+        )
+    }
+}
+
+function fakeRequest(data) {
+    return backEndFunction(data);
+}
+
+function update() {
+    /*let input = getUserInput();
+
+    gameClient.update(input);
+
+    let request = gameClient.getNecessaryData();
+    let response = fakeRequest(request);
+    let changes = gameClient.putData(response);
+
+    applyChanges(changes);*/
+}
+
+function applyChanges(changes) {
+    console.log(changes);
+}
+
+function getUserInput() {
+    console.log('Checked for input');
+    return {
+        card_id: 0
+    };
+}
+/** FRONTEND CODE END*/
+
+/** REACT CLASSES START */
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.gameClient = this.props.gameClient;
+    }
+
+    makeRequest(request){ //this should be async
+        let response = fakeRequest(request);
+        let changes = this.gameClient.putData(response);
+        this.applyChanges(changes);
+    }
+
+    applyChanges(changes){ //applies changes to the app
+        this.forceUpdate();
+    }
+
+    removeCard(id){
+        this.gameClient.cards.shift();
+        this.forceUpdate();
+    }
+
+    render(){
+
+    }
+}
+
+/** REACT CLASSES END */
+
+//Code
+initBackend();
+initFrontend();
+
