@@ -1,5 +1,5 @@
 // const nume = require(path-ul fisierului)
-const parent=require('./library');
+const parent=require('./gameclient/library');
 
 /** BACKEND CODE START */
 //Constants & Vars
@@ -10,7 +10,7 @@ initBackend();
 
 //Functions
 function initBackend(){
-    gameManager = new parent.GameManager();
+    gameManager = new parent.GameManager(2);
 }
 
 function backEndFunction(data) {
@@ -24,6 +24,7 @@ function backEndFunction(data) {
 const initialRequest = {header: parent.RequestHeaders.REQUEST_ID};
 let clientId;
 let gameClient;
+let gameClient2;
 //Code
 
 initFrontend();
@@ -41,6 +42,11 @@ function initFrontend(){
         clientId = request.id;
         gameClient = new parent.GameClient(clientId);
     }
+    request = fakeRequest(initialRequest);
+    if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+        clientId = request.id;
+        gameClient2 = new parent.GameClient(clientId);
+    }
 }
 
 function fakeRequest(data) {
@@ -54,6 +60,14 @@ function update() {
     let request = gameClient.getNecessaryData();
     let response = fakeRequest(request);
     let changes = gameClient.putData(response);
+
+    applyChanges(changes);
+
+    gameClient2.update(input);
+
+    request = gameClient2.getNecessaryData();
+    response = fakeRequest(request);
+    changes = gameClient2.putData(response);
 
     applyChanges(changes);
 }

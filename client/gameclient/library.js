@@ -11,16 +11,8 @@ const RequestHeaders = {
     RESPONSE_WAIT_ENDED_PLAYERS: 10,
     REQUEST_WAIT_ENDED_CZAR: 11,
     RESPONSE_WAIT_ENDED_CZAR: 12,
-    REQUEST_BEGIN_NEW_ROUND: 13,
-    RESPONSE_BEGIN_NEW_ROUND: 14,
-    REQUEST_END_ROUND: 100,
-    RESPONSE_END_ROUND: 101,
-    REQUEST_UPDATE_POINTS: 15,
-    RESPONSE_UPDATE_POINTS: 16,
-    REQUEST_CHECK_WINNER: 17,
-    RESPONSE_CHECK_WINNER: 18,
-    REQUEST_WHITE_CARD: 19,
-    RESPONSE_WHITE_CARD: 20
+    REQUEST_END_ROUND: 13,
+    RESPONSE_END_ROUND: 14
 };
 Object.freeze(RequestHeaders);
 
@@ -34,10 +26,7 @@ const GameStates = {
     WAIT_FOR_CZAR:6,
     ENDED_WAIT_FOR_PLAYERS:7, //redundant
     END_ROUND:8,
-    CHECK_WINNER: 9, //redundant
-    NEW_ROUND:10, //redundant
-    NEW_ROUND_FOR_PLAYER: 11, //redundant
-    GAME_END:12
+    GAME_END:9
 };
 
 const PlayerTypes = {
@@ -67,11 +56,12 @@ class Player {
 
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 class GameManager {
-    constructor() { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
-        this.waitEnded_Players = true; //this should be false
-        this.waitEnded_Czar = true; //this should be false
+    constructor(numberOfPlayers) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+        this.waitEnded_Players = false; //this should be false
+        this.waitEnded_Czar = false; //this should be false
 
         this.playerCount = 0;
+        this.numberOfPlayers = numberOfPlayers;
         this.readyPlayers = 0;
         this.playerList = [];
 
@@ -121,25 +111,27 @@ class GameManager {
             }
         }
 
+        let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
+        if (playerIndex === -1){
+            console.log('[SERVER] Error on player index');
+            return {
+                error: 'Error'
+            }
+        }
+
         /**
          * Give the player a set of white cards, the common black card, player list and whoever is the czar
          */
         if (data.header === RequestHeaders.REQUEST_BEGIN_GAME){
             console.log('[SERVER] Client has begun game' + this.playerCount);
-            if (this.playerCount < 2) //TODO: add numberOfPlayer to GameManager, when this is reached begin game
+            if (this.playerCount < this.numberOfPlayers) {
                 return {
-                    //should return something to announce the game has not yet started
+                    message: 'not_yet_started'
                 };
-
-            let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
-            if (playerIndex === -1){
-                console.log('[SERVER] Error on player index');
-                return {
-                    error: 'Error'
-                }
             }
 
-            let card_lst = []; //these are random but they need to be taken from a db
+            let card_lst = [];
+            //these are random but they need to be taken from a db
             // - we will get the number of cards in the database
             // - each used id will be put in usedCards[]
             // - each client gets a unique set of id's (Cards)
@@ -154,7 +146,7 @@ class GameManager {
             });
 
             this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text');
-            this.currentCzarIndex = (Math.random() * 1000) % this.playerCount;
+            this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.playerCount);
             this.playerList.forEach(player => {
                 if(this.playerList[this.currentCzarIndex].id === player.id) {
                     player.type = PlayerTypes.CZAR;
@@ -168,8 +160,8 @@ class GameManager {
                 cards: card_lst,
                 black_card:  this.commonBlackCard,
                 player_list: this.playerList,//todo: remove player cards from getting to other players
-                current_czar: 0 //index for player list - should be random initially
-            };
+                current_czar: this.currentCzarIndex
+            };//todo:here
         }
 
         /**
@@ -178,28 +170,12 @@ class GameManager {
          */
         if (data.header === RequestHeaders.REQUEST_CHOSE_CARD){
             console.log('[SERVER] Client chose card id: ', data.card_id);
-            this.readyPlayers++;
 
-            if(this.readyPlayers === this.playerCount - 1){
-                this.waitEnded_Players = true;
-            }
-            else if(this.readyPlayers === this.playerCount){
-                this.waitEnded_Czar = true;
-            }
-
-            let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
-            if (playerIndex === -1){
-                console.log('[SERVER] Error on player index');
-                return {
-                    error: 'Error'
-                }
-            }
-
-            if(data.player_type === PlayerTypes.PLAYER){
+            if(this.playerList[playerIndex].type === PlayerTypes.PLAYER){
                 let cardIndex =  this.playerList[playerIndex].cards.findIndex(card => card.id === data.card_id);
                 if (cardIndex !== -1)
                 {
-                    this.selectedWhiteCards.push(data.card_id);
+                    this.selectedWhiteCards.push(this.playerList[playerIndex].cards[cardIndex]);
                 }
                 else {
                     return {
@@ -217,17 +193,13 @@ class GameManager {
                        player.cards.forEach(card=>{
                            if (card.id === this.winningCard){
                                player.points++;
+                               foundOwner = true;
                            }
                        });
                     });
                     if (!foundOwner)
                     {
                         return {//todo: error object
-                            error: 'Error'
-                        }
-                    }
-                    else{
-                        return {
                             error: 'Error'
                         }
                     }
@@ -239,8 +211,17 @@ class GameManager {
                 }
             }
 
+            this.readyPlayers++;
+            if(this.readyPlayers === this.playerCount - 1){
+                this.waitEnded_Players = true;
+            }
+            else if(this.readyPlayers === this.playerCount){
+                this.waitEnded_Czar = true;
+            }
+
             return {
-                header: RequestHeaders.RESPONSE_CHOSE_CARD
+                header: RequestHeaders.RESPONSE_CHOSE_CARD,
+                card_id: data.card_id
             }
         }
 
@@ -263,9 +244,7 @@ class GameManager {
             console.log('[SERVER] Client requested game status');
             return {
                 header: RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
-                wait_end: this.waitEnded_Czar,
-                //winning_card: this.winningCard
-                winning_card: 0 //only for cycle preview
+                wait_end: this.waitEnded_Czar
             }
         }
 
@@ -277,14 +256,6 @@ class GameManager {
         if(data.header === RequestHeaders.REQUEST_END_ROUND) {
             console.log('[SERVER] Client requested end round');
             let returnObject = {};
-
-            let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
-            if (playerIndex === -1) {
-                console.log('[SERVER] Error on player index');
-                return {
-                    error: 'Error'
-                }
-            }
 
             if (this.playerList[playerIndex].points >= this.maxPoints) {
                 this.winnerPlayer = this.playerList[playerIndex];
@@ -299,8 +270,6 @@ class GameManager {
             if (this.winnerPlayer !== null) {
                 console.log('[SERVER] Client has begun new round');
                 this.resetData();
-                this.waitEnded_Players = true; //only for cycle preview
-                this.waitEnded_Czar = true; //only for cycle preview
             }
             returnObject.commonBlackCard = this.commonBlackCard;
 
@@ -312,15 +281,15 @@ class GameManager {
                     player.type = PlayerTypes.PLAYER;
                 }
             });
+            returnObject.player_list = this.playerList; //todo: unsafe
 
             if (this.winnerPlayer !== null && this.playerList[playerIndex].type === PlayerTypes.PLAYER) {
                 let card = new Card(555, 'Whtie card', 'Something...');
                 this.playerList[playerIndex].cards.push(card);
                 returnObject.white_card = card;
             }
-            returnObject.playerList = this.playerList; //todo: unsafe
 
-            returnObject.header = RequestHeaders.RESPONSE_WHITE_CARD;
+            returnObject.header = RequestHeaders.RESPONSE_END_ROUND;
             return returnObject;
         }
 
@@ -343,6 +312,7 @@ class GameClient {
         this.type = PlayerTypes.PLAYER;
 
         this.playerList = [];
+        this.playerIndex = -1;
         this.currentCzarIndex = null;
         this.winnerPlayer = null;
 
@@ -352,9 +322,17 @@ class GameClient {
     update(data){//this will return maybe a response with accepted/invalid
         if (this.state === GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
-            if (data.card_index < this.cards.length) {
-                this.choice = this.cards[data.card_index].card_id;
-                this.state = GameStates.CHOSEN_WHITE_CARD;
+            if (this.type === PlayerTypes.PLAYER) {
+                if (data.card_index < this.cards.length) {
+                    this.choice = this.cards[data.card_index].id;
+                    this.state = GameStates.CHOSEN_WHITE_CARD;
+                }
+            }
+            else{
+                if (data.card_index < this.selectedWhiteCards.length) {
+                    this.choice = this.selectedWhiteCards[data.card_index].id;
+                    this.state = GameStates.CHOSEN_WHITE_CARD;
+                }
             }
         }
 
@@ -368,10 +346,6 @@ class GameClient {
 
         if (this.state === GameStates.WAIT_FOR_CZAR){
             console.log('Waiting for czar to choose card');
-        }
-
-        if (this.state === GameStates.NEW_ROUND){
-            console.log('Started a new round');
         }
 
         if (this.state === GameStates.GAME_END){
@@ -391,27 +365,29 @@ class GameClient {
         if (this.state === GameStates.CHOSEN_WHITE_CARD){
             return {
                 header: RequestHeaders.REQUEST_CHOSE_CARD,
+                player_id: this.id,
                 card_id: this.choice,
-                player_type: this.type
             }
         }
 
         if (this.state === GameStates.WAIT_FOR_PLAYERS){
             return {
-                header: RequestHeaders.REQUEST_WAIT_ENDED_PLAYERS
+                header: RequestHeaders.REQUEST_WAIT_ENDED_PLAYERS,
+                player_id: this.id
             }
         }
 
         if (this.state === GameStates.WAIT_FOR_CZAR) {
             return {
-                header: RequestHeaders.REQUEST_WAIT_ENDED_CZAR
+                header: RequestHeaders.REQUEST_WAIT_ENDED_CZAR,
+                player_id: this.id
             }
         }
 
         if(this.state === GameStates.END_ROUND) {
             return {
                 header: RequestHeaders.REQUEST_END_ROUND,
-                player_id: this.id //todo: am scos punctele
+                player_id: this.id
             }
         }
 
@@ -430,6 +406,7 @@ class GameClient {
             this.commonBlackCard = data.black_card;
             this.playerList = data.player_list;
             this.currentCzarIndex = data.current_czar;
+            this.playerIndex = this.playerList.findIndex(player => player.id === this.id);
 
             if(this.playerList[this.currentCzarIndex].id === this.id)
                 this.type = PlayerTypes.CZAR;
@@ -439,6 +416,7 @@ class GameClient {
             } else {
                 this.state = GameStates.WAIT_FOR_PLAYERS;
             }
+
             return {
                 header:'show_cards',
                 cards: this.cards,
@@ -464,7 +442,6 @@ class GameClient {
                 header: 'white_card_choice',
                 card_id: data.card_id
             }
-
         }
 
         /**
@@ -476,10 +453,15 @@ class GameClient {
             if(data.wait_end === true){
                 this.state = GameStates.CHOOSE_WHITE_CARD;
                 this.selectedWhiteCards = data.selected_cards;
+
+                return {
+                    header: 'czar_allow_white_card_choice',
+                    selected_cards: this.selectedWhiteCards
+                }
             }
+
             return {
-                header: 'czar_allow_white_card_choice',
-                selected_cards: this.selectedWhiteCards
+                header: 'not_yet_ended_wait'
             }
         }
 
@@ -488,99 +470,54 @@ class GameClient {
          * If the player choice is the winning card, then give him a point.
          */
         if(this.state === GameStates.WAIT_FOR_CZAR && data.header === RequestHeaders.RESPONSE_WAIT_ENDED_CZAR){
-            console.log('Wait ended for normal players, time to end round');
             if(data.wait_end === true) {
+                console.log('Wait ended for normal players, time to end round');
                 this.state = GameStates.END_ROUND;
-                this.winningCard = data.winning_card;
 
-                if(this.choice === this.winningCard){
-                    this.points++; //TODO: the player should not send points to the server
+                return {
+                    header: 'player_round_end'
                 }
             }
+
             return {
-                header: 'player_round_end',
-                winning_card: this.winningCard
+                header: 'not_yet_ended_wait'
             }
         }
 
         /**
          * After all players updated the points, we need to check if anyone won.
          */
-        if(this.state === GameStates.END_ROUND && data.header === RequestHeaders.REQUEST_END_ROUND){
-            if winer is null game end
-            else new round
-
-            return {
-                header: 'points_update',
-
-            }
-        }
-
-        /**
-         * If no one won, request a new round otherwise end the game
-         */
-        if(this.state === GameStates.CHECK_WINNER && data.header === RequestHeaders.RESPONSE_CHECK_WINNER){
-            if(data.winner_player === null){//todo: check winner should actually have to read player points
-                this.playerList = data.player_list;
-                this.state = GameStates.NEW_ROUND;
-            }
-            else{
+        if(this.state === GameStates.END_ROUND && data.header === RequestHeaders.RESPONSE_END_ROUND) {
+            if (data.winner_player !== null) {
                 this.winnerPlayer = data.winner_player;
                 this.state = GameStates.GAME_END;
+                return {
+                    header: 'game_has_ended'
+                }
             }
-            return {
-                header: 'display_winner',
-                player_list: this.playerList,
-                winner: this.winnerPlayer
-            }
-        }
 
-        /**
-         * Set new czar(next player in the list) and receive black card.
-         */
-        if(this.state === GameStates.NEW_ROUND && data.header === RequestHeaders.RESPONSE_BEGIN_NEW_ROUND) {
+            this.playerList = data.player_list;
+            this.type = this.playerList[this.playerIndex].type;
             this.choice = -1;
             this.selectedWhiteCards = [];
             this.commonBlackCard = data.black_card;
 
-            this.currentCzarIndex = (this.currentCzarIndex + 1) % this.playerList.length;
+            if (this.type === PlayerTypes.PLAYER) {
+                this.cards.push(data.white_card);
+                this.state = GameStates.CHOOSE_WHITE_CARD;
 
-            if(this.playerList[this.currentCzarIndex].id === this.id) {
-                this.type = PlayerTypes.CZAR;
+                return {
+                    header: 'new_round_for_normal_player'
+                };
             } else {
-                this.type = PlayerTypes.PLAYER;
-            }
-
-            if(this.type === PlayerTypes.CZAR) {
                 this.state = GameStates.WAIT_FOR_PLAYERS;
-            } else {
-                this.state = GameStates.NEW_ROUND_FOR_PLAYER;
-            }
 
-            return {
-                header:'new_round',
-                cards: this.cards,
-                black_card: this.commonBlackCard
+                return {
+                    header: 'wait_for_players'
+                };
             }
         }
 
-        /**
-         * After normal player receives a white card, set state to choose
-         */
-        if(this.state === GameStates.NEW_ROUND_FOR_PLAYER && data.header === RequestHeaders.RESPONSE_WHITE_CARD) {
-            this.cards.push(data.white_card);
-            this.state = GameStates.CHOOSE_WHITE_CARD;
-
-            return{
-                header: 'new_round_for_normal_player'
-            }
-        }
-
-        if(this.state === GameStates.GAME_END) {
-            return{
-                header: 'game_end'
-            }
-        }
         return 'error';
     }
 }
