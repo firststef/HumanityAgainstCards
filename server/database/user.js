@@ -92,4 +92,22 @@ module.exports = {
 			}
 		});
 	},
+	reset_password: (id, password_) => {
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			var myid = { _id: id };
+			var newpassword = { $set: {password: password_} };
+			try {
+				db.db("HumansAgainstCards")
+					.collection("user")
+					.updateOne(myid, newpassword, (err) => {
+						if (err) throw err;
+						resolve(true);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while resetting password !\n`, color.white, e);
+				reject(false);
+			}
+		});
+	},
 };
