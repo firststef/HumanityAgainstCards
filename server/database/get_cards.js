@@ -15,7 +15,7 @@ module.exports = {
 			let db = database.get_db();
 			var myid = parseInt(id);
 			db.db("HumansAgainstCards")
-				.collection("Black_Cards")
+				.collection("black_cards")
 				.find({ _id: myid })
 				.toArray(function (err, result) {
 					if (err) {
@@ -36,7 +36,7 @@ module.exports = {
 			let db = database.get_db();
 			var myid = parseInt(id);
 			db.db("HumansAgainstCards")
-				.collection("White_Cards")
+				.collection("white_cards")
 				.find({ _id: myid })
 				.toArray(function (err, result) {
 					if (err) {

@@ -8,22 +8,22 @@ const config = require("../../config"),
 f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
-	app.post("/auth/reset_password/:id", async (req, res) => {
+	app.post("/auth/reset_password/:username", async (req, res) => {
 		try {
             if (!req.body.new_password || typeof req.body.new_password !== "string") throw `No new password provided !`;
             if (!(req.body.new_password.match(/[A-Z]/) && req.body.new_password.match(/[0-9]/) && req.body.new_password.length > 5))
                 throw `The password must be at least 5 characters long, and it must contain an uppercase character, and a number !`;
 			if (!req.body.confirm_new_password || typeof req.body.confirm_new_password !== "string") throw `No confirm new password provided !`;
-			if (!req.params.id) throw `No id provided !`;
+			if (!req.params.username || typeof req.params.username !== "string") throw `No username provided !`;
 			
 			
             if(req.body.new_password !== req.body.confirm_new_password) throw `Passwords do not match !`;
 
 			//md5 encode the password
 			let password = encode.md5(req.body.new_password);
-			var id = mongoose.Types.ObjectId(req.params.id);
+			//var id = mongoose.Types.ObjectId(req.params.id);
 			//Change the password in database
-			let ok = await user.reset_password(id, password);
+			let ok = await user.reset_password(req.params.username, password);
 			
 			if (!ok) throw `An internal error occured while attempting to access the database !`;
 

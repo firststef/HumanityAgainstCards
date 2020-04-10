@@ -92,15 +92,15 @@ module.exports = {
 			}
 		});
 	},
-	reset_password: (id, password_) => {
+	reset_password: (username_, password_) => {
 		return new Promise((resolve, reject) => {
 			let db = database.get_db();
-			var myid = { _id: id };
+			var myusername = { username: username_ };
 			var newpassword = { $set: {password: password_} };
 			try {
 				db.db("HumansAgainstCards")
 					.collection("user")
-					.updateOne(myid, newpassword, (err) => {
+					.updateOne(myusername, newpassword, (err) => {
 						if (err) throw err;
 						resolve(true);
 					});
