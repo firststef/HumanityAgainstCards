@@ -35,7 +35,7 @@ function initFrontend(){
 
             let interval = setInterval(()=>{
                 requestUpdate();
-            }, 3000);
+            }, 1000);
         }
     });
 }

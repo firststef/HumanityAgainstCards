@@ -5,14 +5,12 @@ const RequestHeaders = {
     RESPONSE_BEGIN_GAME:4,
     REQUEST_CHOSE_CARD:5,
     RESPONSE_CHOSE_CARD:6,
-    REQUEST_BLACK_CARD:7, //redundant
-    RESPONSE_BLACK_CARD:8, //redundant
-    REQUEST_WAIT_ENDED_PLAYERS: 9,
-    RESPONSE_WAIT_ENDED_PLAYERS: 10,
-    REQUEST_WAIT_ENDED_CZAR: 11,
-    RESPONSE_WAIT_ENDED_CZAR: 12,
-    REQUEST_END_ROUND: 13,
-    RESPONSE_END_ROUND: 14
+    REQUEST_WAIT_ENDED_PLAYERS: 7,
+    RESPONSE_WAIT_ENDED_PLAYERS: 8,
+    REQUEST_WAIT_ENDED_CZAR: 9,
+    RESPONSE_WAIT_ENDED_CZAR: 10,
+    REQUEST_END_ROUND: 11,
+    RESPONSE_END_ROUND: 12
 };
 Object.freeze(RequestHeaders);
 
@@ -24,9 +22,8 @@ const GameStates = {
     CHOSEN_BLACK_CARD:4,
     WAIT_FOR_PLAYERS:5,
     WAIT_FOR_CZAR:6,
-    ENDED_WAIT_FOR_PLAYERS:7, //redundant
-    END_ROUND:8,
-    GAME_END:9
+    END_ROUND:7,
+    GAME_END:8
 };
 
 const PlayerTypes = {
@@ -61,7 +58,7 @@ class GameManager {
         this.waitEnded_Czar = false; //this should be false
 
         this.playerCount = 0;
-        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayers = 2; //numberOfPlayers;
         this.readyPlayers = 0;
         this.playerList = [];
 
@@ -104,7 +101,7 @@ class GameManager {
             this.playerList.push(new Player(id_new));
             //this.playerList.push(new Player(this.newId())); //only for cycle preview
 
-            console.log('[SERVER] Created new id');
+            console.log('[SERVER] Created new id: ' + id_new);
             return {
                 header: RequestHeaders.RESPONSE_REQUEST_ID,
                 id: id_new
@@ -113,7 +110,7 @@ class GameManager {
 
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
-            console.log('[SERVER] Error on player index');
+            console.log('[SERVER] Error on player index: ' + playerIndex);
             return {
                 error: 'Error'
             }
@@ -123,7 +120,7 @@ class GameManager {
          * Give the player a set of white cards, the common black card, player list and whoever is the czar
          */
         if (data.header === RequestHeaders.REQUEST_BEGIN_GAME){
-            console.log('[SERVER] Client has begun game' + this.playerCount);
+            console.log('[SERVER] Client has begun game; player count: ' + this.playerCount);
             if (this.playerCount < this.numberOfPlayers) {
                 return {
                     message: 'not_yet_started'
@@ -140,13 +137,17 @@ class GameManager {
             }
 
             [...Array(10).keys()].forEach((x) => {
-                let card = new Card(this.generateCardId++, getRandomString(), getRandomString());
+                let card = new Card(this.generateCardId, getRandomString(), getRandomString());
+                this.generateCardId++;
                 card_lst.push(card);
                 this.playerList[playerIndex].cards.push(card);
             });
 
+
             this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text');
-            this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.playerCount);
+            if(this.currentCzarIndex === null) {
+                this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.playerCount);
+            }
             this.playerList.forEach(player => {
                 if(this.playerList[this.currentCzarIndex].id === player.id) {
                     player.type = PlayerTypes.CZAR;
@@ -169,7 +170,7 @@ class GameManager {
          * count how many players are ready and send which wait ended
          */
         if (data.header === RequestHeaders.REQUEST_CHOSE_CARD){
-            console.log('[SERVER] Client chose card id: ', data.card_id);
+            console.log('[SERVER] Client id ' + data.player_id + ' chose card id: ' + data.card_id);
 
             if(this.playerList[playerIndex].type === PlayerTypes.PLAYER){
                 let cardIndex =  this.playerList[playerIndex].cards.findIndex(card => card.id === data.card_id);
@@ -183,6 +184,11 @@ class GameManager {
                     }
                 }
             } else {
+                /**
+                 * Generate the new black card for next round
+                 * when czar chooses a white card in the current round
+                 */
+
                 this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text'); // card should be random
 
                 let cardIndex =  this.selectedWhiteCards.findIndex(card => card.id === data.card_id);
@@ -194,6 +200,11 @@ class GameManager {
                            if (card.id === this.winningCard){
                                player.points++;
                                foundOwner = true;
+                               if(player.points >= this.maxPoints) {
+                                   this.winnerPlayer = player;
+                                   console.log('[SERVER] Winner set(id): ' + + player.id + '; points= ' + player.points);
+                               }
+                               console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
                            }
                        });
                     });
@@ -217,6 +228,8 @@ class GameManager {
             }
             else if(this.readyPlayers === this.playerCount){
                 this.waitEnded_Czar = true;
+                this.currentCzarIndex = (this.currentCzarIndex + 1) % this.playerCount; //change czar here so it only happens once
+                console.log('[SERVER] Set czar index: ' + this.currentCzarIndex);
             }
 
             return {
@@ -244,49 +257,40 @@ class GameManager {
             console.log('[SERVER] Client requested game status');
             return {
                 header: RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
-                wait_end: this.waitEnded_Czar
+                wait_end: this.waitEnded_Czar,
+                winning_card: this.winningCard
             }
         }
 
         /**
-         * Update player points and check if he reached max points.
-         * If so, set the winner. Return a list with updated scores.
-         * If the round is not over and he is a player, give him a card
+         * Find the index for the client id then if winner is null:
+         * reset data, determine if he is czar or not
+         * if he is normal player, send a white card
+         * if there is a winner set 'endGame' to true
          */
         if(data.header === RequestHeaders.REQUEST_END_ROUND) {
-            console.log('[SERVER] Client requested end round');
+            console.log('[SERVER] Client id ' + data.player_id + ' requested end round');
             let returnObject = {};
+            let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
 
-            if (this.playerList[playerIndex].points >= this.maxPoints) {
-                this.winnerPlayer = this.playerList[playerIndex];
-            }
             returnObject.winner_player = this.winnerPlayer;
-
-            /**
-             * We update the 'blackCardGenerated' flag here so that
-             * in case of a new round, it won't be generated multiple times.
-             */
-
-            if (this.winnerPlayer !== null) {
-                console.log('[SERVER] Client has begun new round');
-                this.resetData();
-            }
             returnObject.commonBlackCard = this.commonBlackCard;
-
-            this.currentCzarIndex = (this.currentCzarIndex + 1) % this.playerCount;
-            this.playerList.forEach(player => {
-                if(this.playerList[this.currentCzarIndex].id === player.id) {
-                    player.type = PlayerTypes.CZAR;
-                } else {
-                    player.type = PlayerTypes.PLAYER;
-                }
-            });
+            returnObject.current_czar = this.currentCzarIndex;
             returnObject.player_list = this.playerList; //todo: unsafe
 
-            if (this.winnerPlayer !== null && this.playerList[playerIndex].type === PlayerTypes.PLAYER) {
-                let card = new Card(555, 'Whtie card', 'Something...');
-                this.playerList[playerIndex].cards.push(card);
-                returnObject.white_card = card;
+            if (this.winnerPlayer === null) {
+                console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
+                this.resetData();
+
+                if(playerIndex === this.currentCzarIndex){
+                    this.playerList[playerIndex].type = PlayerTypes.CZAR;
+                } else {
+                    this.playerList[playerIndex].type = PlayerTypes.PLAYER;
+                    let card = new Card(555, "White card", "Something...");
+                    this.playerList[playerIndex].cards.push(card);
+                    console.log(card);
+                    returnObject.white_card = card;
+                }
             }
 
             returnObject.header = RequestHeaders.RESPONSE_END_ROUND;
@@ -317,6 +321,8 @@ class GameClient {
         this.winnerPlayer = null;
 
         this.state = GameStates.INITIAL;
+
+        this.test = false;
     }
 
     update(data){//this will return maybe a response with accepted/invalid
@@ -350,6 +356,7 @@ class GameClient {
 
         if (this.state === GameStates.GAME_END){
             console.log('Game has ended');
+            process.exit(0); //todo: remove this, only for testing
         }
     }
 
@@ -407,7 +414,6 @@ class GameClient {
             this.playerList = data.player_list;
             this.currentCzarIndex = data.current_czar;
             this.playerIndex = this.playerList.findIndex(player => player.id === this.id);
-
             if(this.playerList[this.currentCzarIndex].id === this.id)
                 this.type = PlayerTypes.CZAR;
 
@@ -472,10 +478,12 @@ class GameClient {
         if(this.state === GameStates.WAIT_FOR_CZAR && data.header === RequestHeaders.RESPONSE_WAIT_ENDED_CZAR){
             if(data.wait_end === true) {
                 console.log('Wait ended for normal players, time to end round');
+                this.winningCard  = data.winning_card;
                 this.state = GameStates.END_ROUND;
 
                 return {
-                    header: 'player_round_end'
+                    header: 'player_round_end',
+                    winning_card: this.winningCard
                 }
             }
 
@@ -488,32 +496,37 @@ class GameClient {
          * After all players updated the points, we need to check if anyone won.
          */
         if(this.state === GameStates.END_ROUND && data.header === RequestHeaders.RESPONSE_END_ROUND) {
+            this.playerList = data.player_list;
             if (data.winner_player !== null) {
                 this.winnerPlayer = data.winner_player;
                 this.state = GameStates.GAME_END;
                 return {
-                    header: 'game_has_ended'
+                    header: 'game_has_ended',
+                    player_list: this.playerList
                 }
             }
 
-            this.playerList = data.player_list;
             this.type = this.playerList[this.playerIndex].type;
             this.choice = -1;
             this.selectedWhiteCards = [];
             this.commonBlackCard = data.black_card;
+            this.currentCzarIndex = data.current_czar;
 
             if (this.type === PlayerTypes.PLAYER) {
+                console.log('Received card: ', data.white_card);
                 this.cards.push(data.white_card);
                 this.state = GameStates.CHOOSE_WHITE_CARD;
-
+                this.test = true;
                 return {
-                    header: 'new_round_for_normal_player'
+                    header: 'new_round_for_normal_player',
+                    player_list: this.playerList
                 };
             } else {
                 this.state = GameStates.WAIT_FOR_PLAYERS;
 
                 return {
-                    header: 'wait_for_players'
+                    header: 'wait_for_players',
+                    player_list: this.playerList
                 };
             }
         }
