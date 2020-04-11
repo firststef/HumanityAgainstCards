@@ -1,0 +1,18 @@
+Ce am facut bine:
+    - Am facut un algoritm de alegere a cartilor
+    - Am facut scripturi de populare a bazei de date
+    - Am facut script de asociere intre tabele pentru crearea efectiva a tabelului de care avem nevoie
+
+Ce trebuie imbunatatit:
+    !!! Trebuie sa migram pe javascript pentru a rezolva problemele legate de compatibilitate, conectarea la mongoDB, comunicare
+    - Trebuie sa invatam nodejs si sa incepem sa dezvoltam un api care va fi accesat din back-end cu toate functionalitatile algoritmului genetic
+
+Provocari:
+    - Nu am reusit sa comunicam cu serverul, dar vom incerca sa facem acest lucru prin migrarea in nodejs
+    - Inca nu am reusit sa ne conectam cu mongodb
+    - Posibila provocare: diferenta de structura a bazei de date in mongoDB (NOSQL fata de SQL, cu care eram obisnuiti)
+
+DoD saptamana 9:
+    - Conectarea programului la MongoDB si la baza de date permanenta (dupa migrare)
+    - Popularea tabelului de relatie cu valori
+    - Crearea unui rest api minimal
