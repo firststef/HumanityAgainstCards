@@ -16,7 +16,7 @@ module.exports = function (app) {
 				//Add id's to each cards
 				let cards = req.body.cards;
 				cards.map((card, index) => {
-					cards[index]._id = "" + count++;
+					cards[index]._id = count++;
 				});
 
 				let status = await insert_cards.post_black_cards(cards);
@@ -39,7 +39,7 @@ module.exports = function (app) {
 				let cards = req.body.cards;
 				cards.map((card, index) => {
 					cards[index] = {
-						_id : "" + count++,
+						_id : count++,
 						text: card
 					} 
 				});

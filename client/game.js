@@ -1,6 +1,5 @@
 // const nume = require(path-ul fisierului)
-const fetch = require('node-fetch');
-const parent=require('./library');
+const parent=require('./gameclient/library');
 
 /** BACKEND CODE START */
 //Constants & Vars
@@ -11,7 +10,11 @@ initBackend();
 
 //Functions
 function initBackend(){
-    gameManager = new parent.GameManager();
+    gameManager = new parent.GameManager(2);
+}
+
+function backEndFunction(data) {
+    return gameManager.response(data);
 }
 
 /** BACKEND CODE END */
@@ -21,53 +24,51 @@ function initBackend(){
 const initialRequest = {header: parent.RequestHeaders.REQUEST_ID};
 let clientId;
 let gameClient;
+let gameClient2;
 //Code
 
 initFrontend();
 //interval = setInterval(update, 3000); //main loop
+let iterations = 0;
+while (true){
+    update();
+}
+
 
 //Functions
 function initFrontend(){
-    fakeRequest(initialRequest, request => {
-        if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
-            clientId = request.id;
-            gameClient = new parent.GameClient(clientId);
-
-            let interval = setInterval(()=>{
-                requestUpdate();
-            }, 1000);
-        }
-    });
+    let request = fakeRequest(initialRequest);
+    if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+        clientId = request.id;
+        gameClient = new parent.GameClient(clientId);
+    }
+    request = fakeRequest(initialRequest);
+    if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+        clientId = request.id;
+        gameClient2 = new parent.GameClient(clientId);
+    }
 }
 
-function fakeRequest(data, callback) {
-    fetch('http://localhost:8081/game_manager/response',{
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: JSON.stringify(data)
-        }
-    ).then(response => response.json()).then(response => {
-        //if valid
-        callback(response.data);
-    });
+function fakeRequest(data) {
+    return backEndFunction(data);
 }
 
-function requestUpdate() {
+function update() {
     let input = getUserInput();
     gameClient.update(input);
 
     let request = gameClient.getNecessaryData();
-    fakeRequest(request, update);
-}
-function update(response){
+    let response = fakeRequest(request);
     let changes = gameClient.putData(response);
+
+    applyChanges(changes);
+
+    gameClient2.update(input);
+
+    request = gameClient2.getNecessaryData();
+    response = fakeRequest(request);
+    changes = gameClient2.putData(response);
+
     applyChanges(changes);
 }
 

@@ -13,7 +13,7 @@ module.exports = {
 	post_black_cards: (cards) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-			if (!cards[0]._id) {
+			if (cards[0]._id === undefined) {
 				reject({ err: `Please provide an id for the given cards !` });
 				return;
 			}
@@ -38,8 +38,7 @@ module.exports = {
 	post_white_cards: (cards) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-
-			if (!cards[0]._id) {
+			if (cards[0]._id === undefined) {
 				reject({ err: `Please provide an id for the given cards !` });
 				return;
 			}
