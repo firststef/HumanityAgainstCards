@@ -85,7 +85,7 @@ h1-second {
     cursor: pointer;
 }
 
-.button-Start:hover {opacity: 1}
+.button-Start:hover {opacity: 1;}
 
 .grid-container{
     display: grid;
@@ -127,7 +127,7 @@ h1-second {
       text-decoration: underline;
   }
 .cookieConsentContainer .cookieButton a {
-    float:right;
+    float: right;
     font-family: OpenSans, arial, "sans-serif";
     color: #FFFFFF;
     font-size: 14px;
