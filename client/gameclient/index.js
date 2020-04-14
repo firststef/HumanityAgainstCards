@@ -2,23 +2,9 @@
 const fetch = require('node-fetch');
 const parent=require('./library');
 
-/** BACKEND CODE START */
-//Constants & Vars
-let gameManager;
-//Code
-
-initBackend();
-
-//Functions
-function initBackend(){
-    gameManager = new parent.GameManager();
-}
-
-/** BACKEND CODE END */
-
 /** FRONTEND CODE START */
 //Constants & Vars
-const initialRequest = {header: parent.RequestHeaders.REQUEST_ID};
+const initialRequest = {header: 'get_id'};
 let clientId;
 let gameClient;
 //Code
@@ -29,7 +15,7 @@ initFrontend();
 //Functions
 function initFrontend(){
     fakeRequest(initialRequest, request => {
-        if (request.header === parent.RequestHeaders.RESPONSE_REQUEST_ID){
+        if (request.header === 'sent_id'){
             clientId = request.id;
             gameClient = new parent.GameClient(clientId);
 

@@ -51,14 +51,17 @@ class Player {
     }
 }
 
+function fakeAI(blackCard, listOfCards){
+    return 0;
+}
+
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 class GameManager {
-    constructor(numberOfPlayers) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false; //this should be false
         this.waitEnded_Czar = false; //this should be false
 
-        this.playerCount = 0;
-        this.numberOfPlayers = 2; //numberOfPlayers;
+        this.numberOfPlayers = numberOfPlayers;
         this.readyPlayers = 0;
         this.playerList = [];
 
@@ -69,13 +72,8 @@ class GameManager {
         this.winnerPlayer = null;
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
-    }
 
-    newId(){
-        if (this.counter === undefined){
-            this.counter = 0;
-        }
-        return this.counter++;
+        playerIDList.forEach((pid) => this.playerList.push(new Player(pid)));
     }
 
     resetData(){
@@ -87,26 +85,6 @@ class GameManager {
     }
 
     response(data){
-
-        //TODO: in each case except REQUEST_ID the player must be validated, REQUEST_ID will be removed
-
-        /**
-         * Add players to the game and give them a temporary id
-         */
-        if (data.header === RequestHeaders.REQUEST_ID){
-            this.playerCount++; //based on this request we determine how many players are there
-            let id_new = this.newId();
-
-            //WARNING: player id might not match -- client creates its own id using its own constructor
-            this.playerList.push(new Player(id_new));
-            //this.playerList.push(new Player(this.newId())); //only for cycle preview
-
-            console.log('[SERVER] Created new id: ' + id_new);
-            return {
-                header: RequestHeaders.RESPONSE_REQUEST_ID,
-                id: id_new
-            }
-        }
 
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
@@ -120,13 +98,6 @@ class GameManager {
          * Give the player a set of white cards, the common black card, player list and whoever is the czar
          */
         if (data.header === RequestHeaders.REQUEST_BEGIN_GAME){
-            console.log('[SERVER] Client has begun game; player count: ' + this.playerCount);
-            if (this.playerCount < this.numberOfPlayers) {
-                return {
-                    message: 'not_yet_started'
-                };
-            }
-
             let card_lst = [];
             //these are random but they need to be taken from a db
             // - we will get the number of cards in the database
@@ -146,7 +117,7 @@ class GameManager {
 
             this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text');
             if(this.currentCzarIndex === null) {
-                this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.playerCount);
+                this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.numberOfPlayers);
             }
             this.playerList.forEach(player => {
                 if(this.playerList[this.currentCzarIndex].id === player.id) {
@@ -162,7 +133,7 @@ class GameManager {
                 black_card:  this.commonBlackCard,
                 player_list: this.playerList,//todo: remove player cards from getting to other players
                 current_czar: this.currentCzarIndex
-            };//todo:here
+            };
         }
 
         /**
@@ -223,12 +194,15 @@ class GameManager {
             }
 
             this.readyPlayers++;
-            if(this.readyPlayers === this.playerCount - 1){
+            if(this.readyPlayers === this.numberOfPlayers - 1){
                 this.waitEnded_Players = true;
+
+                // if czard is aistart ai choice ->
+
             }
-            else if(this.readyPlayers === this.playerCount){
+            else if(this.readyPlayers === this.numberOfPlayers){
                 this.waitEnded_Czar = true;
-                this.currentCzarIndex = (this.currentCzarIndex + 1) % this.playerCount; //change czar here so it only happens once
+                this.currentCzarIndex = (this.currentCzarIndex + 1) % this.numberOfPlayers; //change czar here so it only happens once
                 console.log('[SERVER] Set czar index: ' + this.currentCzarIndex);
             }
 
@@ -303,7 +277,6 @@ class GameManager {
 
 class GameClient {
     constructor(token) {
-        //WARNING: player id might not match -- game manager generates an id for the player
         this.id = token;
 
         this.cards = [];
