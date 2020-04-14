@@ -51,8 +51,10 @@ class Player {
     }
 }
 
-function fakeAI(blackCard, listOfCards){
-    return 0;
+function fetchAI(blackCard, listOfCards){
+    return {
+        then: (func) => func(listOfCards[0])
+    };
 }
 
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
@@ -74,6 +76,7 @@ class GameManager {
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
         playerIDList.forEach((pid) => this.playerList.push(new Player(pid)));
+        //here add foreach ai player an ai player with a flag and unique id for ai
     }
 
     resetData(){
@@ -198,7 +201,7 @@ class GameManager {
                 this.waitEnded_Players = true;
 
                 // if czard is aistart ai choice ->
-
+                fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
             }
             else if(this.readyPlayers === this.numberOfPlayers){
                 this.waitEnded_Czar = true;
@@ -265,6 +268,9 @@ class GameManager {
                     console.log(card);
                     returnObject.white_card = card;
                 }
+
+                //for each ai player
+                fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
             }
 
             returnObject.header = RequestHeaders.RESPONSE_END_ROUND;
