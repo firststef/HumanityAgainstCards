@@ -78,7 +78,29 @@ module.exports = {
 			try {
 				db.db("HumansAgainstCards")
 					.collection("user")
-					.findOne({ "session.value": value , "session.value": {  $gt: Date.now() }}, (err, doc) => {
+					.findOne({ "session.value": value , "session.expire": {  $gt: Date.now() }}, (err, doc) => {
+						if (doc !== null) resolve(true);
+						if (err) throw err;
+						resolve(false);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while searching session ${value} !\n`, color.white, e);
+				reject(false);
+			}
+		});
+	},
+	session_update: (old_value , new_value) => {
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			try {
+				db.db("HumansAgainstCards")
+					.collection("user")
+					.updateOne(
+						{ "session.value" : old_value },
+						{
+						  $set: { "session.value": new_value, "session.expire": Date.now() + 1000 * 60 * 60 * 24 * 1 }
+						}, 
+						(err, doc) => {
 						if (doc !== null) resolve(true);
 						if (err) throw err;
 						resolve(false);
