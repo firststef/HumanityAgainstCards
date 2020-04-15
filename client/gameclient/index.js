@@ -63,8 +63,10 @@ function applyChanges(changes) {
 
 function getUserInput() {
     console.log('Checked for input');
+    //czar chooses the index for a card set instead of individual cards
     return {
-        card_index: 0
+        card_index: 0,
+        card_index_second: 1
     };
 }
 /** FRONTEND CODE END*/

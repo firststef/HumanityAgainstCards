@@ -57,11 +57,13 @@ function fetchAI(blackCard, listOfCards){
     };
 }
 
+
+
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 class GameManager {
     constructor(numberOfPlayers, numberOfAIPlayers, playerIDList) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
-        this.waitEnded_Players = false; //this should be false
-        this.waitEnded_Czar = false; //this should be false
+        this.waitEnded_Players = false;
+        this.waitEnded_Czar = false;
 
         this.numberOfPlayers = numberOfPlayers;
         this.readyPlayers = 0;
@@ -69,26 +71,41 @@ class GameManager {
 
         this.currentCzarIndex = null;
         this.commonBlackCard = null;
+        this.blackCardType = 0;
         this.selectedWhiteCards = []; //cards selected by normal players
-        this.winningCard = null; //card chosen by czar
+        this.winningCardSet = []; //card chosen by czar
         this.winnerPlayer = null;
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
         playerIDList.forEach((pid) => this.playerList.push(new Player(pid)));
         //here add foreach ai player an ai player with a flag and unique id for ai
+
+
+        //init selected cards array for each player
+        for(var i=0; i < numberOfPlayers + numberOfAIPlayers; i++) {
+            this.selectedWhiteCards[i] = new Array(2);
+        }
+    }
+
+    getBlackCard(){
+        //todo: request card
+        this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text');
+        this.blackCardType = 2;
     }
 
     resetData(){
         this.readyPlayers = 0;
         this.selectedWhiteCards = [];
-        this.winningCard = null;
+        for(var i=0; i < numberOfPlayers + numberOfAIPlayers; i++) {
+            this.selectedWhiteCards[i] = new Array(2);
+        }
+        this.winningCard = [];
         this.waitEnded_Players = false;
         this.waitEnded_Czar = false;
     }
 
     response(data){
-
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
             console.log('[SERVER] Error on player index: ' + playerIndex);
@@ -117,8 +134,8 @@ class GameManager {
                 this.playerList[playerIndex].cards.push(card);
             });
 
+            getBlackCard();
 
-            this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text');
             if(this.currentCzarIndex === null) {
                 this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.numberOfPlayers);
             }
@@ -134,56 +151,56 @@ class GameManager {
                 header: RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: card_lst,
                 black_card:  this.commonBlackCard,
+                black_card_type: this.blackCardType,
                 player_list: this.playerList,//todo: remove player cards from getting to other players
                 current_czar: this.currentCzarIndex
             };
         }
 
         /**
-         * After a player chose a card, add the card to the list,
+         * After a player chooses cards, add the cards to the list and remove them from hand
          * count how many players are ready and send which wait ended
          */
         if (data.header === RequestHeaders.REQUEST_CHOSE_CARD){
             console.log('[SERVER] Client id ' + data.player_id + ' chose card id: ' + data.card_id);
-
-            if(this.playerList[playerIndex].type === PlayerTypes.PLAYER){
-                let cardIndex =  this.playerList[playerIndex].cards.findIndex(card => card.id === data.card_id);
-                if (cardIndex !== -1)
-                {
-                    this.selectedWhiteCards.push(this.playerList[playerIndex].cards[cardIndex]);
-                }
-                else {
-                    return {
-                        error: 'Error'
+            if(this.playerList[playerIndex].type === PlayerTypes.PLAYER) {
+                //iterate through the normal player selected cards
+                for (let i = 0; i < this.blackCardType; i++) {
+                    let cardIndex = this.playerList[playerIndex].cards.findIndex(card => card.id === data.cards[i].id);
+                    if (cardIndex !== -1) {
+                        this.selectedWhiteCards[playerIndex].push(this.playerList[playerIndex].cards[cardIndex]);
+                        this.playerList[playerIndex].cards.filter(card => card.id === data.cards[i].id);
+                    } else {
+                        return {
+                            error: 'Error'
+                        }
                     }
                 }
-            } else {
+            }
+            else {
                 /**
                  * Generate the new black card for next round
-                 * when czar chooses a white card in the current round
+                 * when czar chooses white card set index in the current round
                  */
 
-                this.commonBlackCard = new Card(999, 'Black Card', 'Some black card text'); // card should be random
+                this.getBlackCard();
 
-                let cardIndex =  this.selectedWhiteCards.findIndex(card => card.id === data.card_id);
-                if (cardIndex !== -1){
-                    this.winningCard = data.card_id;
+                if (data.choice < this.selectedWhiteCards.length){
+                    this.winningCardSet = this.selectedWhiteCards[data.choice];
                     let foundOwner =  false;
                     this.playerList.forEach(player => {
-                       player.cards.forEach(card=>{
-                           if (card.id === this.winningCard){
-                               player.points++;
-                               foundOwner = true;
-                               if(player.points >= this.maxPoints) {
-                                   this.winnerPlayer = player;
-                                   console.log('[SERVER] Winner set(id): ' + + player.id + '; points= ' + player.points);
-                               }
-                               console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
-                           }
-                       });
+                        //if we find all cards from the winning set in the players' hand then give him points
+                        if(this.winningCardSet.every(card => player.cards.includes(card))){
+                            player.points++;
+                            foundOwner = true;
+                            if (player.points >= this.maxPoints) {
+                                this.winnerPlayer = player;
+                                console.log('[SERVER] Winner set(id): ' + +player.id + '; points= ' + player.points);
+                            }
+                            console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
+                        }
                     });
-                    if (!foundOwner)
-                    {
+                    if (!foundOwner) {
                         return {//todo: error object
                             error: 'Error'
                         }
@@ -197,11 +214,12 @@ class GameManager {
             }
 
             this.readyPlayers++;
+
             if(this.readyPlayers === this.numberOfPlayers - 1){
                 this.waitEnded_Players = true;
 
                 // if czard is aistart ai choice ->
-                fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
+                //fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
             }
             else if(this.readyPlayers === this.numberOfPlayers){
                 this.waitEnded_Czar = true;
@@ -209,9 +227,10 @@ class GameManager {
                 console.log('[SERVER] Set czar index: ' + this.currentCzarIndex);
             }
 
+            //return the cards because we removed some from the players' hand
             return {
                 header: RequestHeaders.RESPONSE_CHOSE_CARD,
-                card_id: data.card_id
+                cards: this.playerList[playerIndex].cards,
             }
         }
 
@@ -235,7 +254,7 @@ class GameManager {
             return {
                 header: RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
                 wait_end: this.waitEnded_Czar,
-                winning_card: this.winningCard
+                winning_cards: this.winningCardSet
             }
         }
 
@@ -248,10 +267,10 @@ class GameManager {
         if(data.header === RequestHeaders.REQUEST_END_ROUND) {
             console.log('[SERVER] Client id ' + data.player_id + ' requested end round');
             let returnObject = {};
-            let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
 
             returnObject.winner_player = this.winnerPlayer;
-            returnObject.commonBlackCard = this.commonBlackCard;
+            returnObject.common_black_card = this.commonBlackCard;
+            returnObject.black_card_type = this.blackCardType;
             returnObject.current_czar = this.currentCzarIndex;
             returnObject.player_list = this.playerList; //todo: unsafe
 
@@ -270,7 +289,7 @@ class GameManager {
                 }
 
                 //for each ai player
-                fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
+                //fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
             }
 
             returnObject.header = RequestHeaders.RESPONSE_END_ROUND;
@@ -286,12 +305,13 @@ class GameClient {
         this.id = token;
 
         this.cards = [];
-        this.selectedWhiteCards = []; //cards selected by normal players
+        this.selectedWhiteCardSets = []; //cards selected by normal players
         this.commonBlackCard = null;
+        this.blackCardType = 0;
         this.winningCard = null;
 
         this.points = 0;
-        this.choice = -1; //id of the selected card
+        this.choice = []; //array with selected cards player
         this.type = PlayerTypes.PLAYER;
 
         this.playerList = [];
@@ -309,13 +329,15 @@ class GameClient {
             console.log('Choosing white card');
             if (this.type === PlayerTypes.PLAYER) {
                 if (data.card_index < this.cards.length) {
-                    this.choice = this.cards[data.card_index].id;
+                    this.choice.push(this.cards[data.card_index].id);
+                    if(this.blackCardType > 1)
+                        this.choice.push(this.cards[data.card_index_second].id)
                     this.state = GameStates.CHOSEN_WHITE_CARD;
                 }
             }
-            else{
-                if (data.card_index < this.selectedWhiteCards.length) {
-                    this.choice = this.selectedWhiteCards[data.card_index].id;
+            else{ //czar chooses the index for a card set instead of individual cards
+                if (data.card_index < this.selectedWhiteCardSets.length) {
+                    this.choice = this.selectedWhiteCardSets[data.card_index];
                     this.state = GameStates.CHOSEN_WHITE_CARD;
                 }
             }
@@ -352,7 +374,7 @@ class GameClient {
             return {
                 header: RequestHeaders.REQUEST_CHOSE_CARD,
                 player_id: this.id,
-                card_id: this.choice,
+                cards: this.choice,
             }
         }
 
@@ -390,6 +412,7 @@ class GameClient {
             console.log('Received cards:', data.cards);
             this.cards = data.cards;
             this.commonBlackCard = data.black_card;
+            this.blackCardType = data.black_card_type;
             this.playerList = data.player_list;
             this.currentCzarIndex = data.current_czar;
             this.playerIndex = this.playerList.findIndex(player => player.id === this.id);
@@ -406,6 +429,7 @@ class GameClient {
                 header:'show_cards',
                 cards: this.cards,
                 black_card: this.commonBlackCard,
+                black_card_type: this.blackCardType,
                 player_list: this.playerList
 
             }
@@ -416,16 +440,16 @@ class GameClient {
          * If normal player picks white, remove card from list and set state to wait.
          */
         if(this.state === GameStates.CHOSEN_WHITE_CARD && data.header === RequestHeaders.RESPONSE_CHOSE_CARD){
-            console.log('Player has chosen card id: ', data.card_id);
+            console.log('Player has chosen card set: ', data.cards);
             if(this.type === PlayerTypes.PLAYER) {
-                this.cards = this.cards.filter(card => card.id !== data.card_id); //remove the card that was selected
                 this.state = GameStates.WAIT_FOR_CZAR;
+                this.cards = data.cards;
             } else {
                 this.state = GameStates.END_ROUND;
             }
             return {
                 header: 'white_card_choice',
-                card_id: data.card_id
+                cards: data.cards
             }
         }
 
@@ -486,9 +510,10 @@ class GameClient {
             }
 
             this.type = this.playerList[this.playerIndex].type;
-            this.choice = -1;
+            this.choice = [];
             this.selectedWhiteCards = [];
             this.commonBlackCard = data.black_card;
+            this.blackCardType = data.black_card_type;
             this.currentCzarIndex = data.current_czar;
 
             if (this.type === PlayerTypes.PLAYER) {
