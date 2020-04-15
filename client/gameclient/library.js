@@ -105,7 +105,7 @@ class GameManager {
         this.waitEnded_Czar = false;
     }
 
-    response(data){
+    response(data){//TODO: in server === 'error' should be consistenct
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
             console.log('[SERVER] Error on player index: ' + playerIndex);
@@ -134,7 +134,7 @@ class GameManager {
                 this.playerList[playerIndex].cards.push(card);
             });
 
-            getBlackCard();
+            this.getBlackCard();
 
             if(this.currentCzarIndex === null) {
                 this.currentCzarIndex = Math.floor((Math.random() * 1000) % this.numberOfPlayers);

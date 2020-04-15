@@ -22,9 +22,9 @@ const config = require("../../config"),
                     response = await game_manager.response(req.body);
                 }
                 if (response === "error") throw `Ackward client error thrown "${response}"`;
-                res.status(200).send({  success: true, data: response });
+                res.status(200).send(JSON.stringify({  success: true, data: response }));
             } catch (e) {
-                res.status(417).send({ success: false, err: e });
+                res.status(417).send(JSON.stringify({ success: false, err: e }));
             }
         });
     };

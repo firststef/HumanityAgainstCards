@@ -6,7 +6,6 @@ const express = require("express"),
 	color = require("./colors"),
 	cors = require("cors"),
 	database = require("./utils/database"),
-	ai = require("./ai/execute_ai.js"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
@@ -28,8 +27,6 @@ app.listen(config.server.port, function(err) {
 		console.log(color.yellow, `    | __ | |_| | |\\/| |/ _ \\ | .\` \\__ \\    / _ \\ | (_ |/ _ \\  | | | .\` \\__ \\  | |     | (__ / _ \\ |   /| |) \\__ \\  `);
 		console.log(color.yellow, `    |_||_|\\___/|_|  |_/_/ \\_\\|_|\\_|___/   /_/ \\_\\ \\___/_/ \\_\\|___||_|\\_|___/  |_|      \\___/_/ \\_\\|_|_\\|___/|___/  `);
 		console.log("\n");
-
-		ai.getAiAnswer(3,Array(11,22,33,44,55,67,77,88,99,100));
 
 	}
 });

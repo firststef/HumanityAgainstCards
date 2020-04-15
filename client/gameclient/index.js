@@ -39,9 +39,16 @@ function fakeRequest(data, callback) {
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(data)
         }
-    ).then(response => response.json()).then(response => {
+    ).then(response => {
+        return response.json();
+    }).then(response => {
         //if valid
-        callback(response.data);
+        if (response.err !== undefined)
+            callback(response.data);
+        else {
+            console.log("[ERROR] Server error");
+            //handle exit gracefully
+        }
     });
 }
 
