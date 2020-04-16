@@ -42,21 +42,12 @@ module.exports = function (app) {
 			// 	}
 			// }
 
-<<<<<<< HEAD
 			// let session = {
 			// 	value: cookie_session,
 			// 	expire: Date.now() + 1000 * 60 * 60 * 24 * 3, // 3 days
 			// };
 
 			// user.session = session;
-=======
-			let session = {
-				value: cookie_session,
-				expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 3 days
-			};
-
-			user_obj.session = session;
->>>>>>> 88c945afa2061c8efc497518c3e1fc1c6025738e
 
 			//try to launch the data in the db
 			

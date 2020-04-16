@@ -133,9 +133,6 @@ module.exports = {
 			}
 		});
 	},
-<<<<<<< HEAD
-
-=======
 	get_old_session: (username_, password_) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
@@ -163,7 +160,6 @@ module.exports = {
 					}
 				});
 		}),
->>>>>>> 88c945afa2061c8efc497518c3e1fc1c6025738e
 	/**
 	 * Adds an user to the database
 	 * @param {object} user - The user object you wish to add
