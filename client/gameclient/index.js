@@ -27,6 +27,7 @@ function initFrontend(){
 }
 
 function fakeRequest(data, callback) {
+    data.session = 'abc';
     fetch('http://localhost:8081/game_manager/response',{
             method: 'POST',
             mode: 'cors',
@@ -43,10 +44,16 @@ function fakeRequest(data, callback) {
         return response.json();
     }).then(response => {
         //if valid
-        if (response.err !== undefined)
-            callback(response.data);
+        if (response !== undefined) {
+            if (response.success === false) {
+                console.log('[ERROR] Server error: ' + response.err);
+            }else{
+                callback(response.data);
+            }
+
+        }
         else {
-            console.log("[ERROR] Server error");
+            console.log("[ERROR] Server error - undefined header!");
             //handle exit gracefully
         }
     });

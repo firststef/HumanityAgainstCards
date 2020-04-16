@@ -11,7 +11,8 @@ module.exports = function (app) {
 		try {
 			if (!req.body.username || typeof req.body.username !== "string") throw `No username provided !`;
 			if (!req.body.password || typeof req.body.password !== "string") throw `No password provided !`;
-            
+			
+
             //md5 encode the password
 			let password = encode.md5(req.body.password);
 			
@@ -29,12 +30,10 @@ module.exports = function (app) {
 				}
 			}
             
-			let session = {
-				value: cookie_session,
-				expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 days
-			};
 
-			user.session = session;
+			//let old_session=await user.get_old_session(req.body.username,password);
+			
+			if(false==await user.session_update_login(req.body.username,password,cookie_session)) throw "Error at updateing the session !";
 
 			let response = {
 				sucess: true,

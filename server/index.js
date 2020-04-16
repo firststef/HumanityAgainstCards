@@ -37,6 +37,7 @@ require("./routes/cards/add_cards")(app);
 require("./routes/cards/get_cards")(app);
 require("./routes/game/game_handler2")(app);
 require("./routes/auth/register")(app);
+require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
 
 

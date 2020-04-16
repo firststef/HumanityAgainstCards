@@ -16,8 +16,6 @@ module.exports = function (app) {
 				throw `The password must be at least 5 characters long, and it must contain an uppercase character, and a number !`;
 			if (!req.body.email || typeof req.body.email !== "string") throw `No email provided !`;
 			if (!req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/)) throw `Invalid email !`;
-			if (!req.body.name || typeof req.body.name !== "string") throw `No name provided !`;
-			if (!req.body.surname || typeof req.body.surname !== "string") throw `No surname provided !`;
 			if (!req.body.nickname || typeof req.body.nickname !== "string") throw `No nickname provided !`;
 
 			/**First check if the user exists in the database */
@@ -30,8 +28,6 @@ module.exports = function (app) {
 				username: req.body.username,
 				password: password,
 				email: req.body.email,
-				name: req.body.name,
-				surname: req.body.surname,
 				nickname: req.body.nickname,
 			};
 
@@ -46,12 +42,21 @@ module.exports = function (app) {
 			// 	}
 			// }
 
+<<<<<<< HEAD
 			// let session = {
 			// 	value: cookie_session,
 			// 	expire: Date.now() + 1000 * 60 * 60 * 24 * 3, // 3 days
 			// };
 
 			// user.session = session;
+=======
+			let session = {
+				value: cookie_session,
+				expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 3 days
+			};
+
+			user_obj.session = session;
+>>>>>>> 88c945afa2061c8efc497518c3e1fc1c6025738e
 
 			//try to launch the data in the db
 			
