@@ -3,6 +3,10 @@ module.exports = {
 		endpoint: "mongodb+srv://fluffypanda:thefluffa5@humanityagainstcards-vfnzh.gcp.mongodb.net/test?retryWrites=true&w=majority", //db endpoint
 		db: "HumanityAgainstCards", // clusters storage
 	},
+	email : {
+		user : "pfluffy955@gmail.com",
+		pass : "thefluffa5"
+	},
 	server: {
 		port: 8081,
 		endpoint: "localhost",

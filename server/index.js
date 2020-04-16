@@ -6,6 +6,7 @@ const express = require("express"),
 	color = require("./colors"),
 	cors = require("cors"),
 	database = require("./utils/database"),
+	mail = require("./mail/connect");
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
