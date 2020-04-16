@@ -89,6 +89,28 @@ module.exports = {
 			}
 		});
 	},
+	session_update_login: (username_ ,  password_, new_value) => {
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			try {
+				db.db("HumansAgainstCards")
+					.collection("user")
+					.updateOne(
+						{username: username_ , password: password_},
+						{
+						  $set: { "session.value": new_value, "session.expire": Date.now() + 1000 * 60 * 60 * 24 * 1 }
+						}, 
+						(err, doc) => {
+						if (doc !== null) resolve(true);
+						if (err) throw err;
+						resolve(false);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while searching session ${value} !\n`, color.white, e);
+				reject(false);
+			}
+		});
+	},
 	session_update: (old_value , new_value) => {
 		return new Promise((resolve, reject) => {
 			let db = database.get_db();
@@ -111,6 +133,33 @@ module.exports = {
 			}
 		});
 	},
+	get_old_session: (username_, password_) =>
+		new Promise((resolve, reject) => {
+			let db = database.get_db();
+			var myid = parseInt(id);
+			db.db("HumansAgainstCards")
+				.collection("user")
+				.find({username: username_, password: password_},
+					{
+					username: 0,
+					password: 0,
+					email: 0,
+					name: 0,
+					surname: 0,
+					nickname: 0,
+					"session.value": 1,
+					"session.expire":0
+				 })
+				.toArray(function (err, result) {
+					if (err) {
+						console.log(log.date_now() + f_header, color.red, "Error while extracting data !\n", color.white, err);
+						reject({ err: err });
+					} else {
+						console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
+						resolve(result);
+					}
+				});
+		}),
 	/**
 	 * Adds an user to the database
 	 * @param {object} user - The user object you wish to add
