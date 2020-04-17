@@ -48,6 +48,8 @@ function fakeRequest(data, callback) {
             if (response.success === false) {
                 console.log('[ERROR] Server error: ' + response.err);
             }else{
+                if(response.data.error !== undefined)
+                    console.log(response.data.error);
                 callback(response.data);
             }
 
@@ -91,6 +93,3 @@ function getUserInput() {
 setInterval(update, 1000); // application loop
 
 */
-
-//Utils
-parent.getRandomString();
