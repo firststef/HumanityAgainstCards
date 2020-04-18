@@ -199,6 +199,24 @@ module.exports = {
 	},
 
 
+	check_email: ( email) => {
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			try {
+				db.db("HumansAgainstCards")
+					.collection("user")
+					.findOne({ $or: [ { email: email }] }, (err, doc) => {
+						if (doc !== null) resolve(true);
+						if (err) throw err;
+						resolve(false);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while searching user ${username} !\n`, color.white, e);
+				reject(true);
+			}
+		});
+	},
+
 
 	reset_password: (username_, password_) => {
 		return new Promise((resolve, reject) => {
