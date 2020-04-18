@@ -147,6 +147,10 @@ class GameManager {
                                 if (cardIndex !== -1) {
                                     player.cards.splice(cardIndex, 1);
                                 }
+                                else
+                                {
+                                    console.log("Card not found");
+                                }
                             }
                         }
 
