@@ -12,7 +12,7 @@ const RequestHeaders = {
     REQUEST_END_ROUND: 11,
     RESPONSE_END_ROUND: 12
 };
-
+Object.freeze(RequestHeaders);
 const GameStates = {
     INITIAL:0,
     CHOOSE_WHITE_CARD:1,
