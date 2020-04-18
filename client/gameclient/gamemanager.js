@@ -1,5 +1,11 @@
 const basedata=require('./basedata');
 
+function fetchAI(blackCard, listOfCards){
+    return {
+        then: (func) => func(listOfCards[0])
+    };
+}
+
 class GameManager {
     constructor(numberOfPlayers, numberOfAIPlayers, playerIDList) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false;
@@ -263,3 +269,4 @@ function getRandomString() {
 }
 
 module.exports.GameManager = GameManager;
+module.exports.fetchAI=fetchAI;
