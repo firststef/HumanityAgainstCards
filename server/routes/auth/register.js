@@ -40,7 +40,8 @@ module.exports = function (app) {
 			let ok = await user.temp_register(user_obj);
 			if (!ok) throw `An internal error occured while attempting to access the database !`;
 
-			send_confirm.send(req.body.email, req.body.username, code);
+			ok = await send_confirm.send(req.body.email, req.body.username, code);
+			if (!ok) throw `The mailing server did not respond properly !`;
 
 			let response = {
 				sucess: true,
