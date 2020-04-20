@@ -5,8 +5,6 @@ const express = require("express"),
 	log = require("./utils/log"),
 	color = require("./colors"),
 	cors = require("cors"),
-	database = require("./utils/database"),
-	mail = require("./mail/connect");
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
@@ -39,7 +37,10 @@ require("./routes/game/game_handler2")(app);
 require("./routes/auth/register")(app);
 require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
+require("./routes/auth/confirm_account")(app);
 
-
-
+//Workers & connectors
+require("./routes/auth/worker/clean_outdated_accounts");
+require("./utils/database");
+require("./mail/connect");
 

@@ -3,9 +3,9 @@ const config = require("../../config"),
 	log = require("../../utils/log"),
 	user = require("../../database/user"),
 	generate = require("../../utils/generate"),
-	send_confirm = require("../../mail/send_confirm");
-	encode = require("../../utils/encode");
-f_header = "[routes/auth/register.js]";
+	send_confirm = require("../../mail/send_confirm"),
+	encode = require("../../utils/encode"),
+	f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
 	app.post("/auth/register", async (req, res) => {
@@ -20,6 +20,7 @@ module.exports = function (app) {
 
 			/**First check if the user exists in the database */
 			if (await user.check_presence(req.body.username, req.body.email)) throw `User allready registered !`;
+			if (await user.check_presence_temp(req.body.username, req.body.email)) throw `User allready registered !`;
 			//md5 encode the password
 			let password = encode.md5(req.body.password);
 			//build the request object to ensure that no other data can be inserted to the database
@@ -29,28 +30,9 @@ module.exports = function (app) {
 				password: password,
 				email: req.body.email,
 				nickname: req.body.nickname,
+				timestamp : Date.now()
 			};
 
-			// //generate cookie session
-			// let cookie_session = "";
-			// while (cookie_session.length < 10) {
-			// 	// The chances that the same cookie to be generated twice is around ~ 1 to 1.531.653.719
-			// 	cookie_session = generate.unique(req.body.username, 32);
-			// 	//Check presence of the cookie in the database
-			// 	if (!await user.session_is_unique(cookie_session)) {
-			// 		cookie_session = "";
-			// 	}
-			// }
-
-			// let session = {
-			// 	value: cookie_session,
-			// 	expire: Date.now() + 1000 * 60 * 60 * 24 * 3, // 3 days
-			// };
-
-			// user.session = session;
-
-			//try to launch the data in the db
-			
 			//generate an unique code to confirm the registration
 			let code = Math.random().toString(36).substr(2, 9);
 			user_obj.code = code;
@@ -58,7 +40,7 @@ module.exports = function (app) {
 			let ok = await user.temp_register(user_obj);
 			if (!ok) throw `An internal error occured while attempting to access the database !`;
 
-			send_confirm.send(req.body.username,code);
+			send_confirm.send(req.body.email, req.body.username, code);
 
 			let response = {
 				sucess: true,

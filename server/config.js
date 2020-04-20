@@ -19,4 +19,8 @@ module.exports = {
     routes: {
         //Stores external routes
 	},
+	account: {
+		temp_lifetime : 1000*60*30, // 30m
+		cleaner_interval : 1000*60*15 // 15m
+	}
 };
