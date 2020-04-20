@@ -8,8 +8,9 @@ const config = require("../../config"),
 f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
-	app.post("/auth/reset_password/:username", async (req, res) => {
-		try {
+
+	app.post("/auth/reset_password", async (req, res) => {
+		try{
 
 			transporter = mail.get_transporter();
 
@@ -18,12 +19,12 @@ module.exports = function (app) {
 			if (!req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/)) throw `Invalid email !`;
 	   
 			let mail = {
-			   to: "oanceaionut15@gmail.com",
+			   to: req.body.email,
 			   from: "Cards agasint humanity" + config.email.user,
 			   subject: "Send your password",
 			   html: `
 			   <h1>You requested a Password Reset</h1>
-			   <p>Click this <a href="http://localhost:8081/auth/reset_password/${token}">link</a> to set a new password.</p>
+			   <p>Click this <a href="http://localhost:8081/auth/reset_password/:username${token}">link</a> to set a new password.</p>
 			   <p>If you did not request this change, please Contact us immediately!</p>
 			   `,
 			};
@@ -32,6 +33,21 @@ module.exports = function (app) {
 					   if (err) console.log(log.date_now() + f_header, color.red + `Could not connect to the mailing service!, ${err}`);
 					   else console.log(log.date_now() + f_header, color.green, `Sent mail as ${config.email.user} ! `);
 				   });
+
+				   let response = {
+					sucess: true
+				};
+	
+				res.status(200).send(response);
+
+				} catch (e) {
+					res.status(401).send({ sucess: false, reason: e });
+				}
+	});	   	   
+
+	 app.post("/auth/reset_password/:username", async (req, res) => {
+		  try {
+					   
 
 
             if (!req.body.new_password || typeof req.body.new_password !== "string") throw `No new password provided !`;
