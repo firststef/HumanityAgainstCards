@@ -12,11 +12,11 @@ module.exports = function (app) {
 	app.post("/auth/reset_password", async (req, res) => {
 		try{
 
-			transporter = mail.get_transporter();
-
 			if (!req.body.email || typeof req.body.email !== "string") throw `No email provided !`;
 			if (await user.check_email(req.body.email)==false) throw `this email is not existing !`;
 			if (!req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/)) throw `Invalid email !`;
+
+			transporter = mail.get_transporter();
 	   
 			let mail = {
 			   to: req.body.email,
@@ -24,7 +24,7 @@ module.exports = function (app) {
 			   subject: "Send your password",
 			   html: `
 			   <h1>You requested a Password Reset</h1>
-			   <p>Click this <a href="http://localhost:8081/auth/reset_password/:username${token}">link</a> to set a new password.</p>
+			   <p>Click this <a href="http://localhost:8081/auth/reset_password/:username">link</a> to set a new password.</p>
 			   <p>If you did not request this change, please Contact us immediately!</p>
 			   `,
 			};
