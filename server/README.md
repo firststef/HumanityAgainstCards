@@ -31,7 +31,7 @@ Requires [nodejs](https://nodejs.org/en/)
 #### Auth requirements
 - [ ] Login module
 - [ ] Logout route
-- [ ] Register module
+- [x] Register module
 - [ ] Password recovery module trough email
 - [ ] Make the module togable
 
