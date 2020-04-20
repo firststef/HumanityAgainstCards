@@ -4,11 +4,16 @@
 
 Requires [nodejs](https://nodejs.org/en/)
 
-- ```touch config.js``` Create a config.js file
-- Copy the contents of config.js.example to it
-- Contact a member of the backend team, for the database credentials
 - ```npm start```
 - Enjoy ! The server is now running on the port defined in the config file ^^
+
+## Requests 
+### Register : Post to "/auth/register"
+Requires : body.username, body.password, body.email, body.nickname.
+If all events were sucessfull an email with a confirmation code has been sent to body.email !
+
+### Confirm account  : Post to "/confirm_account/:username/:code"
+Returns a cookie session that the user can authentificate with in case of sucess
 
 ## Definition of done
 ### Sprint
