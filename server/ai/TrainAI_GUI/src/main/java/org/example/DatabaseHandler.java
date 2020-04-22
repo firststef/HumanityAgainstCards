@@ -37,6 +37,8 @@ public class DatabaseHandler {
                 .find(and(eq("whiteCardId",whiteCard.getInteger("_id")),eq("blackCardId",blackCard.getInteger("_id"))))
                 .first();
 
+        System.out.println(relation1.toJson());
+        
         database.getCollection("blackcard_whitecard_relation")
                 .updateOne(
                         and(eq("whiteCardId",whiteCard.getInteger("_id")),eq("blackCardId",blackCard.getInteger("_id"))),
