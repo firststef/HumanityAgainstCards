@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HumanityAgainstCards</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="assets/css/forms.css" rel="stylesheet">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=renderButton" async defer></script>
+    <meta name="google-signin-client_id" content="945504638879-lqa4rk05tp6frcg4ot101b62hcdqcdfa.apps.googleusercontent.com">
+</head>
+<body>
+    <div class="container" id="no-login">
+        <div class="row">
+            <div class="col-md-6 login-form">
+                <h3>Login with</h3>
+                <form>
+                    <div class="form-group">
+                       
+                        <!--Google-->
+                        <div class="g-signin2" id="gsg" data-onsuccess="onSignIn"></div>
+
+                    </div>
+                    <div class="form-group">
+                    <h5>OR</h5>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="email/username" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="password" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btnSubmit" value="Login" />
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="ForgetPwd">Forget Password?</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6 signup-form">
+                <h3>Signup</h3>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="name" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="username" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="email" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="password" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btnSubmit" value="Signup" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="userContent" id="logged" style="display: none;">
+        <h1 >Te-ai logat cu Goagal, saracule !</h1><br>
+        <div id="profile"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+body{
+    background: #E6E6FA;
+}
+.container{
+    margin-top: 7%;
+    margin-bottom: 5%;
+    flex-basis: auto;
+    overflow: auto;
+}
+.login-form{
+    padding: 5%;
+    background: #87CEEB;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form h3,
+.login-form h5{
+    text-align: center;
+    color: #333;
+}
+.signup-form{
+    padding: 5%;
+    background: #0062cc;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.signup-form h3{
+    text-align: center;
+    color: #fff;
+}
+.container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.login-form .btnSubmit{
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+.signup-form .btnSubmit{
+    font-weight: 600;
+    color: #0062cc;
+    background-color: #fff;
+}
+
+.login-form .ForgetPwd{
+    color: #0062cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.userContent h1{
+    text-align:center;
+}
+
+/*
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 70%;
+        width: 80%;
+
+    }
+
+
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+
+}
+
+
+
+
+/*
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    .container{
+        align-self: center;
+        margin-top: 5%;
+        height: 40%;
+
+    }
+
+}
+
+/*
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+
+}
+
+/*
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media screen and (min-width: 1025px) and (max-width: 1280px){
+
+    .container{
+        align-self: center;
+        margin-top: 20%;
+        height: 40%;
+
+    }
+}
