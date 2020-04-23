@@ -25,8 +25,15 @@ public class DatabaseHandler {
 
     List<Document> getWhiteCards(){
         List<Document> tmp = new ArrayList<>();
-        for(int i = 0 ; i<10 ;i++){
-            tmp.add(whiteCards.get((int) (Math.random() * whiteCards.size())));
+        Document whiteCard;
+        int i=1;
+        tmp.add(whiteCards.get((int) (Math.random() * whiteCards.size())));
+        while(i<10){
+            whiteCard = whiteCards.get((int) (Math.random() * whiteCards.size()));
+            if(!tmp.contains(whiteCard)){
+                tmp.add(whiteCard);
+                i++;
+            }
         }
         return tmp;
     }
@@ -38,7 +45,7 @@ public class DatabaseHandler {
                 .first();
 
         System.out.println(relation1.toJson());
-        
+
         database.getCollection("blackcard_whitecard_relation")
                 .updateOne(
                         and(eq("whiteCardId",whiteCard.getInteger("_id")),eq("blackCardId",blackCard.getInteger("_id"))),
