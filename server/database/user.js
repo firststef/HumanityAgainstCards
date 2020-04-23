@@ -15,7 +15,7 @@ module.exports = {
 			.collection("user")
 			.find({"session.value":session},
 				{
-				id:1,
+				_id:1,
 				username: 0,
 				password: 0,
 				email: 0,
