@@ -43,4 +43,5 @@ require("./routes/auth/confirm_account")(app);
 require("./routes/auth/worker/clean_outdated_accounts");
 require("./utils/database");
 require("./mail/connect");
+require("./routes/auth/connect");
 

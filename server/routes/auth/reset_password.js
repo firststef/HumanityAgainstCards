@@ -2,9 +2,12 @@ const config = require("../../config"),
 	color = require("../../colors"),
 	log = require("../../utils/log"),
 	user = require("../../database/user"),
+	fs = require("fs"),
+	path = require("path"),
+	mail = require("./connect"),
 	generate = require("../../utils/generate"),
-	encode = require("../../utils/encode");
-mongoose = require("mongoose");
+	encode = require("../../utils/encode"),
+mongoose = require("mongoose"),
 f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
@@ -13,35 +16,32 @@ module.exports = function (app) {
 			if (!req.body.email || typeof req.body.email !== "string") throw `No email provided !`;
 			if ((await user.check_email(req.body.email)) == false) throw `this email is not existing !`;
 			if (!req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/)) throw `Invalid email !`;
-
+	
 			transporter = mail.get_transporter();
-
-			let mail = {
-				to: req.body.email,
-				from: "Cards agasint humanity" + config.email.user,
-				subject: "Send your password",
-				html: `
-			   <h1>You requested a Password Reset</h1>
-			   <p>Click this <a href="http://localhost:8081/auth/reset_password/:username">link</a> to set a new password.</p>
-			   <p>If you did not request this change, please Contact us immediately!</p>
-			   `,
-			};
-
-			transporter.sendMail(mail, function (err, info) {
-				if (err) console.log(log.date_now() + f_header, color.red + `Could not connect to the mailing service!, ${err}`);
-				else console.log(log.date_now() + f_header, color.green, `Sent mail as ${config.email.user} ! `);
+			fs.readFile(path.join(__dirname, "./index.html"), "utf8", (err, html) => {
+				if (err) throw err;
+				else {
+					let mail = {
+						to: req.body.email,
+						from: "Cards agasint humanity" + config.email.user,
+						subject: "Send your password",
+						html: html,
+					};
+					transporter.sendMail(mail, function (err, info) {
+						if (err) throw `Could not connect to the mailing service!, ${err}`;
+						//resolve(true);
+						//e un request deci raspunde la el, nu cu resolve reject dintrun prommise
+						res.status(200).send({"status":"sucess"})
+					});
+				}
 			});
-
-			let response = {
-				sucess: true,
-			};
-
-			res.status(200).send(response);
 		} catch (e) {
-			res.status(401).send({ sucess: false, reason: e });
+			console.log(log.date_now() + f_header, color.red + e);
+			res.status(500).send({status:"fail","err":e})
+			//reject(false);
 		}
 	});
-
+	
 	app.post("/auth/reset_password/:username", async (req, res) => {
 		try {
 			if (!req.body.new_password || typeof req.body.new_password !== "string") throw `No new password provided !`;
@@ -70,3 +70,4 @@ module.exports = function (app) {
 		}
 	});
 };
+
