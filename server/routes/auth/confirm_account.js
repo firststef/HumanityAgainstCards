@@ -29,7 +29,7 @@ module.exports = function (app) {
 
 			let session = {
 				value: cookie_session,
-				expire: Date.now() + 1000 * 60 * 60 * 24 * 3, // 3 days
+				expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
 			};
 
             user_obj.session = session;
