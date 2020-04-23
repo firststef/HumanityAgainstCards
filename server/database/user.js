@@ -6,6 +6,36 @@ const config = require("../config"),
 
 module.exports = {
 	/**
+	 * returns the id of the user with the session.value= @session 
+	 */
+	get_user_id: (session) =>
+	new Promise((resolve, reject) => {
+		let db = database.get_db();
+		db.db("HumansAgainstCards")
+			.collection("user")
+			.find({"session.value":session},
+				{
+				id:1,
+				username: 0,
+				password: 0,
+				email: 0,
+				name: 0,
+				surname: 0,
+				nickname: 0,
+				"session.value": 0,
+				"session.expire":0
+			 })
+			.toArray(function (err, result) {
+				if (err) {
+					console.log(log.date_now() + f_header, color.red, "Error while extracting data !\n", color.white, err);
+					reject({ err: err });
+				} else {
+					console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
+					resolve(result);
+				}
+			});
+	}),
+	/**
 	 * Checks the presence of a given user in the database
 	 * @param {string} username - The username of the required user
 	 * @param {string} email - The email of the required user

@@ -38,6 +38,7 @@ require("./routes/auth/register")(app);
 require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
+require("./routes/room/rooms")(app);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");
