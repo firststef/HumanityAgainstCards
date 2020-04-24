@@ -17,7 +17,7 @@ class AI {
         this.room_id = room_id;
     }
     async getAiAnswer(black_card, white_cards) {
-        var pick=black_card.pick;
+        var pick=black_card[0].pick;
         // console.log("pick", pick);
         var client;
         var flag=true;
@@ -30,7 +30,7 @@ class AI {
             }
             white_cards.forEach(i => i.forEach(j => white_ids.push(j._id)));
             /* white_cards.forEach(i => i.forEach(j => console.log("i ", i, "j ", j))); */
-            var a = parseInt(black_card._id);
+            var a = parseInt(black_card[0]._id);
             var b = white_ids.map(Number);
             // console.log("b", b);
             var relations = await client.db("HumansAgainstCards").collection("blackcard_whitecard_relation").find({ blackCardId: a, whiteCardId: { $in: b } }).toArray();
