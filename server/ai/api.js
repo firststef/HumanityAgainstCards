@@ -17,7 +17,7 @@ class AI {
         this.room_id = room_id;
     }
     async getAiAnswer(black_card, white_cards) {
-        var pick=black_card[0].pick;
+        var pick=black_card.pick;
         // console.log("pick", pick);
         var client;
         var flag=true;
@@ -30,7 +30,7 @@ class AI {
             }
             white_cards.forEach(i => i.forEach(j => white_ids.push(j._id)));
             /* white_cards.forEach(i => i.forEach(j => console.log("i ", i, "j ", j))); */
-            var a = parseInt(black_card[0]._id);
+            var a = parseInt(black_card._id);
             var b = white_ids.map(Number);
             // console.log("b", b);
             var relations = await client.db("HumansAgainstCards").collection("blackcard_whitecard_relation").find({ blackCardId: a, whiteCardId: { $in: b } }).toArray();
@@ -141,7 +141,7 @@ app.get('/ai', (req, res) => {
     var aiAnswer = new AI(req.query.room_id);
     if (req.query.request === "getAiAnswer") {
         (async () => {
-            r = await aiAnswer.getAiAnswer(x.black_card, x.white_cards);
+            r = await aiAnswer.getAiAnswer(x.black_card[0], x.white_cards);
             // console.log(r);
             return r;
 
@@ -158,7 +158,7 @@ app.get('/ai', (req, res) => {
             var r="Success"
             x.white_cards.forEach(i =>  {
                 (async () => {
-                    r1=await aiAnswer.trainAi(parseInt(x.black_card._id), parseInt(i._id));
+                    r1=await aiAnswer.trainAi(parseInt(x.black_card[0]._id), parseInt(i._id));
                     if (r1=="Error")
                         r=r1;
                 })();

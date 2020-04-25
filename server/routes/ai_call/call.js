@@ -26,7 +26,7 @@ module.exports = function (app) {
             var s1 = 'http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": ';
             var s2 = ',  "white_cards": ';
             var myUrl = s1.concat(JSON.stringify(black_card), s2, JSON.stringify(white_cards), '}');
-            console.log(myUrl);
+            //console.log(myUrl);
             request({
                 url: myUrl, 
                 method: 'GET'

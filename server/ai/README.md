@@ -19,12 +19,14 @@
     - setProbability
   - parametrul 3: (**param**), contine parametrii fiecarui tip de request.
     - pentru *getAiAnswer*: {*"black_card"*: "JSON.stringify(blackCard)", *"white_cards"*: JSON.stringify(whiteCardsList) }
+      - blackCard este un array : [card]
       - whiteCardsList este un array de array-uri : [[card1], [card2], [card3], ..]
       - numai atunci cand AI-ul este czar pot fi array-uri de forma : [[card1_1, card1_2], [card2_1, card2_1], ..]
       - intoarce un mesaj de succes si doar unul dintre arrayurile din whiteCardsList in format JSON
       - {"answer":"Success","result":[{"_id":"2","text":"Autocannibalism."}]}
       - {"answer":"Success","result":[{"_id":"1","text":"Man meat."},{"_id":"2","text":"Autocannibalism."}]}
-    - pentru *trainAi*: {*"black_card"*: "JSON.stringify(blackCard)a", *"white_cards"*: "JSON.stringify(whiteCards)" }
+    - pentru *trainAi*: {*"black_card"*: "JSON.stringify(blackCard)", *"white_cards"*: "JSON.stringify(whiteCards)" }
+      - blackCard este un array : [card]
       - in acest caz, whiteCards este doar un array: [card], sau [card1, card2, ..]
       - intoarce doar un mesaj de succes
       - {"answer":"Success"}
@@ -40,19 +42,19 @@
 
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": { "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" },  "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text": "Autocannibalism."}], [{ "_id": "4", "text":  "Man meat."}], [{ "_id": "3", "text": "Autocannibalism."}]] }
+http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }],  "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text": "Autocannibalism."}], [{ "_id": "4", "text":  "Man meat."}], [{ "_id": "3", "text": "Autocannibalism."}]] }
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": { "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" },  "white_cards": [[{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text": "Autocannibalism."}], [{ "_id": "3", "text": "Autocannibalism."}, { "_id": "4", "text":  "Man meat."}]] }
+http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }],  "white_cards": [[{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text": "Autocannibalism."}], [{ "_id": "3", "text": "Autocannibalism."}, { "_id": "4", "text":  "Man meat."}]] }
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": { "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }, "white_cards": [{ "_id": "1", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}]}
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": { "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }, "white_cards": [{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text":  "Man meat."}]}
 ```
 
 ```javascript
