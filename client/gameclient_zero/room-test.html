@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Room HAC</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="room-test.css">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href="room-test.css" rel="stylesheet">
 </head>
-<body>
+<body onload="load();">
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="javascript:void(0)">Humanity Against Cards</a>
-    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
-            data-target="#navb" aria-expanded="false">
+    <button aria-expanded="false" class="navbar-toggler navbar-toggler-right collapsed" data-target="#navb"
+            data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="navbar-collapse collapse" id="navb">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a id="game-id" class="navbar-brand" href="#">Game ID: 123abc</a>
+                <a class="navbar-brand" href="#" id="game-id">Game ID: 123abc</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="login-register.html">Login/Register</a>
@@ -33,149 +33,55 @@
 </nav>
 
 <div class="room-info">
-    <div id="upper_row"><!-- TODO on desktop other-played should be right of current black card, on mobile make it move under, add delimiter bars -->
-        <div class="current-black-card">
-            <div class="card bg-dark mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
+    <div id="upper_row">
+        <!-- TODO on desktop other-played should be right of current black card, on mobile make it move under, add delimiter bars -->
+        <div class="current-black-card" id="currentBlackCard">
+
         </div>
         <div class="other-played-cards">
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
-            <div class="card bg-light mb-3">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-            </div>
+
         </div>
-        <div class="score-board">
-        <table class="table table-dark">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Score</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>2</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="score-board" id="scoreBoard">
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 
     <div id="separator">
         <h2>Your cards</h2>
     </div>
 
-    <div class="player-hand">
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
-        <div class="card bg-light mb-3">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-            </div>
-        </div>
+    <div class="player-hand" id="playerHand">
+
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+    //Workaround for require on client, plz dont kill
+    var module = {exports: {}};
+    function require() {
+        return module.exports;
+    }
+</script>
+<script src="../gameclient/basedata.js"></script>
+<script src="../gameclient/gameclient.js"></script>
+<script src="room.js"></script>
 <script>
     document.getElementById('game-id').onclick = function copyGameId() {
         let gameid = document.getElementById('game-id').innerHTML;

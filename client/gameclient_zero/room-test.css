@@ -24,7 +24,6 @@ body::-webkit-scrollbar {
 .score-board {
     margin-right: -10px;
     margin-top: -10px;
-    max-width: 10%;
     max-height: 300px;
 }
 
@@ -45,6 +44,7 @@ body::-webkit-scrollbar {
     justify-content: flex-start;
     align-items: flex-end;
     align-self: flex-end;
+    padding-bottom: 10px;
 }
 
 .card {
@@ -59,8 +59,13 @@ body::-webkit-scrollbar {
     margin: 0;
 }
 
+.card-body:active {
+    background: lightblue;
+}
+
 .card:hover {
     transform: scale(1.2);
+    z-index: 1;
 }
 
 @media only screen and (max-width: 1100px) {
