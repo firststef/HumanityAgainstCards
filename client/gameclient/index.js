@@ -27,6 +27,7 @@ function initFrontend(){
 }
 
 function fakeRequest(data, callback) {
+    console.log("data", data);
     fetch('http://localhost:8081/game_manager/response',{
             method: 'POST',
             mode: 'cors',
@@ -62,10 +63,12 @@ function fakeRequest(data, callback) {
 
 function requestUpdate() {
     let input = getUserInput();
-    gameClient.update(input);
+    let updated = gameClient.update(input);
+    if (updated === 'no-change')
+        return;
 
-    let request = gameClient.getNecessaryData();
-    fakeRequest(request, update);
+    let requestedData = gameClient.getNecessaryData();
+    fakeRequest(requestedData, update);
 }
 function update(response){
     let changes = gameClient.putData(response);
@@ -87,8 +90,11 @@ function getUserInput() {
         ];
     }
     else{
+        if (gameClient.getSelectedSets().length === 0)
+            return [1999];
+
         return [
-            (gameClient.getSelectedSets()[0] && gameClient.getSelectedSets()[0][0] && gameClient.getSelectedSets()[0][0].id) ?
+            (gameClient.getSelectedSets()[0] && gameClient.getSelectedSets()[0][0] && gameClient.getSelectedSets()[0][0].id) !== null ?
                 gameClient.getSelectedSets()[0][0].id :
                 (gameClient.getSelectedSets()[1] && gameClient.getSelectedSets()[1][0] && gameClient.getSelectedSets()[1][0].id)
         ];
