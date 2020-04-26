@@ -24,13 +24,12 @@ module.exports = function (app) {
 					let mail = {
 						to: req.body.email,
 						from: "Cards agasint humanity" + config.email.user,
-						subject: "Send your password",
+						subject: "Reset your password",
 						html: html,
 					};
 					transporter.sendMail(mail, function (err, info) {
 						if (err) throw `Could not connect to the mailing service!, ${err}`;
-						//resolve(true);
-						//e un request deci raspunde la el, nu cu resolve reject dintrun prommise
+						
 						res.status(200).send({"status":"sucess"})
 					});
 				}
@@ -38,7 +37,7 @@ module.exports = function (app) {
 		} catch (e) {
 			console.log(log.date_now() + f_header, color.red + e);
 			res.status(500).send({status:"fail","err":e})
-			//reject(false);
+			
 		}
 	});
 	
