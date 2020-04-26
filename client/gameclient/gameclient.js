@@ -72,6 +72,7 @@ class GameClient {
         }
         else if (this.state === basedata.GameStates.GAME_END){
             console.log('Game has ended');
+            process.exit(0);
         }
     }
 
@@ -111,6 +112,8 @@ class GameClient {
                 player_id: this.id
             }
         }
+
+        return 'no-change';
     }
 
     putData (data){
