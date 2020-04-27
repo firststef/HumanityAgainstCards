@@ -1,3 +1,7 @@
+body {
+  background:#343a40;
+}
+
 .lobbies {
   padding-top: 60px;
 }
@@ -38,11 +42,17 @@
     width: 100%;
     margin-top: 10px;
   }
-}
 
-@media only screen and (min-width:768px) and (max-width: 768px) {
-  #search-bar {
+  #search {
     width: 100%;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 }
+
+/* @media only screen and (min-width:576px) and (max-width: 768px) {
+  #search {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+} */

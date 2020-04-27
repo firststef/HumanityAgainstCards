@@ -1,0 +1,10 @@
+De imbunatatit:
+Fontul de pe carti mai vizibil pe telefon
+Introducerea scoreboard-ului ca si buton pe mobil
+Finisarea layout-ului pentru camera de joc (repozitionarea cartilor astfel incat sa nu mai fie suprapuse, repozitionarea scoreboard-ului)
+
+Ce ne-a placut:
+Design-ul cartilor
+Posibilitatea de a filtra camerele dupa GameID
+Layout-ul pentru camera de joc
+Desgin-ul scoreboard-ul
