@@ -28,24 +28,23 @@ class GameManager {
         playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid)));
         //here add foreach ai player an ai player with a flag and unique id for ai
 
-
         //init selected cards array for each player
-        for(var i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
-            this.selectedWhiteCards[i] = new Array(2);
+        for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
+            this.selectedWhiteCards[i] = new Array(3);
         }
     }
 
     getBlackCard(){
         //todo: request card
-        this.commonBlackCard = new basedata.Card(999, 'Black Card', 'Some black card text');
+        this.commonBlackCard = new basedata.Card(999, 'Some black card text');
         this.blackCardType = 2;
     }
 
     resetData(){
         this.readyPlayers = 0;
         this.selectedWhiteCards = [];
-        for(var i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
-            this.selectedWhiteCards[i] = new Array(2);
+        for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
+            this.selectedWhiteCards[i] = new Array(3);
         }
         this.winningCardSet = [];
         this.waitEnded_Players = false;
@@ -75,7 +74,7 @@ class GameManager {
             }
 
             [...Array(10).keys()].forEach((x) => {
-                let card = new basedata.Card(this.generateCardId, getRandomString(), getRandomString());
+                let card = new basedata.Card(this.generateCardId, getRandomString());
                 this.generateCardId++;
                 card_lst.push(card);
                 this.playerList[playerIndex].cards.push(card);
@@ -247,7 +246,7 @@ class GameManager {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.CZAR;
                 } else {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.PLAYER;
-                    let card = new basedata.Card(555, "White card", "Something...");
+                    let card = new basedata.Card(555, "Something...");
                     this.playerList[playerIndex].cards.push(card);
                     console.log(card);
                     returnObject.white_card = card;

@@ -1,6 +1,6 @@
 // const nume = require(path-ul fisierului)
 const fetch = require('node-fetch');
-const parent=require('./library');
+const parent = require('./library');
 
 /** FRONTEND CODE START */
 //Constants & Vars
@@ -27,7 +27,7 @@ function initFrontend(){
 }
 
 function fakeRequest(data, callback) {
-    data.session = 'abc';
+    console.log("data", data);
     fetch('http://localhost:8081/game_manager/response',{
             method: 'POST',
             mode: 'cors',
@@ -46,7 +46,7 @@ function fakeRequest(data, callback) {
         //if valid
         if (response !== undefined) {
             if (response.success === false) {
-                console.log('[ERROR] Server error: ' + response.err);
+                console.log('[ERROR] Server error: ' + JSON.stringify(response.err));
             }else{
                 if(response.data.error !== undefined)
                     console.log(response.data.error);
@@ -63,10 +63,12 @@ function fakeRequest(data, callback) {
 
 function requestUpdate() {
     let input = getUserInput();
-    gameClient.update(input);
+    let updated = gameClient.update(input);
+    if (updated === 'no-change')
+        return;
 
-    let request = gameClient.getNecessaryData();
-    fakeRequest(request, update);
+    let requestedData = gameClient.getNecessaryData();
+    fakeRequest(requestedData, update);
 }
 function update(response){
     let changes = gameClient.putData(response);
@@ -80,10 +82,23 @@ function applyChanges(changes) {
 function getUserInput() {
     console.log('Checked for input');
     //czar chooses the index for a card set instead of individual cards
-    return {
-        card_index: 0,
-        card_index_second: 1
-    };
+    if (gameClient.getPlayerType() === 1) {
+        return [
+            gameClient.getCards()[0] && gameClient.getCards()[0].id,
+            gameClient.getCards()[1] && gameClient.getCards()[1].id,
+            gameClient.getCards()[2] && gameClient.getCards()[2].id
+        ];
+    }
+    else{
+        if (gameClient.getSelectedSets().length === 0)
+            return [1999];
+
+        return [
+            (gameClient.getSelectedSets()[0] && gameClient.getSelectedSets()[0][0] && gameClient.getSelectedSets()[0][0].id) !== null ?
+                gameClient.getSelectedSets()[0][0].id :
+                (gameClient.getSelectedSets()[1] && gameClient.getSelectedSets()[1][0] && gameClient.getSelectedSets()[1][0].id)
+        ];
+    }
 }
 /** FRONTEND CODE END*/
 

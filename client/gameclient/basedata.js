@@ -31,9 +31,8 @@ const PlayerTypes = {
 };
 
 class Card {
-    constructor(id, name, text) {
+    constructor(id, text) {
         this.id = id;
-        this.name = name;
         this.text = text;
     }
 }
@@ -42,7 +41,7 @@ class Card {
 class Player {
     constructor(id) {
         this.id = id;
-        this.name = '';
+        this.name = 'player';
         this.points = 0;
         this.cards = [];
         this.type = null;

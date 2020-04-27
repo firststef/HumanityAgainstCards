@@ -141,7 +141,7 @@ app.get('/ai', (req, res) => {
     var aiAnswer = new AI(req.query.room_id);
     if (req.query.request === "getAiAnswer") {
         (async () => {
-            r = await aiAnswer.getAiAnswer(x.black_card, x.white_cards);
+            r = await aiAnswer.getAiAnswer(x.black_card[0], x.white_cards);
             // console.log(r);
             return r;
 
@@ -158,7 +158,7 @@ app.get('/ai', (req, res) => {
             var r="Success"
             x.white_cards.forEach(i =>  {
                 (async () => {
-                    r1=await aiAnswer.trainAi(parseInt(x.black_card._id), parseInt(i._id));
+                    r1=await aiAnswer.trainAi(parseInt(x.black_card[0]._id), parseInt(i._id));
                     if (r1=="Error")
                         r=r1;
                 })();

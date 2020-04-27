@@ -1,6 +1,5 @@
 const basedata=require('./basedata');
 
-
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 
 class GameClient {
@@ -21,7 +20,6 @@ class GameClient {
         this.playerIndex = -1;
         this.currentCzarIndex = null;
         this.winnerPlayer = null;
-        this.counter = 0;
         this.state = basedata.GameStates.INITIAL;
 
         this.test = false;
@@ -31,49 +29,54 @@ class GameClient {
         if(this.type === 0) console.log('Player is CZAR');
         else console.log('Player is NORMAL');
 
+        if (data.length === 0)
+            return;
+
         if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
             if (this.type === basedata.PlayerTypes.PLAYER) {
-                this.counter++;
-                if (data.card_index < this.cards.length) {
-                    this.choice = [];
-                    this.choice.push(this.cards[data.card_index]);
-                    if(this.blackCardType > 1)
-                        this.choice.push(this.cards[data.card_index_second])
-                    this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
-                }
+                this.choice = [];
+                data.forEach(c_id => {
+                    let cardIndex = this.cards.findIndex(card => card.id === c_id);
+                    if (cardIndex === -1) {
+                        throw 'error - cardId not in hand';
+                    }
+                    this.choice.push(this.cards[cardIndex]);
+                });
+                this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
             }
             else{ //czar chooses the index for a card set instead of individual cards; czar might pick a null set!!!
-                if (data.card_index < this.selectedWhiteCardSets.length) {
-                    if(this.selectedWhiteCardSets[data.card_index][0] !== null)
-                        this.choice = data.card_index;
-                    else
-                        this.choice = (data.card_index+1)%this.playerList.length;
-                    this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+                let index = 0;
+                for (let set of this.selectedWhiteCardSets){
+                    for (let card of set){
+                        if (card !== null && data[0] === parseInt(card.id)){
+                            this.choice = index;
+                            this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+                            return;
+                        }
+                    }
+                    index++;
                 }
+
+                throw 'error - cardIndex not in selection';
             }
         }
-
-        if (this.state === basedata.GameStates.END_ROUND){
+        else if (this.state === basedata.GameStates.END_ROUND){
             console.log('Round ended');
         }
-
-        if (this.state === basedata.GameStates.WAIT_FOR_PLAYERS){
+        else if (this.state === basedata.GameStates.WAIT_FOR_PLAYERS){
             console.log('Waiting for other normal players to choose card');
         }
-
-        if (this.state === basedata.GameStates.WAIT_FOR_CZAR){
+        else if (this.state === basedata.GameStates.WAIT_FOR_CZAR){
             console.log('Waiting for czar to choose card');
         }
-
-        if (this.state === basedata.GameStates.GAME_END){
+        else if (this.state === basedata.GameStates.GAME_END){
             console.log('Game has ended');
-            process.exit(0); //todo: remove this, only for testing
+            process.exit(0);
         }
     }
 
     getNecessaryData(){
-
         if (this.state === basedata.GameStates.INITIAL) {
             return {
                 header: basedata.RequestHeaders.REQUEST_BEGIN_GAME,
@@ -110,11 +113,10 @@ class GameClient {
             }
         }
 
-        return 'error';
+        return 'no-change';
     }
 
     putData (data){
-
         console.log('[PID] ' + this.id);
         /**
          * Init white cards, black card, player list and type
@@ -142,7 +144,6 @@ class GameClient {
                 black_card: this.commonBlackCard,
                 black_card_type: this.blackCardType,
                 player_list: this.playerList
-
             }
         }
 
@@ -247,8 +248,29 @@ class GameClient {
             }
         }
 
-        return 'error';
+        return 'no-change';
+    }
+
+    getBlackCardPick(){
+        return this.blackCardType;
+    }
+
+    getCards(){
+        return this.cards;
+    }
+
+    getPlayerType(){
+        return this.type;
+    }
+
+    getSelectedSets(){
+        return this.selectedWhiteCardSets;
     }
 }
 
 module.exports.GameClient = GameClient;
+
+//TODO: sincronizat playerlist
+//TODO: add development option to hide all console logs
+//TODO: for every request check if error field is present
+//TODO: cleaner, conventioned error handling
