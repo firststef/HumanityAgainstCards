@@ -22,8 +22,10 @@ module.exports = function (app) {
                 response = await game_manager.response(req.body);
             }
             if (response === "error") throw `Ackward client error thrown "${response}"`;
+            console.log(JSON.stringify({  success: true, data: response }));
             res.status(200).send(JSON.stringify({  success: true, data: response }));
         } catch (e) {
+            console.log(JSON.stringify({ success: false, err: e }));
             res.status(417).send(JSON.stringify({ success: false, err: e }));
         }
     });

@@ -29,6 +29,9 @@ class GameClient {
         if(this.type === 0) console.log('Player is CZAR');
         else console.log('Player is NORMAL');
 
+        if (data.length === 0)
+            return;
+
         if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
             if (this.type === basedata.PlayerTypes.PLAYER) {
@@ -36,24 +39,26 @@ class GameClient {
                 data.forEach(c_id => {
                     let cardIndex = this.cards.findIndex(card => card.id === c_id);
                     if (cardIndex === -1) {
-                        return 'error - cardId not in hand';
+                        throw 'error - cardId not in hand';
                     }
                     this.choice.push(this.cards[cardIndex]);
                 });
                 this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
             }
             else{ //czar chooses the index for a card set instead of individual cards; czar might pick a null set!!!
-                for (let set in this.selectedWhiteCardSets){
-                    for (let id in set){
-                        if (data[0] === parseInt(id)){
-                            this.choice = data[0];
+                let index = 0;
+                for (let set of this.selectedWhiteCardSets){
+                    for (let card of set){
+                        if (card !== null && data[0] === parseInt(card.id)){
+                            this.choice = index;
                             this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
                             return;
                         }
                     }
+                    index++;
                 }
 
-                return 'error - cardIndex not in selection';
+                throw 'error - cardIndex not in selection';
             }
         }
         else if (this.state === basedata.GameStates.END_ROUND){
@@ -67,12 +72,11 @@ class GameClient {
         }
         else if (this.state === basedata.GameStates.GAME_END){
             console.log('Game has ended');
-            process.exit(0); //todo: remove this, only for testing
+            process.exit(0);
         }
     }
 
     getNecessaryData(){
-
         if (this.state === basedata.GameStates.INITIAL) {
             return {
                 header: basedata.RequestHeaders.REQUEST_BEGIN_GAME,
@@ -109,11 +113,10 @@ class GameClient {
             }
         }
 
-        return 'error';
+        return 'no-change';
     }
 
     putData (data){
-
         console.log('[PID] ' + this.id);
         /**
          * Init white cards, black card, player list and type
@@ -245,7 +248,7 @@ class GameClient {
             }
         }
 
-        return 'error';
+        return 'no-change';
     }
 
     getBlackCardPick(){
