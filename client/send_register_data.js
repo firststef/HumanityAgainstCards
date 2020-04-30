@@ -11,6 +11,8 @@ function sendRegisterJSON(){
 
     // Creating a XHR object
         let xhr = new XMLHttpRequest(); 
+//TO DO route config
+
         let url = "/server/routes/auth/register.js";
     
         // open a connection 

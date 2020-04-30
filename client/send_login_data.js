@@ -7,6 +7,7 @@ function sendLoginJSON(){
        
     // Creating a XHR object 
     let xhr = new XMLHttpRequest();
+//TO DO route config
     let url = "/server/routes/auth/login.js";
     // open a connection 
     xhr.open("POST", url, true); 
