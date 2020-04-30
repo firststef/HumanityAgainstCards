@@ -84,7 +84,6 @@ body, html {
     font-family: Ringside Regular A,Ringside Regular B,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
     font-size: 15px;
     line-height: 1.2;
-    
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -93,7 +92,6 @@ body, html {
     justify-content: center;
     opacity: 1;
     align-items: center;
-    margin-top: -15px;
     padding: 15px;
     width: calc((100% - 5px) / 2);
     height: 40px;
@@ -253,7 +251,7 @@ body, html {
     .login-register-form-section .nav-tabs > li > a,
     .login-register-form-section .nav-tabs > li.active > a {
 
-        width: screen.width;
+        width: 100vw;
         text-align: center;
         border-radius: 0;
     }
@@ -279,7 +277,7 @@ body, html {
 
     .login-register-form-section .btn-custom {
         font-size: 16px;
-        width: screen.width;
+        width: 100vw;
         height: 40px;
         border-radius: 5px;
     }
