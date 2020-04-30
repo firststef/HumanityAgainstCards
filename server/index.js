@@ -39,6 +39,7 @@ require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
 require("./routes/room/rooms")(app);
+require("./routes/pages/render_page")(app);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");
