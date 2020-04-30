@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Humanity Against Cards</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/lobby.css">
+    <link rel="stylesheet" href="assets/css/room.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="javascript:void(0)">Humanity Against Cards</a>
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="false">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="navbar-collapse collapse" id="navb">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <button type="button" id="createGame" class="btn btn-secondary nav-link" data-toggle="modal" data-target="#room-settings">Create Game</button>
+            </li>
+            <li class="nav-item">
+              <button id="refreshGames" class="btn btn-secondary nav-link">Refresh Games</button>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline my-lg-0">
+                    <input id="search" name="search" class="form-control mr-lg-2" type="text" placeholder="Search" oninput="validate()">
+                </form>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="account.html">Profile</a>
+            </li>
+          </ul>
+
+        </div>
+    </nav>
+
+    <div id="room-settings" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Room Settings</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="settings">
+            <form action="" method="post" class="room-settings">
+              <fieldset>
+                <p>
+                  <label for="score">Score limit</label>
+                  <input type="number" id="score" min="1" max="999" required="required" value="10">
+                </p>
+                <p>
+                  <label for="playerLimit">Player limit</label>
+                  <input type="number" id="playerLimit" min="3" max="20" required="required" value="3">
+                </p>
+                <p>
+                  <label for="spec">Spectator limit</label>
+                  <input type="number" id="spec" min="0" max="20" required="required" value="0">
+                </p>
+                <p>
+                  <label for="idle">Idle time</label>
+                  <input type="number" id="idle" min="1" max="999" required="required" value="10">
+                </p>
+                <p>
+                  <label for="lobbyname">Lobby name</label>
+                  <input type="text" id="lobbyname" required="required" value="User name's room">
+                </p>
+                <p>
+                  <label for="lobbyPassword">Password</label>
+                  <input type="password" name="lobbyPassword" id="lobbyPassword" placeholder="Enter Password">
+                </p>
+                <button type="submit" class="btn btn-success">Submit settings</button>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lobbies" id="lobbies">
+
+        <div class="card" id="123abc">
+            <h5 class="card-header">Room name (8/10 Players) (3/3 Spectators) (In progress)</h5>
+              <div class="card-body">
+              <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+              <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+              <h5 class="card-title">Goal: 10</h5>
+              <p class="card-text">Cards: Base Game (Canada), Base Game (UK), Base Game (Australia), Base Game (International), Base Game (US), Box Expansion Pack, PAX Prime 2014 Pack, 90s Nostalgia Pack, Holiday Pack 2012, Vote for Hillary Pack, Vote for Trump Pack, House of Cards Pack, College Pack, Holiday Pack 2013, Fantasy Pack, Mass Effect Pack, Holiday Pack 2014, NASA Pack, Food Pack, Season's Greetings Pack, PAX East 2013 Pack B, Geek Pack, PAX East 2014 Pack</p>
+              <a href="room-test.html" class="btn btn-primary">Join as Player</a>
+              <a href="room-test.html" class="btn btn-secondary">Join as Spectator</a>
+            </div>
+        </div>
+
+        <div class="card" id="2">
+            <h5 class="card-header">Room name (8/10 Players) (3/3 Spectators) (Waiting for players...)</h5>
+            <div class="card-body">
+            <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Goal: 10</h5>
+            <p class="card-text">Cards: Base Game (Canada), Base Game (UK), Base Game (Australia), Base Game (International), Base Game (US), Box Expansion Pack, PAX Prime 2014 Pack, 90s Nostalgia Pack, Holiday Pack 2012, Vote for Hillary Pack, Vote for Trump Pack, House of Cards Pack, College Pack, Holiday Pack 2013, Fantasy Pack, Mass Effect Pack, Holiday Pack 2014, NASA Pack, Food Pack, Season's Greetings Pack, PAX East 2013 Pack B, Geek Pack, PAX East 2014 Pack</p>
+            <a href="#" class="btn btn-primary">Join as Player</a>
+            <a href="#" class="btn btn-secondary">Join as Spectator</a>
+            </div>
+        </div>
+
+        <div class="card"  id="3">
+            <h5 class="card-header">Room name (8/10 Players) (3/3 Spectators)</h5>
+            <div class="card-body">
+            <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Goal: 10</h5>
+            <p class="card-text">Cards: Base Game (Canada), Base Game (UK), Base Game (Australia), Base Game (International), Base Game (US), Box Expansion Pack, PAX Prime 2014 Pack, 90s Nostalgia Pack, Holiday Pack 2012, Vote for Hillary Pack, Vote for Trump Pack, House of Cards Pack, College Pack, Holiday Pack 2013, Fantasy Pack, Mass Effect Pack, Holiday Pack 2014, NASA Pack, Food Pack, Season's Greetings Pack, PAX East 2013 Pack B, Geek Pack, PAX East 2014 Pack</p>
+            <a href="#" class="btn btn-primary">Join as Player</a>
+            <a href="#" class="btn btn-secondary">Join as Spectator</a>
+            </div>
+        </div>
+
+        <div class="card" id="4">
+            <h5 class="card-header">Room name (8/10 Players) (3/3 Spectators)</h5>
+            <div class="card-body">
+            <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+            <h5 class="card-title">Goal: 10</h5>
+            <p class="card-text">Cards: Base Game (Canada), Base Game (UK), Base Game (Australia), Base Game (International), Base Game (US), Box Expansion Pack, PAX Prime 2014 Pack, 90s Nostalgia Pack, Holiday Pack 2012, Vote for Hillary Pack, Vote for Trump Pack, House of Cards Pack, College Pack, Holiday Pack 2013, Fantasy Pack, Mass Effect Pack, Holiday Pack 2014, NASA Pack, Food Pack, Season's Greetings Pack, PAX East 2013 Pack B, Geek Pack, PAX East 2014 Pack</p>
+            <a href="#" class="btn btn-primary">Join as Player</a>
+            <a href="#" class="btn btn-secondary">Join as Spectator</a>
+            </div>
+        </div>
+
+        <div class="card" id="casa">
+            <h5 class="card-header" >Room name (8/10 Players) (3/3 Spectators)</h5>
+            <div class="card-body">
+                <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+                <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+                <h5 class="card-title">Goal: 10</h5>
+                <p class="card-text">Cards: Base Game (Canada), Base Game (UK), Base Game (Australia), Base Game (International), Base Game (US), Box Expansion Pack, PAX Prime 2014 Pack, 90s Nostalgia Pack, Holiday Pack 2012, Vote for Hillary Pack, Vote for Trump Pack, House of Cards Pack, College Pack, Holiday Pack 2013, Fantasy Pack, Mass Effect Pack, Holiday Pack 2014, NASA Pack, Food Pack, Season's Greetings Pack, PAX East 2013 Pack B, Geek Pack, PAX East 2014 Pack</p>
+                <a href="#" class="btn btn-primary">Join as Player</a>
+                <a href="#" class="btn btn-secondary">Join as Spectator</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var input, li, i;
+            input = document.getElementById('search').value;
+            li = document.getElementsByClassName('card');
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                if (li[i].id==input || input == "") {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
