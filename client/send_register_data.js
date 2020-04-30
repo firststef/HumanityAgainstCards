@@ -41,7 +41,7 @@ function sendRegisterJSON(){
                     server_message.innerHTML='Account created succesfully';
                     //Redirect to log in page
                      window.location.href="login-register.html";
-                     window.location.replace( "login-register.html" )
+                     window.location.replace( "login-register.html" );
 
                 }
                 else{
