@@ -10,7 +10,9 @@ const RequestHeaders = {
     REQUEST_WAIT_ENDED_CZAR: 9,
     RESPONSE_WAIT_ENDED_CZAR: 10,
     REQUEST_END_ROUND: 11,
-    RESPONSE_END_ROUND: 12
+    RESPONSE_END_ROUND: 12,
+    REQUEST_EMPTY: 13,
+    RESPONSE_EMPTY: 14
 };
 Object.freeze(RequestHeaders);
 const GameStates = {

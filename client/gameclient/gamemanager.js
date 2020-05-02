@@ -158,8 +158,6 @@ class GameManager {
                                 }
                             }
                         }
-
-
                     });
                     if (!foundOwner) {
                         return {//todo: error object
@@ -260,7 +258,15 @@ class GameManager {
             return returnObject;
         }
 
-        return 'error';
+        if (data.header === basedata.RequestHeaders.REQUEST_EMPTY){
+            return {
+                header: basedata.RequestHeaders.RESPONSE_EMPTY
+            }
+        }
+
+        return {
+            error: 'Header unknown'
+        };
     }
 }
 function getRandomString() {

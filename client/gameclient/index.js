@@ -64,8 +64,8 @@ function fakeRequest(data, callback) {
 function requestUpdate() {
     let input = getUserInput();
     let updated = gameClient.update(input);
-    if (updated === 'no-change')
-        return;
+    //if (updated === 'no-change')
+    //    return;
 
     let requestedData = gameClient.getNecessaryData();
     fakeRequest(requestedData, update);

@@ -19,9 +19,9 @@ module.exports = function (app) {
                 response = {header: 'sent_id', id: this.SID++};
             }
             else{
-                response = await game_manager.response(req.body);
+                response = game_manager.response(req.body);
             }
-            if (response === "error") throw `Ackward client error thrown "${response}"`;
+            if (response.error !== undefined) throw `Awkward client error thrown "${response}"`;
             console.log(JSON.stringify({  success: true, data: response }));
             res.status(200).send(JSON.stringify({  success: true, data: response }));
         } catch (e) {
