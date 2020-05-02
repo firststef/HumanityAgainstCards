@@ -21,7 +21,7 @@
             <div class="grid-container" id="fp_reset_form">
 
                 <div class="grid-item-1" style="text-align: center;">
-                    <label for="fname">Enter the activation code</label>
+                    <label for="fp_reset_form">Enter the activation code</label>
                 </div>
 
 
@@ -30,8 +30,11 @@
                     <input type="text" id="activation_code" name="activation_code" required>
                 </div>
                 <div class="grid-item-3">
-                    <input type="submit" class="button-Start" value="SEND">
+                    <input type="submit" class="button-Start" value="SEND" onclick="sendActivationCode();">
                 </div>
+                    <span id='activation_message'></span>
+                    <!--Activation message-->
+                    <a id='account_activation' href="../client/auth/client_after_auth/account.html" style="display: none">Go to your profile!</a>
                 </form>
 
             </div>
