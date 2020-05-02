@@ -21,7 +21,7 @@ function initFrontend(){
 
             let interval = setInterval(()=>{
                 requestUpdate();
-            }, 1000);
+            }, 4000);
         }
     });
 }
@@ -82,6 +82,7 @@ function applyChanges(changes) {
 function getUserInput() {
     console.log('Checked for input');
     //czar chooses the index for a card set instead of individual cards
+    return [];
     if (gameClient.getPlayerType() === 1) {
         return [
             gameClient.getCards()[0] && gameClient.getCards()[0].id,

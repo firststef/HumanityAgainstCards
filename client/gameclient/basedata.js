@@ -43,8 +43,9 @@ class Player {
         this.id = id;
         this.name = 'player';
         this.points = 0;
-        this.cards = [];
         this.type = null;
+        this.cards = [];
+        this.timedout = false;
     }
 }
 

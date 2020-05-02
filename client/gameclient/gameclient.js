@@ -29,10 +29,13 @@ class GameClient {
         if(this.type === 0) console.log('Player is CZAR');
         else console.log('Player is NORMAL');
 
-        if (data.length === 0)
-            return;
-
         if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD){
+            if(data.length === 0){
+                console.log('No card chosen');
+                this.choice = [];
+                return;
+            }
+
             console.log('Choosing white card');
             if (this.type === basedata.PlayerTypes.PLAYER) {
                 this.choice = [];
@@ -46,6 +49,12 @@ class GameClient {
                 this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
             }
             else{ //czar chooses the index for a card set instead of individual cards; czar might pick a null set!!!
+
+                if(this.selectedWhiteCardSets === 0) {
+                    console.log("Czar has no sets to choose");
+                    this.choice = [];
+                }
+
                 let index = 0;
                 for (let set of this.selectedWhiteCardSets){
                     for (let card of set){
@@ -81,6 +90,20 @@ class GameClient {
             return {
                 header: basedata.RequestHeaders.REQUEST_BEGIN_GAME,
                 player_id: this.id
+            }
+        }
+
+        if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD) {
+            if (this.type === basedata.PlayerTypes.PLAYER) {
+                return {
+                    header: basedata.RequestHeaders.REQUEST_WAIT_ENDED_PLAYERS,
+                    player_id: this.id
+                }
+            } else {
+                return {
+                    header: basedata.RequestHeaders.REQUEST_WAIT_ENDED_CZAR,
+                    player_id: this.id
+                }
             }
         }
 
@@ -144,6 +167,46 @@ class GameClient {
                 black_card: this.commonBlackCard,
                 black_card_type: this.blackCardType,
                 player_list: this.playerList
+            }
+        }
+
+
+        /**
+         * Behavior for timing out white card choice
+         **/
+        if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD
+            && data.header === basedata.RequestHeaders.RESPONSE_WAIT_ENDED_PLAYERS) {
+            if (data.wait_end === true) {
+                console.log('White card choice timed out');
+                this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+                this.choice = [];
+
+                return {
+                    header: 'white_choice_time_out',
+                }
+            }
+
+            return {
+                header: 'not_yet_timed_out'
+            }
+        }
+
+        /**
+         * Behavior for timing out black card choice
+         */
+        if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD
+            && data.header === basedata.RequestHeaders.RESPONSE_WAIT_ENDED_CZAR) {
+            if (data.wait_end === true) {
+                console.log('Black card choice timed out');
+                this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+                this.choice = [];
+                return {
+                    header: 'black_choice_time_out',
+                }
+            }
+
+            return {
+                header: 'not_yet_timed_out'
             }
         }
 
@@ -229,8 +292,10 @@ class GameClient {
             this.cards = data.cards;
 
             if (this.type === basedata.PlayerTypes.PLAYER) {
-                console.log('Received card: ', data.white_card);
-                this.cards.push(data.white_card);
+                if(data.white_card !== null) {
+                    console.log('Received card: ', data.white_card);
+                    this.cards.push(data.white_card);
+                }
                 this.state = basedata.GameStates.CHOOSE_WHITE_CARD;
                 this.test = true;
                 return {

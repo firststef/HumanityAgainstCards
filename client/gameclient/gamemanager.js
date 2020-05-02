@@ -25,6 +25,11 @@ class GameManager {
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
+        this.timeOut = 5; //seconds to wait for card choice
+        this.elapsedTime = 0;
+        this.timerHandle = null;
+        this.timerStart = 0;
+
         playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid)));
         //here add foreach ai player an ai player with a flag and unique id for ai
 
@@ -32,6 +37,29 @@ class GameManager {
         for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
             this.selectedWhiteCards[i] = new Array(3);
         }
+    }
+
+    timerStep(){
+        this.elapsedTime = (Date.now() - this.timerStart)/1000;
+        console.log(this.elapsedTime);
+        if (this.elapsedTime >= this.timeOut){
+            if(this.waitEnded_Players === false && this.waitEnded_Czar === false){
+                this.waitEnded_Players = true;
+            } else if (this.waitEnded_Players === true && this.waitEnded_Czar === false){
+                this.waitEnded_Czar = true;
+            }
+            this.stopTimer();
+        }
+    }
+
+    startTimer(){
+        this.timerStart = Date.now();
+        this.timerHandle = setInterval(this.timerStep.bind(this), 1000);
+    }
+
+    stopTimer(){
+        clearInterval(this.timerHandle);
+        this.timerHandle = null;
     }
 
     getBlackCard(){
@@ -93,6 +121,10 @@ class GameManager {
                 }
             });
 
+            if(this.timerHandle === null){
+                this.startTimer();
+            }
+
             return {
                 header: basedata.RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: card_lst,
@@ -110,6 +142,13 @@ class GameManager {
         if (data.header === basedata.RequestHeaders.REQUEST_CHOSE_CARD){
             console.log('[SERVER] Client id ' + data.player_id + ' chose cards: ' + data.cards);
             if(this.playerList[playerIndex].type === basedata.PlayerTypes.PLAYER) {
+                if(data.cards.length === 0){
+                    this.playerList[playerIndex].timedout = true;
+                    return {
+                        header: basedata.RequestHeaders.RESPONSE_CHOSE_CARD,
+                        cards: [],
+                    }
+                }
                 //iterate through the normal player selected cards
                 for (let i = 0; i < this.blackCardType; i++) {
                     let cardIndex = this.playerList[playerIndex].cards.findIndex(card => card.id === data.cards[i].id);
@@ -128,6 +167,17 @@ class GameManager {
                  * when czar chooses white card set index in the current round
                  */
 
+                //if czar chose nothing, move on
+                if(data.cards.length === 0){
+                    this.playerList[playerIndex].timedout = true;
+                    this.winningCardSet = [];
+                    this.waitEnded_Czar = true;
+                    this.currentCzarIndex = (this.currentCzarIndex + 1) % this.numberOfPlayers;
+                    return {
+                        header: basedata.RequestHeaders.RESPONSE_CHOSE_CARD,
+                        cards: [],
+                    }
+                }
 
                 //for czar, data.cards is the index in selectedWhiteCards
                 if (data.cards < this.selectedWhiteCards.length){
@@ -145,7 +195,7 @@ class GameManager {
                                 }
                                 console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
                             }
-                            //from every player deleting the cards he used
+                            //from every player delete the cards he used
                             for (let i = 0; i < this.blackCardType; i++) {
                                 let tempPlayerIndex = this.playerList.findIndex(p => p.id === player.id);
                                 let cardIndex = player.cards.findIndex(card => card.id === this.selectedWhiteCards[tempPlayerIndex][i].id);
@@ -201,6 +251,12 @@ class GameManager {
          */
         if(data.header === basedata.RequestHeaders.REQUEST_WAIT_ENDED_PLAYERS){
             console.log('[SERVER] Client requested game status');
+            //start timer for czar
+            if(this.waitEnded_Players === true){
+                if(this.timerHandle === null){
+                    this.startTimer();
+                }
+            }
             return {
                 header: basedata.RequestHeaders.RESPONSE_WAIT_ENDED_PLAYERS,
                 selected_cards: this.selectedWhiteCards,
@@ -228,6 +284,7 @@ class GameManager {
          */
         if(data.header === basedata.RequestHeaders.REQUEST_END_ROUND) {
             console.log('[SERVER] Client id ' + data.player_id + ' requested end round');
+
             let returnObject = {};
 
             returnObject.winner_player = this.winnerPlayer;
@@ -241,12 +298,21 @@ class GameManager {
                 console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
                 this.resetData();
 
+                if(this.timerHandle === null){
+                    this.startTimer();
+                }
+
                 if(playerIndex === this.currentCzarIndex){
                     console.log('Player id ' + this.playerList[playerIndex].id + ' is czar');
                     this.playerList[playerIndex].type = basedata.PlayerTypes.CZAR;
                 } else {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.PLAYER;
-                    let card = new basedata.Card(555, "Something...");
+                    let card = null;
+                    //request white card here
+                    if(this.playerList[playerIndex].timedout === false) {
+                        card = new basedata.Card(555, "Something...");
+                    }
+                    this.playerList[playerIndex].timedout = false;
                     this.playerList[playerIndex].cards.push(card);
                     console.log(card);
                     returnObject.white_card = card;
