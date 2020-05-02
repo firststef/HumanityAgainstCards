@@ -30,7 +30,7 @@ class GameClient {
         else console.log('Player is NORMAL');
 
         if (data.length === 0)
-            return;
+            return ;
 
         if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
@@ -113,7 +113,10 @@ class GameClient {
             }
         }
 
-        return 'no-change';
+        return {
+            header: basedata.RequestHeaders.REQUEST_EMPTY,
+            player_id: this.id
+        };
     }
 
     putData (data){
@@ -248,7 +251,15 @@ class GameClient {
             }
         }
 
-        return 'no-change';
+        if(data.header === basedata.RequestHeaders.RESPONSE_EMPTY){
+            return {
+                header: 'no-change'
+            };
+        }
+
+        return {
+            header:'error - unknown header'
+        };
     }
 
     getBlackCardPick(){

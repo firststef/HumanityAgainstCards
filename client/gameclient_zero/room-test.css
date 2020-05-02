@@ -78,6 +78,19 @@ body::-webkit-scrollbar {
     z-index: 1;
 }
 
+.card-set {
+    border: blue solid 2px;
+}
+
+.card-set .card {
+    height: 150px;
+    width: 100px;
+}
+
+.submit-button {
+    display: none;
+}
+
 @media only screen and (max-width: 1100px) {
     /* For mobile phones: */
     #upper_row {
