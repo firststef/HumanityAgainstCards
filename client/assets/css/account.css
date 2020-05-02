@@ -1,0 +1,20 @@
+
+
+#account{
+    margin-left: 10%;
+    margin-top: 10%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 80%;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+
+
+
+

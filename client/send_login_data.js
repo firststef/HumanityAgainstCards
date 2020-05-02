@@ -6,8 +6,9 @@ function sendLoginJSON(){
     server_message.style.color='red';
        
     // Creating a XHR object 
-    let xhr = new XMLHttpRequest(); 
-    let url = "/server/routes/auth/login"; 
+    let xhr = new XMLHttpRequest();
+//TO DO route config
+    let url = "/server/routes/auth/login.js";
     // open a connection 
     xhr.open("POST", url, true); 
 
@@ -34,12 +35,15 @@ function sendLoginJSON(){
         //set cookie
             document.cookie=response.session;
         //redirect to lobby page
-            window.location.href="lobbies.html";
+            window.location.replace( "lobbies.html" );
 
         }
         else{
-            var response = JSON.parse(xhr.responseText);
-            server_message.innerHTML = response.reason;
+            // var response = JSON.parse(xhr.responseText);
+            // server_message.innerHTML = response.reason;
+            server_message.innerHTML = 'Input not valid';
+            window.onwaiting();
+
         }
     }
  

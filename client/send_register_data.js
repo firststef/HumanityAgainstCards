@@ -6,23 +6,27 @@ function sendRegisterJSON(){
         let password = document.getElementById('register_password');
     
         server_message.style.color='red';
-           
-        // Creating a XHR object 
+         console.log("Script for req");
+
+
+    // Creating a XHR object
         let xhr = new XMLHttpRequest(); 
-        let url = "/server/routes/auth/register"; 
+//TO DO route config
+
+        let url = "/server/routes/auth/register.js";
     
         // open a connection 
-        xhr.open("POST", url, true); 
-    
-        // Set the request header i.e. which type of content you are sending 
+        xhr.open("POST", url, true);
+        // Set the request header i.e. which type of content you are sending
         xhr.setRequestHeader("Content-Type", "application/json"); 
 
         // Converting JSON data to string 
         var data = JSON.stringify({ "username": user.value, "password": pass.value, "email": email.value, "nickname": nickname.value }); 
         // Sending data with the request 
-        xhr.send(data); 
+        xhr.send(data);
 
-        xhr.addEventListener("readystatechange", processRequest, false);
+
+    xhr.addEventListener("readystatechange", processRequest, false);
         xhr.onreadystatechange = processRequest;
      
 
@@ -35,12 +39,14 @@ function sendRegisterJSON(){
                 if(xhr.status==200){
                     server_message.style.color='green';
                     server_message.innerHTML='Account created succesfully';
-                   //Redirect to log in page
-                    window.location.href="login-register.html";
+                    //Redirect to log in page
+                     window.location.href="login-register.html";
+                     window.location.replace( "login-register.html" );
+
                 }
                 else{
-                    var response = JSON.parse(xhr.responseText);
-                    server_message.innerHTML = response.e;
+                    // var response = JSON.parse(xhr.responseType);
+                    server_message.innerHTML = JSON.parse(xhr.response).e;
         
                 }
             }
