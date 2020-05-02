@@ -158,8 +158,6 @@ class GameManager {
                                 }
                             }
                         }
-
-
                     });
                     if (!foundOwner) {
                         return {//todo: error object
