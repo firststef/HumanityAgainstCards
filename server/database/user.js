@@ -93,14 +93,31 @@ module.exports = {
 					.findOne({ username: username, code: code }, (err, doc) => {
 						if (err) throw err;
 						//if all good delete this entry and return the data
-						if (doc)
-							db.db("HumansAgainstCards")
-								.collection("temp_user")
-								.deleteOne({ username: username, code: code }, (err) => {
-									if (err) throw `Could not delete entry ${err}`;
-									resolve(doc);
-								});
-						else resolve();
+						//if (doc)
+						//	db.db("HumansAgainstCards")
+						//		.collection("temp_user")
+						//		.deleteOne({ username: username, code: code }, (err) => {
+						//			if (err) throw `Could not delete entry ${err}`;
+						//			resolve(doc);
+						//		});
+						else resolve(doc);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while searching user ${username} !\n`, color.white, e);
+				reject(true);
+			}
+		});
+	},
+	delete_user_temp: (username, code) => {
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			try {
+				db.db("HumansAgainstCards")
+					.collection("temp_user")
+					.deleteOne({ username: username, code: code }, (err, doc) => {
+						if (err) throw `Could not delete entry ${err}`;
+						
+						else resolve(doc);
 					});
 			} catch (e) {
 				console.log(log.date_now() + f_header, color.red, `Error while searching user ${username} !\n`, color.white, e);
