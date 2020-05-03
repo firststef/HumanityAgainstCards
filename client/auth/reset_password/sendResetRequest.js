@@ -17,27 +17,29 @@ const sendHttpRequest = (method, url, data) => {
 };
 
 
-function sendActivationCode(){
-    let server_message = document.getElementById('activation_message');
-    let code = document.getElementById('code');
+function sendResetRequest(){
+    // let server_message = document.getElementById('reset_message');
+    let email = document.getElementById('fp_email');
 
-    server_message.style.color='red';
-    console.log("Script for account activation request");
-    let url = "http://localhost:8081/routes/auth/confirm_account";
+    // server_message.style.color='red';
+    console.log("Script for reset request");
+    let url = "http://localhost:8081/routes/auth/reset_password";
 
 
     sendHttpRequest('POST', url, {
-        "code": code.value,
+        "email": email.value,
     })
         .then(responseData => {
             console.log(responseData);
-            //show log in link
-            document.getElementById("account_activation").style.display="block";
-
+            //set cookie
+            document.cookie=response.session;
+            //redirect to log in
+            window.location.replace( "/login-register.html" );
 
         })
         .catch(err => {
             console.log(err, err.data);
-            server_message.innerHTML = 'Code not valid!';
+            //display message
+            server_message.innerHTML = 'Input not valid!';
         });
 }

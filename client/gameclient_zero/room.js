@@ -98,22 +98,31 @@ function applyChanges(changes) {
         scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
     }
     if (changes.header === 'czar_allow_white_card_choice'){
-        let otherPlayedStr = '';
-        changes.selected_cards.forEach(set => {
-                if (!set.every(e => e === null)) {
-                    otherPlayedStr += '<div class="card-set">';
-                    set.forEach((card) => {
-                        if (card !== null) {
-                            otherPlayedStr += getCardHtml(card, "white");
-                        }
-                    });
-                    otherPlayedStr += '</div>';
-                }
-            }
-        );
-
-        otherPlayedCardsElement.innerHTML = otherPlayedStr;
+        replaceSelectedCards(changes.selected_cards);
     }
+    if (changes.header === 'not_yet_ended_wait'){//todo: this replaces with every update, optimization required
+        if (changes.selected_cards !== undefined){
+            replaceSelectedCards(changes.selected_cards);//am ramas aici, trebuie sa dau refresh la cartile din mana, si la score
+        }
+    }
+}
+
+function replaceSelectedCards(cards){
+    let otherPlayedStr = '';
+    cards.forEach(set => {
+            if (!set.every(e => e === null)) {
+                otherPlayedStr += '<div class="card-set">';
+                set.forEach((card) => {
+                    if (card !== null) {
+                        otherPlayedStr += getCardHtml(card, "white");
+                    }
+                });
+                otherPlayedStr += '</div>';
+            }
+        }
+    );
+
+    otherPlayedCardsElement.innerHTML = otherPlayedStr;
 }
 
 function getCardHtml(card, type){

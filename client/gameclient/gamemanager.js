@@ -214,6 +214,7 @@ class GameManager {
             return {
                 header: basedata.RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
                 wait_end: this.waitEnded_Czar,
+                selected_cards: this.selectedWhiteCards,
                 winning_cards: this.winningCardSet
             }
         }

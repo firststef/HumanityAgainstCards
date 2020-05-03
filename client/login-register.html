@@ -8,9 +8,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="assets/css/login-register.css" rel="stylesheet"  type="text/css">
-    <script src="send_register_data.js"></script> 
-    <script src="send_login_data.js"></script> 
-   <script src="validate_register_input.js"></script> 
+
+    <script src="registerRequest.js"></script>
+    <script src="loginRequest.js"></script>
+
+    <script src="validate_register_input.js"></script>
 
 
 </head>
@@ -33,7 +35,7 @@
                         <div class="form-group " >
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                <input type="text" name="login_username" id="login_username" class="form-control" placeholder="Username" required=>
+                                <input type="text" name="login_email" id="login_email" class="form-control" placeholder="Email" required=>
                             </div>
                         </div> 
                         <div class="form-group ">
@@ -84,7 +86,7 @@
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                <input type="text" name="register_nickname" name="register_nickname" class="form-control" placeholder="Nickname" required>
+                                <input type="text" name="register_nickname" id="register_nickname" class="form-control" placeholder="Nickname" required>
                             </div>
                         </div>
                         <div class="form-group ">
@@ -106,7 +108,7 @@
                                 <input type="password" name="register_cpassword"  id="register_cpassword" class="form-control" placeholder="Confirm Password" required onkeyup='check();' >
                             </div>
                             <span id='register_message'></span>
-                            <a id='account_activation' href="confirm_account.html" style="display: none">Go activate!</a>
+                            <a id='account_activation' href="confirm_account.html" style="display: none">Go activate your account!</a>
 
                         </div>
                         
@@ -120,6 +122,7 @@
         </div>
     </div>
 </div>
+
 
 
 </body>
