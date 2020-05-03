@@ -23,5 +23,5 @@ module.exports = {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
 	},
-	require_auth : true,
+	require_auth : flase, // false doar pt testare 
 };
