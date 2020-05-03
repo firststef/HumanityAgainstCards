@@ -9,7 +9,7 @@ module.exports = function (app) {
             var rooms = await room.get_all_rooms();
             if(false==rooms) throw "internal error";
 
-			res.status(200).send(rooms);
+			res.status(200).send({sucess:true, rooms:rooms});
 		} catch (e) {
 			
 			res.status(401).send({ sucess: false, reason: e });
