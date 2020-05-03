@@ -85,21 +85,18 @@ module.exports = function (app, secured) {
 
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID);
+      let u_id = user.get_user_id(req.body.session); //what for ?
 
-      //let u_id = user.get_user_id(req.body.session); //what for ?
-      
-      //update or not the session ? 
-      await room.add_player(req.body.roomID, ureq.body.session);
+      //update or not the session ?
+      await room.add_player(req.body.roomID, u_id);
 
-      await res
-        .status(200)
-        .send(JSON.stringify({ success: max, session: cookie_session }));
+      await res.status(200).send(JSON.stringify({ status: "Sucess" })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
       console.log(e.message);
       res.status(417).send(
         JSON.stringify({
           success: false,
-          session: cookie_session, // why ?
+          session: req.body.session, // why ?
           err: e.message,
         })
       );
