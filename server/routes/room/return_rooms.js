@@ -3,7 +3,7 @@ const config = require("../../config"),
 f_header = "[routes/room/return_room.js]";
 
 module.exports = function (app) {
-	app.get("/get_rooms", secured, async (req, res) => {
+	app.get("/get_rooms",  async (req, res) => {
 		try {
              
             var rooms = await room.get_all_rooms();

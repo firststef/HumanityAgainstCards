@@ -103,6 +103,33 @@ module.exports = {
       }
     });
   },
+  get_all_rooms: () => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("rooms")
+          .find({  }).toArray((err, doc) => {
+            if (doc !== null) {
+              console.log("exista");
+              resolve(doc);
+            }
+            if (err) throw err;
+            console.log(" NU exista");
+            resolve(false);
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while searching session ${value} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
+  },
   insert_room: (room) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
