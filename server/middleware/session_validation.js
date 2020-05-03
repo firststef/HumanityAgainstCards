@@ -6,7 +6,7 @@ const log = require("../utils/log"),
 
 module.exports = async function (req, res, next) {
   try {
-    if (!req.body.session) throw `No session parameter provided`;
+    if (!req.headers.session) throw `No session parameter provided`;
     // if (!req.body.session.user)
     //   throw `The session parameter requires an user parameter`;
     // if (!req.body.session.cookie)
@@ -16,16 +16,21 @@ module.exports = async function (req, res, next) {
     //   req.body.session.cookie
     // );
 
-    let ok = await user.session_verify(req.body.session)
-    if (!ok) res.redirect("/auth");
+    let ok = await user.session_verify(req.headers.session);
+    if (!ok) {
+      throw "User session invalid !"
+      //res.redirect("/auth");
+    }
 
     //if the session is valid update it's timestamp
     //not exceptionally safe, but will do for now since I don't know how the frontedn stores cookies
 
-    ok = user.session_update_timestamp(req.body.user);
-    if (!ok) res.redirect("/auth");
-
-    next();
+    ok = user.session_update_timestamp(req.headers.session);
+    if (!ok) {
+      throw "User session invalid  err!";
+    } else {
+      next();
+    }
   } catch (e) {
     res.status(401).send({ err: e });
   }

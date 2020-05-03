@@ -3,9 +3,8 @@ get_cards = require("../../database/get_cards"),
 room = require("../../database/room"),
 user = require("../../database/user");
 var express = require('express');
-var app = express();
 var request = require('request');
-generate = require("../../utils/generate");
+var generate = require("../../utils/generate");
 //f_header = "[routes/room/rooms.js]";
 
 module.exports = function (app) {

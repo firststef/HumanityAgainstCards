@@ -78,26 +78,25 @@ module.exports = function (app, secured) {
     }
   });
 
-  app.get("room/join", secured, async (req, res) => {
+  app.post("/room/join", secured, async (req, res) => {
     try {
       if (!req.body.roomID) throw "No roomID provided!";
-      if (!req.body.session) throw "No session provided!";
 
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID);
-      let u_id = user.get_user_id(req.body.session); //what for ?
+      let u_id = await user.get_user_id(req.headers.session);
 
       //update or not the session ?
-      await room.add_player(req.body.roomID, u_id);
+      await room.add_player(req.body.roomID, u_id[0].username);
+      await room.increase_counter(req.body.roomID);
 
-      await res.status(200).send(JSON.stringify({ status: "Sucess" })); // since the timestamp got updated the session parameter is not as required anymore
+      res.send(JSON.stringify({ status: "Sucess" })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       res.status(417).send(
         JSON.stringify({
           success: false,
-          session: req.body.session, // why ?
-          err: e.message,
+          err: e,
         })
       );
     }

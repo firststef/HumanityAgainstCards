@@ -128,18 +128,35 @@ module.exports = {
   check: (roomID) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
+      db.db("HumansAgainstCards")
+        .collection("rooms")
+        .find({ id: eval(roomID) })
+        .toArray((err, docs) => {
+          if (!docs || !docs[0]) {
+            reject("Room does not exist");
+          } else if (docs[0].players_in_game === docs[0].max_players) {
+            reject("Room is full");
+          } else {
+            resolve(true);
+          }
+        });
+    });
+  },
+  add_player: (roomID, u_id) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
       try {
-		  db.collection("current_user_rooms").find({id_room : roomID}).toArray((err,docs)=>{
-			if(!docs) throw 'Room does not exist'
-			if(docs[0].players_in_game === docs[0].max_players) throw 'Room is full'
-
-			resolve(true)
-		  })
+        db.db("HumansAgainstCards")
+          .collection("current_user_rooms")
+          .insertOne({ id_room: roomID, user_id: u_id }, (err) => {
+            if (err) throw err;
+            resolve(true);
+          });
       } catch (err) {
         console.log(
           log.date_now() + f_header,
           color.red,
-          `Error while checking room ${JSON.stringify(roomID)} !\n`,
+          `Error while inserting into room ${JSON.stringify(roomID)} !\n`,
           color.white,
           err
         );
@@ -147,24 +164,19 @@ module.exports = {
       }
     });
   },
-  add_player : (roomID, u_id) =>{
-	return new Promise((resolve, reject) => {
-		let db = database.get_db();
-		try {
-			db.collection("current_user_rooms").insertOne({id_room : roomID, user_id : u_id}, (err)=>{
-				if(err) throw err;
-				resolve(true);
-			})
-		} catch (err) {
-		  console.log(
-			log.date_now() + f_header,
-			color.red,
-			`Error while checking room ${JSON.stringify(roomID)} !\n`,
-			color.white,
-			err
-		  );
-		  reject(err);
-		}
-	  });
-  }
+  increase_counter: (roomID) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("current_user_rooms")
+          .updateOne({ id: roomID }, { $inc: { players_in_game: 1 } }, (err)=>{
+            if(err) throw err
+            resolve();
+          });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
 };
