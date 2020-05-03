@@ -64,16 +64,18 @@ module.exports = function (app, secured) {
   app.post("/room/join", secured, async (req, res) => {
     try {
       if (!req.body.roomID) throw "No roomID provided!";
+      if (!req.body.password) throw "No password provided!";
 
       //first check the db to see if there are any slots avaiable for our user
-      await room.check(req.body.roomID);
+      await room.check(req.body.roomID,req.body.password);
       let u_id = await user.get_user_id(req.headers.session);
+      if(u_id===false) throw "internal error";
 
       //update or not the session ?
       await room.add_player(req.body.roomID, u_id[0].username);
       await room.increase_counter(req.body.roomID);
 
-      res.send(JSON.stringify({ status: "Sucess" })); // since the timestamp got updated the session parameter is not as required anymore
+      res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
       console.log(e);
       res.status(417).send(
