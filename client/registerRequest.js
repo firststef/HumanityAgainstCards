@@ -38,11 +38,8 @@ function sendRegisterJSON(){
         if (xhr.readyState == 4) {
             if(xhr.status==200){
                 server_message.style.color='green';
-                server_message.innerHTML='Succes! Go activate your account!';
+                server_message.innerHTML='Success! Go activate your account!';
                 document.getElementById('account_activation').style.display='block';
-                //Redirect to log in page
-                window.location.href="login-register.html";
-                window.location.replace( "login-register.html" );
 
             }
             else{
