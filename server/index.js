@@ -13,7 +13,7 @@ app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
 
 // app.use(session);
-let secured = [session]
+let secured = config.require_auth ? [session] : []; // toggable from the cofig
 
 app.listen(config.server.port, function(err) {
 	if (err) {

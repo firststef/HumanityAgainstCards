@@ -209,6 +209,24 @@ module.exports = {
 		});
 	},
 
+	session_update_timestamp : (username)=>{
+		return new Promise((resolve, reject) => {
+			let db = database.get_db();
+			try {
+				db.db("HumansAgainstCards")
+					.collection("user")
+					.updateOne({username : username}, {"session.expire": Date.now() + 1000 * 60 * 60 * 24 /** + 1  day */  }, (err, doc) => {
+						if (err) throw err;
+						if (doc !== null) resolve(true);
+						resolve(false);
+					});
+			} catch (e) {
+				console.log(log.date_now() + f_header, color.red, `Error while searching session ${value} !\n`, color.white, e);
+				reject(false);
+			}
+		});
+	},
+
 	session_update_login: (username_, password_, new_value) => {
 		return new Promise((resolve, reject) => {
 			let db = database.get_db();
