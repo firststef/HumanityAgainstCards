@@ -34,8 +34,8 @@ function sendLoginJSON(){
                 var response = JSON.parse(xhr.responseText);
                 //set cookie
                 document.cookie=response.session;
-                //redirect to lobby page
-                window.location.replace( "confirm_account.html" );
+                //redirect to account page
+                window.location.replace( "auth/client_after_auth/account.html" );
 
             }
             else{
