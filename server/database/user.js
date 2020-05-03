@@ -171,7 +171,6 @@ module.exports = {
 			}
 		});
 	},
-	// [DEPRECATED] : 
 	session_verify: (value) => {
 		return new Promise((resolve, reject) => {
 			let db = database.get_db();
@@ -189,25 +188,24 @@ module.exports = {
 			}
 		});
 	}, 
-	// in order to prevent the posibility than an user may authentificate with another user's credentials an user parameter should be required
-
-	check_session : (username,value) =>{
-		return new Promise((resolve, reject) => {
-			let db = database.get_db();
-			try {
-				db.db("HumansAgainstCards")
-					.collection("user")
-					.findOne({username : username,  "session.value": value, "session.expire": { $gt: Date.now() } }, (err, doc) => {
-						if (err) throw err;
-						if (doc !== null) resolve(true);
-						resolve(false);
-					});
-			} catch (e) {
-				console.log(log.date_now() + f_header, color.red, `Error while searching session ${value} !\n`, color.white, e);
-				reject(false);
-			}
-		});
-	},
+	// // in order to prevent the posibility than an user may authentificate with another user's credentials an user parameter should be required
+	// check_session : (username,value) =>{
+	// 	return new Promise((resolve, reject) => {
+	// 		let db = database.get_db();
+	// 		try {
+	// 			db.db("HumansAgainstCards")
+	// 				.collection("user")
+	// 				.findOne({username : username,  "session.value": value, "session.expire": { $gt: Date.now() } }, (err, doc) => {
+	// 					if (err) throw err;
+	// 					if (doc !== null) resolve(true);
+	// 					resolve(false);
+	// 				});
+	// 		} catch (e) {
+	// 			console.log(log.date_now() + f_header, color.red, `Error while searching session ${value} !\n`, color.white, e);
+	// 			reject(false);
+	// 		}
+	// 	});
+	// },
 
 	session_update_timestamp : (username)=>{
 		return new Promise((resolve, reject) => {

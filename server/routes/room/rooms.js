@@ -61,15 +61,13 @@ module.exports = function (app, secured) {
           .status(200)
           .send(JSON.stringify({ success: true, session: cookie_session }));
       else
-        res
-          .status(200)
-          .send(
-            JSON.stringify({
-              success: true,
-              roomID: v_id,
-              session: cookie_session,
-            })
-          );
+        res.status(200).send(
+          JSON.stringify({
+            success: true,
+            roomID: v_id,
+            session: cookie_session,
+          })
+        );
     } catch (e) {
       console.log("prinde eroarea " + e);
       res
@@ -85,25 +83,26 @@ module.exports = function (app, secured) {
       if (!req.body.roomID) throw "No roomID provided!";
       if (!req.body.session) throw "No session provided!";
 
+      //first check the db to see if there are any slots avaiable for our user
+      await room.check(req.body.roomID);
 
-      var user_id = await user.get_user_id().catch((e) => {
-        console.error(e.message);
-      })
+      //let u_id = user.get_user_id(req.body.session); //what for ?
       
-      res
+      //update or not the session ? 
+      await room.add_player(req.body.roomID, ureq.body.session);
+
+      await res
         .status(200)
         .send(JSON.stringify({ success: max, session: cookie_session }));
     } catch (e) {
       console.log(e.message);
-      res
-        .status(417)
-        .send(
-          JSON.stringify({
-            success: false,
-            session: cookie_session,
-            err: e.message,
-          })
-        );
+      res.status(417).send(
+        JSON.stringify({
+          success: false,
+          session: cookie_session, // why ?
+          err: e.message,
+        })
+      );
     }
   });
 };
