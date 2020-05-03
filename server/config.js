@@ -68,5 +68,5 @@ module.exports = {
 		}
 
 	},
-	require_auth : true, // false doar pt testare
+	require_auth : false, // false doar pt testare
 };
