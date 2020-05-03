@@ -22,11 +22,49 @@ module.exports = {
 	account: {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
-	},pages: {
-		"/home": {
-			path: "/../../../client/HomePage.html",
+	}
+	,
+	pages: {
+		"/lobbies.html": {
+			path: "\\..\\..\\..\\client\\lobbies.html",
 			type: "text/html"
+		},
+		"/assets/css/lobby.css": {
+			path: "/../../../client/assets/css/lobby.css",
+			type: "text/css"
+		},
+		"/assets/css/room.css": {
+			path: "/../../../client/assets/css/room.css",
+			type: "text/css"
+		},
+		"/login-register.html": {
+			path:"\\..\\..\\..\\client\\login-register.html",
+			type: "text/html"
+		},
+		"/assets/css/login-register.css": {
+			path: "/../../../client/assets/css/login-register.css",
+			type: "text/css"
+		},
+		"/assets/img/icon-facebook.png": {
+			path: "/../../../client/assets/img/icon-facebook.png",
+			type: "text/png"
+		},
+		"/assets/img/icon-google.png": {
+			path: "/../../../client/assets/img/icon-google.png",
+			type: "text/png"
+		},
+		"/home": {
+			path: "\\..\\..\\..\\client/HomePage.html",
+			type: "text/html"
+		},
+		"/assets/css/home.css": {
+			path: "/../../../client/assets/css/home.css",
+			type: "text/css"
+		},
+		"/home.js": {
+			path: "\\..\\..\\..\\client/home.js",
+			type: "text/javascript"
 		}
 	},
-	require_auth : true, // false doar pt testare
+	require_auth : false, // false doar pt testare
 };

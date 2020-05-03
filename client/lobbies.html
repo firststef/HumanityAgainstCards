@@ -61,15 +61,15 @@
                 </button>
             </div>
             <div class="settings">
-                <form action="" onsubmit="return function(){console.log('wow'); return false;}()" class="room-settings" id="roomSettings" method="post">
+                <form action="" onsubmit="return createRoom();" class="room-settings" id="roomSettings" method="post">
                     <fieldset>
                         <p>
                             <label for="score">Score limit</label>
-                            <input id="score" max="999" min="1" required="required" type="number" value="10">
+                            <input id="score" name="score_limit" max="999" min="1" required="required" type="number" value="10">
                         </p>
                         <p>
                             <label for="playerLimit">Player limit</label>
-                            <input id="playerLimit" max="20" min="3" required="required" type="number" value="3">
+                            <input id="playerLimit" name="max_players" max="20" min="3" required="required" type="number" value="3">
                         </p>
                         <p>
                             <label for="spec">Spectator limit</label>
@@ -81,11 +81,11 @@
                         </p>
                         <p>
                             <label for="lobbyname">Lobby name</label>
-                            <input id="lobbyname" name="lobbyName" required="required" type="text" value="User name's room">
+                            <input id="lobbyname" name="room_name" required="required" type="text" value="User name's room">
                         </p>
                         <p>
                             <label for="lobbyPassword">Password</label>
-                            <input id="lobbyPassword" name="lobbyPassword" placeholder="Enter Password" type="password">
+                            <input id="lobbyPassword" name="password" placeholder="Enter Password" type="password">
                         </p>
                         <button class="btn btn-success" type="submit">Submit settings</button>
                     </fieldset>
@@ -234,6 +234,26 @@
                 li[i].style.display = "none";
             }
         }
+    }
+
+    function createRoom(){
+        let body = {type: 'create_room'};
+        $('#roomSettings').serialize().forEach((field) => {
+            body[field.name] = field.value;
+        });
+        console.log("send create", body);
+        fetch('rooms', {
+            method: 'post',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: body
+        })
+        .then(res => res.json())
+        .then(res=> {
+            if (res.success === true) alert('Room created')
+        });
+        return false;
     }
 </script>
 </body>

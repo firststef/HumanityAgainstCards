@@ -6,6 +6,7 @@
     <title>Humanity Against Cards</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="sendActivationCode.js"></script>
 </head>
 
     <body style="width: 440px; margin: 0 auto; display: flex !important; flex-flow: column !important;align-items: center;padding: 2em;font-family: 'Roboto', sans-serif; ">
@@ -25,16 +26,16 @@
                 </div>
 
 
-                <form action="" method="post" style="text-align: center;">
+                <form action="/" method="post" style="text-align: center;">
                 <div class="grid-item-2">
                     <input type="text" id="activation_code" name="activation_code" required>
                 </div>
                 <div class="grid-item-3">
-                    <input type="submit" class="button-Start" value="SEND" onclick="sendActivationCode();">
+                    <input type="submit" class="button-Start" value="SEND" id="code" onclick="sendActivationCode();">
                 </div>
                     <span id='activation_message'></span>
                     <!--Activation message-->
-                    <a id='account_activation' href="../client/auth/client_after_auth/account.html" style="display: none">Go to your profile!</a>
+                    <a id='account_activation' href="login-register.html" style="display: none">Go log into your account!</a>
                 </form>
 
             </div>
