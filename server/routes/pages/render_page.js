@@ -2,7 +2,7 @@
 const fs = require('fs').promises;
 path = require("path");
 
-module.exports = function (app) {
+module.exports = function (app, secured) { // add the secured middleware on the propper requests
    // app.use(express.static(path.join(__dirname, 'public')));
     app.get("/home",  (req, res) => {
 

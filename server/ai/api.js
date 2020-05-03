@@ -199,7 +199,7 @@ app.get('/ai', (req, res) => {
             //white_cards.forEach(i => i.forEach(j => white_ids.push(j._id)));
             parsedQuery.white_cards.forEach(i =>  {
                 (async () => {
-                    var result = await ai.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(i._id));
+                    var result = await ai.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(i[0]._id));
                     if (result==="Error")
                         return [result,"Couldn\'t update the db."];
                 })();

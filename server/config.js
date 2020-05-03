@@ -27,5 +27,6 @@ module.exports = {
 			path: "/../../../client/HomePage.html",
 			type: "text/html"
 		}
-	}
+	},
+	require_auth : flase, // false doar pt testare
 };
