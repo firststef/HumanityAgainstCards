@@ -27,7 +27,7 @@
       - {"answer":"Success","result":[{"_id":"1","text":"Man meat."},{"_id":"2","text":"Autocannibalism."}]}
     - pentru *trainAi*: {*"black_card"*: "JSON.stringify(blackCard)", *"white_cards"*: "JSON.stringify(whiteCards)" }
       - blackCard este un array : [card]
-      - in acest caz, whiteCards este doar un array: [card], sau [card1, card2, ..]
+      - in acest caz, whiteCards este  un array de arrayuri: [[card]], sau [[card1], [card2], ..]
       - intoarce doar un mesaj de succes
       - {"answer":"Success"}
     - pentru *getProbability*: {}
@@ -50,11 +50,11 @@ http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}]]}
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text":  "Man meat."}]]}
 ```
 
 ```javascript
@@ -66,8 +66,6 @@ http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "30"}
 ```
     
 # Posibile erori
-
-  - doar **getAiAnswer** si **trainAi** sunt tratate
 
   - nu este tratata exceptia pentru momentul in care nu se primeste raspuns, deci in aceste cazuri fie trebuie trimise requesturi noi, fie trebuie restartat serverul
 
