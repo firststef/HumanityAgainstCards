@@ -2,7 +2,7 @@ const log = require("../utils/log"),
   config = require("../config"),
   color = require("../colors"),
   user = require("../database/user"),
-  f_header = "[mail/send_confirm.js]";
+  f_header = "[middleware/session_validation.js]";
 
 module.exports = async function (req, res, next) {
   try {
