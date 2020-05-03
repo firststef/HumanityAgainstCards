@@ -74,7 +74,7 @@ module.exports = function (app, secured) {
       await room.add_player(req.body.roomID, u_id[0].username);
       await room.increase_counter(req.body.roomID);
 
-      res.send(JSON.stringify({ status: "Sucess" })); // since the timestamp got updated the session parameter is not as required anymore
+      res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
       console.log(e);
       res.status(417).send(
