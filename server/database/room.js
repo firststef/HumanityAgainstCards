@@ -152,12 +152,12 @@ module.exports = {
       }
     });
   },
-  check: (roomID) => {
+  check: (roomID, password) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
       db.db("HumansAgainstCards")
         .collection("rooms")
-        .find({ id: eval(roomID) })
+        .find({ id: eval(roomID) , password:password })
         .toArray((err, docs) => {
           if (!docs || !docs[0]) {
             reject("Room does not exist");
@@ -196,9 +196,9 @@ module.exports = {
       let db = database.get_db();
       try {
         db.db("HumansAgainstCards")
-          .collection("current_user_rooms")
+          .collection("rooms")
           .updateOne({ id: roomID }, { $inc: { players_in_game: 1 } }, (err)=>{
-            if(err) throw err
+            if(err) throw err;
             resolve();
           });
       } catch (e) {

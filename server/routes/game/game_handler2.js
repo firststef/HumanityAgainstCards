@@ -2,7 +2,7 @@ const config = require("../../config"),
     database = require("../../utils/database"),
     color = require("../../colors"),
     log = require("../../utils/log"),
-    engine = require("../../../client/gameclient/library");
+    engine = require("../../../client/gamecore/library");
 f_header = "[routes/game/game_handler.js]";
 
 var game_manager = new engine.GameManager(2, 0, [0, 1]);

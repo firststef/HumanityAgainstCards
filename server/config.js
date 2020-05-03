@@ -25,7 +25,6 @@ module.exports = {
 	}
 	,
 	pages: {
-		
 		"/lobbies.html": {
 			path: "\\..\\..\\..\\client\\lobbies.html",
 			type: "text/html"
@@ -66,7 +65,6 @@ module.exports = {
 			path: "\\..\\..\\..\\client/home.js",
 			type: "text/javascript"
 		}
-
 	},
 	require_auth : false, // false doar pt testare
 };

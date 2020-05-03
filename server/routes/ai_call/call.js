@@ -1,4 +1,4 @@
-const engine = require("../../../client/gameclient/library"),
+const engine = require("../../../client/gamecore/library"),
 get_cards = require("../../database/get_cards"),
 room = require("../../database/room"),
 user = require("../../database/user");
