@@ -70,6 +70,7 @@ module.exports = function (app, secured) {
 
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID,req.body.password);
+
       let u_id = await user.get_user_id(req.headers.session);
       if(u_id===false) throw "internal error";
 
