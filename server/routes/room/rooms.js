@@ -7,9 +7,9 @@
 
  
 
-   module.exports = function (app) {
+   module.exports = function (app,secured) {
       
-       app.post("/rooms", async (req, res) => {
+       app.post("/rooms",secured, async (req, res) => {
            try {
 
                if(!req.body.session) throw "No session provided!";
@@ -70,7 +70,7 @@
        });
       
 
-       app.get("room/join", async (req, res) => {
+       app.get("room/join",secured, async (req, res) => {
            try { 
                 if(!req.body.roomID) throw "No roomID provided!";
                 if(!req.body.session) throw "No session provided!";

@@ -7,8 +7,8 @@ f_header = "[routes/game/game_handler.js]";
 
 var game_manager = new engine.GameManager(2, 0, [0, 1]);
 
-module.exports = function (app) {
-    app.post("/game_manager/response", async (req, res) => {
+module.exports = function (app,secured) {
+    app.post("/game_manager/response", secured, async (req, res) => {
         try {
             if (!req.body) throw "No provided header data !";
             let response;
