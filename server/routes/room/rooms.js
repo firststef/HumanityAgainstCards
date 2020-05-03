@@ -7,7 +7,6 @@ f_header = "[routes/room/rooms.js]";
 module.exports = function (app, secured) {
   app.post("/rooms", secured, async (req, res) => {
     try {
-      
         if (!req.body.type) throw "No type provided!";
         var v_id;
         if (req.body.type == "create_room") {
