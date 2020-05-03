@@ -5,11 +5,16 @@ const express = require("express"),
 	log = require("./utils/log"),
 	color = require("./colors"),
 	cors = require("cors"),
+	session = require("./middleware/session_validation"),
 	header = log.date_now() + " [index.js] ";
 
 app.use(cors());
 app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
+
+// app.use(session);
+let secured = config.require_auth ? [session] : []; // toggable from the cofig
+
 app.listen(config.server.port, function(err) {
 	if (err) {
 		console.log(color.white + header, color.red, `Server could not start : `, err);
@@ -32,14 +37,16 @@ app.listen(config.server.port, function(err) {
 
 require("./routes/test/hello")(app);
 require("./routes/cards/add_cards")(app);
-require("./routes/cards/get_cards")(app);
-require("./routes/game/game_handler2")(app);
+require("./routes/cards/get_cards")(app,secured);
+require("./routes/game/game_handler2")(app,secured);
 require("./routes/auth/register")(app);
 require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
-require("./routes/room/rooms")(app);
-require("./routes/pages/render_page")(app);
+require("./routes/room/rooms")(app,secured);
+require("./routes/room/return_rooms")(app);
+require("./routes/pages/render_page")(app,secured);
+require("./routes/ai_call/call")(app);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");

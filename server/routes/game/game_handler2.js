@@ -2,13 +2,13 @@ const config = require("../../config"),
     database = require("../../utils/database"),
     color = require("../../colors"),
     log = require("../../utils/log"),
-    engine = require("../../../client/gameclient/library");
+    engine = require("../../../client/gamecore/library");
 f_header = "[routes/game/game_handler.js]";
 
 var game_manager = new engine.GameManager(2, 0, [0, 1]);
 
-module.exports = function (app) {
-    app.post("/game_manager/response", async (req, res) => {
+module.exports = function (app,secured) {
+    app.post("/game_manager/response", secured, async (req, res) => {
         try {
             if (!req.body) throw "No provided header data !";
             let response;
@@ -21,7 +21,7 @@ module.exports = function (app) {
             else{
                 response = game_manager.response(req.body);
             }
-            if (response === "error") throw `Awkward client error thrown "${response}"`;
+            if (response.error !== undefined) throw `Awkward client error thrown "${response}"`;
             console.log(JSON.stringify({  success: true, data: response }));
             res.status(200).send(JSON.stringify({  success: true, data: response }));
         } catch (e) {

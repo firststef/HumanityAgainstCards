@@ -5,15 +5,14 @@ var updateInterval;
 var playerHandElement;
 var blackCardElement;
 var scoreBoardElement;
-var temporarySelectedCards = [];
+var otherPlayedCardsElement;
+var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
 
 function request(data, callback) {
     fetch('http://localhost:8081/game_manager/response',{
             method: 'POST',
-            mode: 'cors',
             cache: 'no-cache',
-            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -37,13 +36,14 @@ function request(data, callback) {
             console.log("[ERROR] Server error - undefined header!");
             //handle exit gracefully
         }
-    });
+    }).catch(err => console.log(err));
 }
 
 function load() {
     blackCardElement = document.getElementById("currentBlackCard");
     scoreBoardElement = document.getElementById("scoreBoard");
     playerHandElement = document.getElementById("playerHand");
+    otherPlayedCardsElement = document.getElementById("otherPlayedCards");
 
     //Getting SID, normally this will be provided at auth time
     request({header: 'get_id'}, request => {
@@ -89,23 +89,49 @@ function applyChanges(changes) {
     console.log(changes);
     if (changes.header === 'show_cards'){
         let playerHandStr = '';
-        changes.cards.forEach((card, index) => {
+        changes.cards.forEach((card) => {
             playerHandStr += getCardHtml(card, "white");
         });
+
         playerHandElement.innerHTML = playerHandStr;
-
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
-
         scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
     }
+    if (changes.header === 'czar_allow_white_card_choice'){
+        replaceSelectedCards(changes.selected_cards);
+    }
+    if (changes.header === 'not_yet_ended_wait'){//todo: this replaces with every update, optimization required
+        if (changes.selected_cards !== undefined){
+            replaceSelectedCards(changes.selected_cards);//am ramas aici, trebuie sa dau refresh la cartile din mana, si la score
+        }
+    }
+}
+
+function replaceSelectedCards(cards){
+    let otherPlayedStr = '';
+    cards.forEach(set => {
+            if (!set.every(e => e === null)) {
+                otherPlayedStr += '<div class="card-set">';
+                set.forEach((card) => {
+                    if (card !== null) {
+                        otherPlayedStr += getCardHtml(card, "white");
+                    }
+                });
+                otherPlayedStr += '</div>';
+            }
+        }
+    );
+
+    otherPlayedCardsElement.innerHTML = otherPlayedStr;
 }
 
 function getCardHtml(card, type){
     if (type === 'white'){
         return `
-        <div class="card bg-light mb-3" onclick="selectCardWithId(${card.id})">
+        <div class="card bg-light mb-3" id="card${card.id}" onclick="selectCardWithId(event, ${card.id})">
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
+                <button id="submitButton${card.id}" class="btn btn-success submit-button" onclick="submitCards()">Submit</button>
             </div>
         </div>`;
     }
@@ -148,12 +174,68 @@ function getPlayerTableHtml(players) {
     return playerTableStr;
 }
 
-function selectCardWithId(index) {
-    if (temporarySelectedCards.length < gameClient.getBlackCardPick()){
-        temporarySelectedCards.push(index);
+function selectCardWithId(event, id) {
+    if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
+        let found = false;
+        for (let card of gameClient.getCards()){
+            if (card.id === id)
+                found = true;
+        }
+        if (!found) {
+            return;
+        }
+
+        let index = temporarySelectedCards.indexOf(id);
+        if (index !== -1){
+            hideSubmitButtons();
+            temporarySelectedCards[index] = null;
+        }
+        else if (temporarySelectedCards.filter(el => el !== null).length < gameClient.getBlackCardPick()) {
+            let i = 0;
+            while (i < 3){
+                if(temporarySelectedCards[i] === null){
+                    temporarySelectedCards[i] = id;
+                    break;
+                }
+                i++;
+            }
+        }
+        if (temporarySelectedCards.filter(el => el !== null).length === gameClient.getBlackCardPick()){
+            showSubmitButtons();
+        }
+        updateCardUIIndexes();
     }
     else {
-        selectedCards = temporarySelectedCards;
-        console.log("Selection made", selectedCards);
+        selectedCards[0] = id;
+    }
+}
+
+function updateCardUIIndexes() {
+    //iteram prin temporarySelectedCards si setam indexul pentu cartie cu id-urile respective
+}
+
+function showSubmitButtons(){
+    temporarySelectedCards.forEach(id => {
+        if (id !== null) {
+            document.getElementById(`submitButton${id}`).style.display = "block";
+        }
+    });
+}
+
+function hideSubmitButtons(){
+    temporarySelectedCards.forEach(id => {
+        if (id !== null) {
+            document.getElementById(`submitButton${id}`).style.display = "none";
+        }
+    });
+}
+
+function submitCards() {
+    if (gameClient.getPlayerType() === PlayerTypes.PLAYER) {
+        if (temporarySelectedCards.filter(el => el !== null).length === gameClient.getBlackCardPick()) {
+            hideSubmitButtons();
+            selectedCards = temporarySelectedCards.filter(el => el !== null);
+            temporarySelectedCards = [null, null, null];
+        }
     }
 }
