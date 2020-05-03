@@ -205,7 +205,8 @@ class GameClient {
             }
 
             return {
-                header: 'not_yet_ended_wait'
+                header: 'not_yet_ended_wait',
+                selected_cards: data.selected_cards
             }
         }
 
