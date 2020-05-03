@@ -61,10 +61,10 @@ module.exports = function (app, secured) {
     }
   });
 
-  app.post("/room/join", secured, async (req, res) => {
+  app.post("/join_room", secured, async (req, res) => {
     try {
       if (!req.body.roomID) throw "No roomID provided!";
-      if (!req.body.password) throw "No password provided!";
+      if (req.body.password === undefined) throw "No password provided!";
 
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID,req.body.password);

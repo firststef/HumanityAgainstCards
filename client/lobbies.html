@@ -127,7 +127,7 @@
             .then(response => response.json())
             .then(function (data) {
                 let roomsStr = '';
-                if (data["sucess"] === true) {
+                if (data["success"] === true) {
                     data["rooms"].forEach(room => roomsStr += getRoomHtml(room));
                 }
                 document.querySelector(".lobbies").innerHTML = roomsStr;
@@ -165,7 +165,12 @@
         })
         .then(res => res.json())
         .then(res=> {
-            if (res.success === true) alert('Room created')
+            if (res.success === true)
+            {
+                alert('Room created');
+                getRooms();
+            }
+            else alert('Failed to create room');
         });
         return false;
     }
@@ -175,7 +180,22 @@
         body.roomID = id;
         body.password = '';
 
-        fetch('/join_room')
+        fetch('/join_room', {
+            method: 'post',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+        .then(res => res.json())
+        .then(res=> {
+            if (res.success === true) {
+                window.location.href = 'room-' + id;
+            }
+            else {
+                alert('Could not join room');
+            }
+        });
     }
 </script>
 </body>
