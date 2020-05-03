@@ -22,6 +22,11 @@ module.exports = {
 	account: {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
+	},pages: {
+		"/home": {
+			path: "/../../../client/HomePage.html",
+			type: "text/html"
+		}
 	},
-	require_auth : true,
+	require_auth : flase, // false doar pt testare
 };
