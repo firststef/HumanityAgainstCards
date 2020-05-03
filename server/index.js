@@ -44,7 +44,7 @@ require("./routes/auth/login")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
 require("./routes/room/rooms")(app,secured);
-require("./routes/room/return_rooms")(app,secured);
+require("./routes/room/return_rooms")(app);
 require("./routes/pages/render_page")(app,secured);
 require("./routes/ai_call/call")(app);
 

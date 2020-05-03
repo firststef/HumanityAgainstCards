@@ -171,7 +171,7 @@ module.exports = {
         db.db("HumansAgainstCards")
           .collection("current_user_rooms")
           .updateOne({ id: roomID }, { $inc: { players_in_game: 1 } }, (err)=>{
-            if(err) throw err
+            if(err) throw err;
             resolve();
           });
       } catch (e) {

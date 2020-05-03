@@ -28,5 +28,5 @@ module.exports = {
 			type: "text/html"
 		}
 	},
-	require_auth : flase, // false doar pt testare
+	require_auth : true, // false doar pt testare
 };

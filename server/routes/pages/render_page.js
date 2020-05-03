@@ -1,11 +1,9 @@
-
 const fs = require('fs').promises;
 path = require("path");
 
 module.exports = function (app, secured) { // add the secured middleware on the propper requests
    // app.use(express.static(path.join(__dirname, 'public')));
     app.get("/home",  (req, res) => {
-
         fs.readFile(path.join(__dirname ,"/../../../client/HomePage.html"), "utf8")
         .then(contents => {
            // console.log("home.html");
@@ -40,8 +38,7 @@ module.exports = function (app, secured) { // add the secured middleware on the 
 
 
     }),
-    app.post("/lobbies.html",  (req, res) => {
-
+    app.get("/lobbies.html",  (req, res) => {
         fs.readFile(__dirname +"\\..\\..\\..\\client\\lobbies.html")
         .then(contents => {
            // console.log("file read lobbies.html");
