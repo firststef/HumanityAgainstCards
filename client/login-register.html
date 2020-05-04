@@ -11,7 +11,7 @@
 
     <script src="registerRequest.js"></script>
     <script src="loginRequest.js"></script>
-
+    <script src="auth/reset_password/sendResetRequest.js"></script>
     <script src="validate_register_input.js"></script>
 
 
@@ -44,18 +44,32 @@
                                 <input type="password" name="login_password" id="login_password"class="form-control" placeholder="Password" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <a href="#" class="pull-right">Forgot password?</a>
-                        </div>
 
                         <span id='login_message'></span>
 
-                    
                         <input type="submit"  value="Login" id="Login" class="btn btn-success btn-custom" onclick='sendLoginJSON();'>
-
-
                     </form>
+
+                    <div class="form-group" id="reset_form">
+                        <button type="button" class="btn btn-primary" id="f_pass" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Forgot password?</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body" id="f_pass_form">
+                                        <form style="align-items: center">
+                                            <label for="fp_email" class="col-form-label" style="align-self:center;">Enter your email address bellow</label>
+                                            <div class="form-group">
+                                                <input type="email" id="fp_email" name="fp_email"  style="color: #121212" placeholder="email" required>
+                                                <input type="submit" class="button-Start" value="SEND" id="fp" onclick="sendResetRequest();" style="color: #121212">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
                 <!--REGISTRATION-->
                 <div role="tabpanel" class="tab-pane fade" id="register">

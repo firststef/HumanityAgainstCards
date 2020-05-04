@@ -3,7 +3,6 @@ const express = require('express');
 // Express Initialize
 const app = express();
 const port = 8000;
-var probability;//not needed anymore
 var ai_players=Array();
 
 const MongoClient = require('mongodb').MongoClient;
@@ -38,19 +37,15 @@ class AI {
         this.room_id = room_id;
     }
 
-    async setProbability(p){
-    try{
-        if(0 <= p <= 100)
-           this.probability = p;
-        return "Success";
-    }
-    catch (e) {
-            console.error(e);
-            return "Error";
+    setProbability(p){
+        if(0 <= p && p <= 100){
+            this.probability = p;
+            return "Success";
         }
+        return "Error";
     }
 
-    async getProbability(){
+    getProbability(){
         return this.probability;
     }
 
@@ -188,44 +183,29 @@ app.get('/ai', (req, res) => {
     }
 
     if (req.query.request === "getAiAnswer") {
-        (async () => {
-            var result = await ai.getAiAnswer(parsedQuery.black_card[0], parsedQuery.white_cards);
-            return ["Success",result];
-        })().then((result) => {
-            res.send(JSON.stringify({answer:result[0],result:result[1]}));
-        });
+        ai.getAiAnswer(parsedQuery.black_card[0], parsedQuery.white_cards)
+            .then(result => res.send(JSON.stringify({answer:"Success",result:result})));
+
     } else if (req.query.request === "trainAi") {
         (async () => {
             //white_cards.forEach(i => i.forEach(j => white_ids.push(j._id)));
-            parsedQuery.white_cards.forEach(i =>  {
-                (async () => {
-                    var result = await ai.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(i[0]._id));
-                    if (result==="Error")
-                        return [result,"Couldn\'t update the db."];
-                })();
-            });
+            for(let white_card of parsedQuery.white_cards){
+                var result = await ai.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(white_card[0]._id));
+                if (result === "Error")
+                    return [result,"Couldn\'t update the db."];
+            }
             return ["Success","Updated the db successfully."];
-
         })().then((result) => {
             res.send(JSON.stringify({answer:result[0],result:result[1]}));
         });
     } else if (req.query.request === "setProbability") {
-        (async () => {
-            var result = await ai.setProbability(parseInt(parsedQuery.p));
+            var result = ai.setProbability(parseInt(parsedQuery.p));
             if (result === "Error")
-                return [result, "Couldn\'t update the probability."]
-            return ["Success", "Updated the probability successfully."];
-        })().then((result) => {
-            res.send(JSON.stringify({answer:result[0],result:result[1]}));
-        });
+                res.send(JSON.stringify({answer:"Error",result:"Invalid probability."}));
+            res.send(JSON.stringify({answer:"Success",result:"Probability set to " + parsedQuery.p}));
     } else if (req.query.request === "getProbability") {
-        (async () => {
-            var result = await ai.getProbability();
-            console.log(result, "result");
-            return ["Success", result];
-        })().then((result) => {
-            res.send(JSON.stringify({answer:result[0],result:result[1]}));
-        });
+            var probability = ai.getProbability();
+            res.send(JSON.stringify({answer:"Success",result:probability}));
     } else {
         res.send(JSON.stringify({answer:"Error",result:"Invalid command."}));
     }
