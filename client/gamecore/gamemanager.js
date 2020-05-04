@@ -22,6 +22,7 @@ class GameManager {
         this.selectedWhiteCards = []; //cards selected by normal players; index in this array represents player index
         this.winningCardSet = []; //card chosen by czar
         this.winnerPlayer = null;
+        this.previousBlackCardType = null; //this is needed because the black card is changed before all the end_round requests, but we have to give cards back to the players
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
@@ -32,12 +33,14 @@ class GameManager {
         for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
             this.selectedWhiteCards[i] = new Array(3);
         }
+        this.getBlackCard();
     }
 
     getBlackCard(){
         //todo: request card
-        this.commonBlackCard = new basedata.Card(999, 'Some black card text');
-        this.blackCardType = 2;
+        this.commonBlackCard = new basedata.Card(999, 'Black card');
+        this.previousBlackCardType =  this.blackCardType;
+        this.blackCardType = Math.ceil(Math.random() * 3);
     }
 
     resetData(){
@@ -80,8 +83,6 @@ class GameManager {
                 this.playerList[playerIndex].cards.push(card);
             });
 
-            this.getBlackCard();
-
             if(this.currentCzarIndex === null) {
                 this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.numberOfPlayers + this.numberOfAIPlayers));
             }
@@ -93,12 +94,26 @@ class GameManager {
                 }
             });
 
+            let player_list = [];
+            this.playerList.forEach((player)=> {
+                let playerObj = {
+                    name: player.name,
+                    points: player.points
+                };
+                if (player.id === data.player_id){
+                    playerObj.id = player.id;
+                    playerObj.type = player.type;
+                    playerObj.cards = this.playerList[playerIndex].cards;
+                }
+                player_list.push(playerObj);
+            });
+
             return {
                 header: basedata.RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: card_lst,
                 black_card:  this.commonBlackCard,
                 black_card_type: this.blackCardType,
-                player_list: this.playerList,//todo: remove player cards from getting to other players
+                player_list: player_list,
                 current_czar: this.currentCzarIndex
             };
         }
@@ -230,11 +245,10 @@ class GameManager {
             let returnObject = {};
 
             returnObject.winner_player = this.winnerPlayer;
-            returnObject.common_black_card = this.commonBlackCard;
+            returnObject.black_card = this.commonBlackCard;
             returnObject.black_card_type = this.blackCardType;
             returnObject.current_czar = this.currentCzarIndex;
             returnObject.cards = this.playerList[playerIndex].cards;
-            returnObject.player_list = this.playerList; //todo: unsafe
 
             if (this.winnerPlayer === null) {
                 console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
@@ -245,22 +259,38 @@ class GameManager {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.CZAR;
                 } else {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.PLAYER;
-                    let card = new basedata.Card(555, "Something...");
-                    this.playerList[playerIndex].cards.push(card);
-                    console.log(card);
-                    returnObject.white_card = card;
+                    for (let i = 0; i < this.previousBlackCardType; i++){
+                        let card = new basedata.Card(this.generateCardId, getRandomString());
+                        this.generateCardId++;
+                        this.playerList[playerIndex].cards.push(card);
+                    }
                 }
 
                 //for each ai player
                 //fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
             }
 
+            returnObject.player_list = [];
+            this.playerList.forEach((player)=> {
+                let playerObj = {
+                    name: player.name,
+                    points: player.points
+                };
+                if (player.id === data.player_id){
+                    playerObj.id = player.id;
+                    playerObj.type = player.type;
+                    playerObj.cards = this.playerList[playerIndex].cards;
+                }
+                returnObject.player_list.push(playerObj);
+            });
             returnObject.header = basedata.RequestHeaders.RESPONSE_END_ROUND;
+            console.log(returnObject);
             return returnObject;
         }
 
         if (data.header === basedata.RequestHeaders.REQUEST_EMPTY){
             return {
+                selected_cards: this.selectedWhiteCards,
                 header: basedata.RequestHeaders.RESPONSE_EMPTY
             }
         }

@@ -65,11 +65,11 @@ function load() {
 function checkForUpdate() {
     let input = getUserInput();
     let updated = gameClient.update(input);
-    //if (updated === 'no-change')
+    //if (updated === 'no_change')
     //    return;
 
     let requestedData = gameClient.getNecessaryData();
-    //if (requestedData === 'no-change')
+    //if (requestedData === 'no_change')
     //    return;
     request(requestedData, update);
 }
@@ -88,23 +88,65 @@ function update(response) {
 function applyChanges(changes) {
     console.log(changes);
     if (changes.header === 'show_cards'){
-        let playerHandStr = '';
-        changes.cards.forEach((card) => {
-            playerHandStr += getCardHtml(card, "white");
-        });
-
-        playerHandElement.innerHTML = playerHandStr;
+        replaceHandCards(changes.cards);
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
         scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
+            document.getElementById("role").innerHTML = 'Your roles is PLAYER';
+        }
+        else{
+            document.getElementById("role").innerHTML = 'Your roles is CZAR';
+        }
+    }
+    if (changes.header === 'no_change'){
+        if (changes.selected_cards !== undefined){
+            replaceSelectedCards(changes.selected_cards);
+        }
     }
     if (changes.header === 'czar_allow_white_card_choice'){
         replaceSelectedCards(changes.selected_cards);
     }
     if (changes.header === 'not_yet_ended_wait'){//todo: this replaces with every update, optimization required
         if (changes.selected_cards !== undefined){
-            replaceSelectedCards(changes.selected_cards);//am ramas aici, trebuie sa dau refresh la cartile din mana, si la score
+            replaceSelectedCards(changes.selected_cards);
         }
     }
+    if (changes.header === 'player_round_end'){
+        document.getElementById(`card${changes.winning_cards[0].id}`).parentNode.style.border = 'green solid 2px';
+    }
+    if (changes.header === 'new_round_for_normal_player'){
+        replaceHandCards(changes.player_cards);
+        blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
+        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
+            document.getElementById("role").innerHTML = 'Your roles is PLAYER';
+        }
+        else{
+            document.getElementById("role").innerHTML = 'Your roles is CZAR';
+        }
+    }
+    if (changes.header === 'wait_for_players'){
+        blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
+        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
+            document.getElementById("role").innerHTML = 'Your role is PLAYER';
+        }
+        else{
+            document.getElementById("role").innerHTML = 'Your role is CZAR';
+        }
+    }
+    if (changes.header === "game_has_ended"){
+        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        alert("Game has ended");
+    }
+}
+
+function replaceHandCards(cards){
+    let playerHandStr = '';
+    cards.forEach((card) => {
+        playerHandStr += getCardHtml(card, "white");
+    });
+    playerHandElement.innerHTML = playerHandStr;
 }
 
 function replaceSelectedCards(cards){
@@ -131,7 +173,7 @@ function getCardHtml(card, type){
         <div class="card bg-light mb-3" id="card${card.id}" onclick="selectCardWithId(event, ${card.id})">
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
-                <button id="submitButton${card.id}" class="btn btn-success submit-button" onclick="submitCards()">Submit</button>
+                <button id="submitButton${card.id}" class="btn btn-success submit-button" onclick="submitCards(event)">Submit</button>
             </div>
         </div>`;
     }
@@ -206,7 +248,26 @@ function selectCardWithId(event, id) {
         updateCardUIIndexes();
     }
     else {
+        let found = false;
+        for (let set of gameClient.getSelectedSets()){
+            if (set === null){
+                continue;
+            }
+            for (let card of set){
+                if (card != null && card.id === id) {
+                    found = true;
+                    break;
+                }
+                if (found)
+                    break;
+            }
+        }
+        if (!found) {
+            return;
+        }
+
         selectedCards[0] = id;
+        document.getElementById(`card${id}`).parentNode.style.border = 'green solid 2px';
     }
 }
 
@@ -230,7 +291,8 @@ function hideSubmitButtons(){
     });
 }
 
-function submitCards() {
+function submitCards(event) {
+    event.stopPropagation();
     if (gameClient.getPlayerType() === PlayerTypes.PLAYER) {
         if (temporarySelectedCards.filter(el => el !== null).length === gameClient.getBlackCardPick()) {
             hideSubmitButtons();
