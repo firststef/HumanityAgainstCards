@@ -191,6 +191,32 @@ module.exports = {
       }
     });
   },
+  get_players: (roomID) =>
+    new Promise((resolve, reject) => {
+      let db = database.get_db();
+      db.db("HumansAgainstCards")
+        .collection("current_user_rooms")
+        .find(
+
+          {id_room: roomID },
+
+          { _id:0, id_room:0 ,user_id:1}
+        )
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              "Error while extracting data !\n",
+              color.white,
+              err
+            );
+            reject({ err: err });
+          } else {
+            resolve(result);
+          }
+        });
+    }),
   increase_counter: (roomID) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
