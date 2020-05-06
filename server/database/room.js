@@ -31,6 +31,32 @@ module.exports = {
         reject(false);
       }
     });
+  }, delete_current_user_rooms: (roomID) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("current_user_rooms")
+          .deleteMany({ id_room : roomID }, (err) => {
+            if (err) throw err;
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              ` deleteed room ${JSON.stringify(roomID)} !\n`
+            );
+            resolve(true);
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while deleteing  room ${JSON.stringify(roomID)} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
   },
   get_next_id: () =>
     new Promise((resolve, reject) => {
