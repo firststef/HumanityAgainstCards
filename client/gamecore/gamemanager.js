@@ -26,8 +26,10 @@ class GameManager {
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
-        playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid)));
-        //here add foreach ai player an ai player with a flag and unique id for ai
+        playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid, "player")));
+        for (let i = 0; i < numberOfAIPlayers; i++){
+            this.playerList.push(new basedata.Player(i, "ai"));
+        }
 
         //init selected cards array for each player
         for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
@@ -121,6 +123,8 @@ class GameManager {
         /**
          * After a player chooses cards, add the cards to the list and remove them from hand
          * count how many players are ready and send which wait ended
+         *
+         * receives an array of Cards and player_id
          */
         if (data.header === basedata.RequestHeaders.REQUEST_CHOSE_CARD){
             console.log('[SERVER] Client id ' + data.player_id + ' chose cards: ' + data.cards);
@@ -142,8 +146,6 @@ class GameManager {
                  * Generate the new black card for next round
                  * when czar chooses white card set index in the current round
                  */
-
-
                 //for czar, data.cards is the index in selectedWhiteCards
                 if (data.cards < this.selectedWhiteCards.length){
                     this.winningCardSet = this.selectedWhiteCards[data.cards];
@@ -185,8 +187,8 @@ class GameManager {
                         error: 'Error - selected index outside selectedWhiteCards range'
                     }
                 }
-                //because of the deleted cards we mut put getBlackCard() at the end;
-                this.getBlackCard();
+
+                this.getBlackCard(); //because of the deleted cards we must put getBlackCard() at the end;
             }
 
             this.readyPlayers++;
@@ -196,6 +198,11 @@ class GameManager {
 
                 // if czard is aistart ai choice ->
                 //fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
+
+                //fetchAI(this.commonBlackCard, player.cards)
+                //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: selectedWhiteCards]}));
+                //in this.response se modifica player.cards -> var locala
+                //trainAI
             }
             else if(this.readyPlayers === this.numberOfPlayers){
                 this.waitEnded_Czar = true;
@@ -267,7 +274,10 @@ class GameManager {
                 }
 
                 //for each ai player
-                //fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
+                //fetchAI(this.commonBlackCard, player.cards)
+                //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: [...]]}));
+                //in this.response se modifica player.cards -> var locala
+                //trainAI
             }
 
             returnObject.player_list = [];
