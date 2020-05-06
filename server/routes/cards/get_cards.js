@@ -29,8 +29,8 @@ module.exports = function (app, secured) {
 
       if (!req.body.nr) throw `No number provided !`;
       let indexes= Array();
-      var aux;
-      var numar= parseInt(req.body.nr);
+      let aux;
+      let numar= parseInt(req.body.nr);
       
       while(indexes.length<numar){
       
