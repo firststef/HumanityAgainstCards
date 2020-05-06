@@ -12,13 +12,13 @@ module.exports = function (app, secured) {
         let id=index.black_index();
         let bcard= await get_cards.get_black_cards(id);
 
-        while(bcard[0]._id===undefined)
+        while(bcard[0]===undefined)
         {
           id=index.black_index();
           bcard= await get_cards.get_black_cards(id);
         }
         
-        res.status(200).send({succes:true, card:bcard[0]._id});
+        res.status(200).send({succes:true, card:bcard[0]});
     } catch (e) {
       res.status(417).send({ succes:false, error: e.message });
     }
@@ -39,9 +39,8 @@ module.exports = function (app, secured) {
         });
 
         if( aux[0]._id!=undefined)
-          indexes.push(aux[0]._id);
+          indexes.push(aux[0]);
 
-        
       }
 
       res.status(200).send({succes:true, cards: indexes});
