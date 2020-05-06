@@ -13,10 +13,10 @@ module.exports = {
 	get_black_cards: (id) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-			var myid = parseInt(id);
+			//var myid = parseInt(id);
 			db.db("HumansAgainstCards")
 				.collection("black_cards")
-				.find({ _id: myid })
+				.find({ _id: id })
 				.toArray(function (err, result) {
 					if (err) {
 						console.log(log.date_now() + f_header, color.red, "Error while extracting data !\n", color.white, err);
@@ -34,10 +34,10 @@ module.exports = {
 	get_white_cards: (id) =>
 		new Promise((resolve, reject) => {
 			let db = database.get_db();
-			var myid = parseInt(id);
+			//var myid = parseInt(id);
 			db.db("HumansAgainstCards")
 				.collection("white_cards")
-				.find({ _id: myid })
+				.find({ _id: id })
 				.toArray(function (err, result) {
 					if (err) {
 						console.log(log.date_now() + f_header, color.red, "Error while extracting data !\n", color.white, err);

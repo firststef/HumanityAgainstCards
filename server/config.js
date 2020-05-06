@@ -1,4 +1,8 @@
 module.exports = {
+	nr_cards:{
+		white:221,
+		black:122
+	},
 	database: {
 		endpoint: "mongodb+srv://fluffypanda:thefluffa5@humanityagainstcards-vfnzh.gcp.mongodb.net/test?retryWrites=true&w=majority", //db endpoint
 		db: "HumanityAgainstCards", // clusters storage
