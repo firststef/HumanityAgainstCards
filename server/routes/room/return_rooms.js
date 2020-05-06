@@ -10,7 +10,6 @@ module.exports = function (app) {
 			if(false==rooms) throw "internal error";
 
 			var player_object=[];
-			var player_object_for_a_room=[];
 			for (var key in rooms) {
 				 player_object=await room.get_players(rooms[key].id);
 				 rooms[key].players=[];

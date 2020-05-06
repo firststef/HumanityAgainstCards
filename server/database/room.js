@@ -84,11 +84,12 @@ module.exports = {
           .collection("rooms")
           .findOne({ id: roomID }, (err, doc) => {
             if (doc !== null) {
-              console.log("exista");
+              //console.log("exista");
               resolve(true);
             }
-            if (err) throw err;
-            console.log(" NU exista");
+            if (err) {throw err;
+            //console.log(" NU exista");
+            }
             resolve(false);
           });
       } catch (err) {
