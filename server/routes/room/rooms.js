@@ -27,20 +27,30 @@ module.exports = function (app, secured) {
             score_limit: req.body.score_limit,
             max_players: req.body.max_players,
             players_in_game: 0,
-            password:req.body.password
+            password:req.body.password,
+            game_started:0
           };
 
           var status1 = await room.insert_room(room_obj).catch((e) => {
             console.error(e.message);
           });
           if (true != status1) throw "Error at inserting in db.";
-        } else if (req.body.type == "delete_room") {
+        } 
+        else if (req.body.type == "delete_room") {
+
           if (!req.body.roomID) throw " No roomID provided!";
+
           if (!(await room.room_exist(req.body.roomID)))
             throw " Room with this id dose not exist.";
-          else if (!(await room.delete_room(req.body.roomID)))
-            throw "Internal problem.";
-        } else throw "Type of command not detected.";
+          else 
+            if (!(await room.delete_room(req.body.roomID)))
+               throw "Internal problem.";
+            if(!(await room.delete_current_user_rooms(req.body.roomID)))
+               throw "Internal problem."
+            
+
+        }
+         else throw "Type of command not detected.";
 
         if (req.body.type != "create_room")
           res

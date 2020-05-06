@@ -47,6 +47,7 @@ require("./routes/room/rooms")(app,secured);
 require("./routes/room/return_rooms")(app);
 require("./routes/pages/render_page")(app,secured);
 require("./routes/ai_call/call")(app);
+require("./routes/room/start_game")(app);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");
