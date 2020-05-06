@@ -13,9 +13,9 @@ module.exports = function (app) {
              if(!req.body.roomID)throw "No roomId provided !";
              if(!room.room_exist(req.body.roomID))throw "Room does not exist!";
 
-             var playerList = await room.get_players(req.body.roomID);
-             var playerIDList=Array();
-             var ok=false;
+             let playerList = await room.get_players(req.body.roomID);
+             let playerIDList=Array();
+             let ok=false;
              for (var i = 0; i <playerList.length; i++) 
                 {
                     ok=await user.get_user_session(playerList[i].user_id);
