@@ -64,6 +64,10 @@ module.exports = {
 		"/home.js": {
 			path: "\\..\\..\\..\\client/home.js",
 			type: "text/javascript"
+		},
+		"/": {
+			path: "\\..\\..\\..\\client/HomePage.html",
+			type: "text/html"
 		}
 	},
 	require_auth : false, // false doar pt testare
