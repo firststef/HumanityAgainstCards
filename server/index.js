@@ -7,10 +7,12 @@ const express = require("express"),
 	cors = require("cors"),
 	session = require("./middleware/session_validation"),
 	header = log.date_now() + " [index.js] ";
+	const authRoutes = require("./routes/auth/google_auth_route");
 
 app.use(cors());
 app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(body_parser.json());
+app.use('/auth',authRoutes);
 
 // app.use(session);
 let secured = config.require_auth ? [session] : []; // toggable from the cofig
@@ -47,6 +49,8 @@ require("./routes/room/rooms")(app,secured);
 require("./routes/room/return_rooms")(app);
 require("./routes/pages/render_page")(app,secured);
 require("./routes/ai_call/call")(app);
+require("./routes/config/pasport-setup");
+
 require("./routes/room/start_game")(app);
 
 //Workers & connectors
