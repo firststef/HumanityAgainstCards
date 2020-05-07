@@ -57,5 +57,5 @@ require("./routes/room/start_game")(app);
 require("./routes/auth/worker/clean_outdated_accounts");
 require("./utils/database");
 require("./mail/connect");
-require("./routes/auth/connect");
+require("./routes/auth/reset_password/connect");
 
