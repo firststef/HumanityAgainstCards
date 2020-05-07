@@ -31,6 +31,32 @@ module.exports = {
         reject(false);
       }
     });
+  }, delete_current_user_rooms: (roomID) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("current_user_rooms")
+          .deleteMany({ id_room : roomID }, (err) => {
+            if (err) throw err;
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              ` deleteed room ${JSON.stringify(roomID)} !\n`
+            );
+            resolve(true);
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while deleteing  room ${JSON.stringify(roomID)} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
   },
   get_next_id: () =>
     new Promise((resolve, reject) => {
@@ -84,11 +110,12 @@ module.exports = {
           .collection("rooms")
           .findOne({ id: roomID }, (err, doc) => {
             if (doc !== null) {
-              console.log("exista");
+              //console.log("exista");
               resolve(true);
             }
-            if (err) throw err;
-            console.log(" NU exista");
+            if (err) {throw err;
+            //console.log(" NU exista");
+            }
             resolve(false);
           });
       } catch (err) {
@@ -152,12 +179,12 @@ module.exports = {
       }
     });
   },
-  check: (roomID) => {
+  check: (roomID, password) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
       db.db("HumansAgainstCards")
         .collection("rooms")
-        .find({ id: eval(roomID) })
+        .find({ id: eval(roomID) , password:password })
         .toArray((err, docs) => {
           if (!docs || !docs[0]) {
             reject("Room does not exist");
@@ -191,14 +218,40 @@ module.exports = {
       }
     });
   },
+  get_players: (roomID) =>
+    new Promise((resolve, reject) => {
+      let db = database.get_db();
+      db.db("HumansAgainstCards")
+        .collection("current_user_rooms")
+        .find(
+
+          {id_room: roomID },
+
+          { _id:0, id_room:0 ,user_id:1}
+        )
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              "Error while extracting data !\n",
+              color.white,
+              err
+            );
+            reject({ err: err });
+          } else {
+            resolve(result);
+          }
+        });
+    }),
   increase_counter: (roomID) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
       try {
         db.db("HumansAgainstCards")
-          .collection("current_user_rooms")
+          .collection("rooms")
           .updateOne({ id: roomID }, { $inc: { players_in_game: 1 } }, (err)=>{
-            if(err) throw err
+            if(err) throw err;
             resolve();
           });
       } catch (e) {

@@ -43,6 +43,41 @@ module.exports = {
           }
         });
     }),
+    get_user_session: (user) =>
+    new Promise((resolve, reject) => {
+      let db = database.get_db();
+     // console.log("session : ",session);
+      db.db("HumansAgainstCards")
+        .collection("user")
+        .find(
+          { username: user},
+          {
+            _id: 0,
+            username: 0,
+            password: 0,
+            email: 0,
+            name: 0,
+            surname: 0,
+            nickname: 0,
+            "session.value": 1,
+            "session.expire": 0,
+          }
+        )
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              "Error while extracting data !\n",
+              color.white,
+              err
+            );
+            reject({ err: err });
+          } else {
+            resolve(result);
+          }
+        });
+    }),
   /**
    * Checks the presence of a given user in the database
    * @param {string} username - The username of the required user
@@ -367,7 +402,6 @@ module.exports = {
   get_old_session: (username_, password_) =>
     new Promise((resolve, reject) => {
       let db = database.get_db();
-      var myid = parseInt(id);
       db.db("HumansAgainstCards")
         .collection("user")
         .find(
@@ -398,6 +432,44 @@ module.exports = {
               log.date_now() + f_header,
               color.green,
               "Black cards loaded ! !\n",
+              result
+            );
+            resolve(result);
+          }
+        });
+    }),
+    get_session: (username_) =>
+    new Promise((resolve, reject) => {
+      let db = database.get_db();
+      db.db("HumansAgainstCards")
+        .collection("user")
+        .find(
+          { username: username_},
+          {
+            username: 0,
+            password: 0,
+            email: 0,
+            name: 0,
+            surname: 0,
+            nickname: 0,
+            "session.value": 1,
+            "session.expire": 0,
+          }
+          ).toArray(  (err, result)=> {
+          if (err) {
+            console.log(
+              log.date_now() + f_header,
+              color.red,
+              "Error while extracting data !\n",
+              color.white,
+              err
+            );
+            reject({ err: err });
+          } else {
+            console.log(
+              log.date_now() + f_header,
+              color.green,
+              "Session extracted !\n",
               result
             );
             resolve(result);

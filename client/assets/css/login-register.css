@@ -15,6 +15,39 @@ body, html {
 
 }
 
+#reset_form{
+    align-self: center;
+
+}
+
+#f_pass{
+    background: inherit;
+    text-align: center;
+    margin-top: -20%;
+    margin-left: 37%;
+    border: none;
+    color: #6c757d;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(229,46,113,.2);
+}
+
+
+#f_pass_form{
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    color: aliceblue;
+    background: #333333;
+    border: none;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(229,46,113,.2);
+}
+
+#exampleModal{
+    margin-top: 150px;
+}
+
+#register{
+    margin-top: -10px;
+}
 .color{
     color: white;
 }

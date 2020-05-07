@@ -1,4 +1,8 @@
 module.exports = {
+	nr_cards:{
+		white:221,
+		black:122
+	},
 	database: {
 		endpoint: "mongodb+srv://fluffypanda:thefluffa5@humanityagainstcards-vfnzh.gcp.mongodb.net/test?retryWrites=true&w=majority", //db endpoint
 		db: "HumanityAgainstCards", // clusters storage
@@ -25,7 +29,6 @@ module.exports = {
 	}
 	,
 	pages: {
-		
 		"/lobbies.html": {
 			path: "\\..\\..\\..\\client\\lobbies.html",
 			type: "text/html"
@@ -65,8 +68,11 @@ module.exports = {
 		"/home.js": {
 			path: "\\..\\..\\..\\client/home.js",
 			type: "text/javascript"
+		},
+		"/": {
+			path: "\\..\\..\\..\\client/HomePage.html",
+			type: "text/html"
 		}
-
 	},
 	require_auth : false, // false doar pt testare
 };
