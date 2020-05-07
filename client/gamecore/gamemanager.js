@@ -7,7 +7,7 @@ function fetchAI(blackCard, listOfCards){
 }
 
 class GameManager {
-    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList, roomID) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false;
         this.waitEnded_Czar = false;
 
