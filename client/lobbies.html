@@ -113,7 +113,7 @@
             <div class="card" id="${room.id}">
                 <h5 class="card-header" >Room name: ${room.room_name} (${room.players_in_game}/${room.max_players})</h5>
                 <div class="card-body">
-                    <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>
+                    <h5 class="card-title">Players: ${room.players.join('')}</h5>
                     <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
                     <h5 class="card-title">Goal: ${room.score_limit} </h5>
                     <p class="card-text">Id: ${room.id}</p>
@@ -192,7 +192,7 @@
         .then(res => res.json())
         .then(res=> {
             if (res.success === true) {
-                window.location.href = 'room-' + id;
+                window.location.href = '/waitingRoom?roomID=' + id;
             }
             else {
                 alert('Could not join room');

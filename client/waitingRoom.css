@@ -61,3 +61,7 @@ body {
   height: 7.5%;
   background: red;
 }
+
+#startGameDiv {
+  display: none;
+}
