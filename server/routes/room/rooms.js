@@ -8,21 +8,22 @@ module.exports = function (app, secured) {
   app.post("/rooms", secured, async (req, res) => {
     try {
         if (!req.body.type) throw "No type provided!";
-        var v_id;
+        
         if (req.body.type == "create_room") {
           if (!req.body.room_name) throw "No room_name provided!";
           if (!req.body.score_limit) throw "No score_limite provided!";
           if (!req.body.max_players) throw "No max_players provided!";
           if (req.body.password===undefined) throw "No max_players provided!";
 
-          v_id = await room.get_next_id().catch((e) => {
+          
+           var v_id = await room.get_next_id().catch((e) => {
             console.error(e.message);
           });
-          console.log(typeof v_id + " " + v_id);
+          let username= await user.get_user_id(req.headers.session);
           v_id = v_id + 1;
           let room_obj = {
             id: v_id,
-            session: req.body.session,
+            host : username[0].username,
             room_name: req.body.room_name,
             score_limit: req.body.score_limit,
             max_players: req.body.max_players,
@@ -30,11 +31,16 @@ module.exports = function (app, secured) {
             password:req.body.password,
             game_started:0
           };
+          
 
-          var status1 = await room.insert_room(room_obj).catch((e) => {
+          let status = await room.insert_room(room_obj).catch((e) => {
             console.error(e.message);
           });
-          if (true != status1) throw "Error at inserting in db.";
+          if (true != status) throw "Error at inserting in db.";
+          
+          await room.add_player(v_id,username[0].username);
+        
+
         } 
         else if (req.body.type == "delete_room") {
 
@@ -68,7 +74,7 @@ module.exports = function (app, secured) {
       res
         .status(417)
         .send(
-          JSON.stringify({ success: false,  err: e })
+          JSON.stringify({ success: false,  err: e.message })
         );
     }
   });

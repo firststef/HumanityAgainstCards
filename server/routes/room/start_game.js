@@ -11,7 +11,7 @@ module.exports = function (app) {
 	app.get("/start_game", async (req, res) => {
 		try {
              if(!req.body.roomID)throw "No roomId provided !";
-             if(!room.room_exist(req.body.roomID))throw "Room does not exist!";
+             if(! await room.room_exist(req.body.roomID))throw "Room does not exist!";
 
              let playerList = await room.get_players(req.body.roomID);
              let playerIDList=Array();
