@@ -57,7 +57,7 @@ function getJoinedPlayers() {
         headers: {
             "Content-type": "application/json",
             "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c=',
-            body: {roomID: roomID}
+            "roomID": roomID
         }
     })
         .then(res => res.json())
