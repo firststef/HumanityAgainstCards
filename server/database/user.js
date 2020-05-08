@@ -39,6 +39,8 @@ module.exports = {
             );
             reject({ err: err });
           } else {
+            if(result==null)
+            resolve(false);
             resolve(result);
           }
         });

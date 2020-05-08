@@ -16,7 +16,7 @@ module.exports = {
             console.log(
               log.date_now() + f_header,
               color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
+              ` deleted room ${JSON.stringify(roomID)} !\n`
             );
             resolve(true);
           });
@@ -24,7 +24,7 @@ module.exports = {
         console.log(
           log.date_now() + f_header,
           color.red,
-          `Error while deleteing  room ${JSON.stringify(roomID)} !\n`,
+          `Error  room ${JSON.stringify(roomID)} !\n`,
           color.white,
           err
         );
@@ -42,7 +42,7 @@ module.exports = {
             console.log(
               log.date_now() + f_header,
               color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
+              ` deleted room ${JSON.stringify(roomID)} !\n`
             );
             resolve(true);
           });
@@ -93,11 +93,11 @@ module.exports = {
                 return o.id;
               })
             );
-            console.log(
+            /*console.log(
               log.date_now() + f_header,
               color.green,
-              "am fcaut maximul " + max
-            ); //, result);
+              "am facut maximul " + max
+            ); //, result);*/
             resolve(max);
           }
         });
@@ -130,6 +130,35 @@ module.exports = {
       }
     });
   },
+  is_host_to_room: (roomID, host) => {
+      return new Promise((resolve, reject) => {
+        let db = database.get_db();
+        try {
+          db.db("HumansAgainstCards")
+            .collection("rooms")
+            .findOne({ id: roomID , host: host}, (err, doc) => {
+            if (err) {throw err;
+                          //console.log(" NU exista");
+                          }
+              if (doc !== null) {
+                //console.log("exista");
+                resolve(true);
+              }
+              else
+              resolve(false);
+            });
+        } catch (err) {
+          console.log(
+            log.date_now() + f_header,
+            color.red,
+            `Error while searching session ${value} !\n`,
+            color.white,
+            err
+          );
+          reject(false);
+        }
+      });
+    },
   get_all_rooms: () => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
@@ -144,6 +173,31 @@ module.exports = {
             if (err) throw err;
             console.log(" NU exista");
             resolve(false);
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while searching session ${value} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
+  },
+  get_rooms_for_host: (username) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("rooms")
+          .find({ host : username }).toArray((err, doc) => {
+            if (doc !== null) {
+              console.log("exista");
+              resolve(doc);
+            }
+            if (err){throw err;}
           });
       } catch (err) {
         console.log(

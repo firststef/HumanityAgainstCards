@@ -53,6 +53,7 @@ require("./routes/ai_call/call")(app);
 require("./routes/config/pasport-setup");
 
 require("./routes/room/start_game")(app);
+require("./routes/room/get_hosted_rooms")(app);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");
