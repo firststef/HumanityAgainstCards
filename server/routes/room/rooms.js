@@ -94,12 +94,11 @@ module.exports = function (app, secured) {
 
       //verifica daca este deja in camera ca sa il integreze
       var ok = await room.is_player_in_room(req.body.roomID,u_id[0].username);
-      if(ok==true)
+      if(ok===true)
       {
         await room.add_player(req.body.roomID, u_id[0].username);
         await room.increase_counter(req.body.roomID);
       }
-      else throw "Player is already in the game";
 
       res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {

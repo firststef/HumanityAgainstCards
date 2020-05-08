@@ -39,7 +39,7 @@ module.exports = {
           .collection("current_user_rooms")
           .deleteMany({ id_room : roomID }, (err) => {
             if (err) throw err;
-          
+
             resolve(true);
           });
       } catch (err) {
@@ -109,10 +109,12 @@ module.exports = {
               //console.log("exista");
               resolve(true);
             }
-            if (err) {throw err;
-            //console.log(" NU exista");
+            else {
+                if (err) {
+                    throw err;
+                }
+                resolve(false);
             }
-            resolve(false);
           });
       } catch (err) {
         console.log(
@@ -223,7 +225,7 @@ module.exports = {
           .find({ host : username }).toArray((err, doc) => {
             if (doc !== null) {
               //console.log("exista");
-              //resolve(doc);
+              resolve(doc);
             }
             if (err){throw err;}
           });
