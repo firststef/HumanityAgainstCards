@@ -8,7 +8,7 @@ module.exports = function (app) {
              if(!req.headers.roomid) throw "No roomID provided."
 
             let players=Array();
-            let player_object=await room.get_players(req.body.roomid);
+            let player_object=await room.get_players(parseInt(req.headers.roomid));
 				 for(var key2 in player_object){
 					if (player_object.hasOwnProperty(key2)) {
 						players.push(player_object[key2].user_id);
