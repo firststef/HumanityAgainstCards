@@ -87,16 +87,19 @@ module.exports = function (app, secured) {
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID,req.body.password);
 
+      //scoate usernaem-ul dupa session
       let u_id = await user.get_user_id(req.headers.session);
       if(u_id===false) throw "internal error";
+      console.log(u_id[0].username);
 
-     /* let ok =await room.is_player_in_room(u_id);
-      if(ok===false)
+      //verifica daca este deja in camera ca sa il integreze
+      var ok = await room.is_player_in_room(req.body.roomID,u_id[0].username);
+      if(ok==true)
       {
         await room.add_player(req.body.roomID, u_id[0].username);
         await room.increase_counter(req.body.roomID);
       }
-      else throw "Player is already in the game";*/
+      else throw "Player is already in the game";
 
       res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
@@ -104,7 +107,7 @@ module.exports = function (app, secured) {
       res.status(417).send(
         JSON.stringify({
           success: false,
-          err: e,
+         reason: e,
         })
       );
     }
