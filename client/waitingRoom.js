@@ -63,7 +63,7 @@ function getJoinedPlayers() {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                document.getElementById("player-list").innerHTML += res.players.map(p => getPlayerDiv(p)).join('');
+                document.getElementById("player-list").innerHTML = res.players.map(p => getPlayerDiv(p)).join('');
             } else {
                 console.log('Could not get players room');
             }
