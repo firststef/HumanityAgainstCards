@@ -274,7 +274,7 @@ module.exports = {
         .toArray((err, docs) => {
           if (!docs || !docs[0]) {
             reject("Room does not exist");
-          } else if (docs[0].players_in_game === docs[0].max_players) {
+          } else if (docs[0].players_in_game === parseInt(docs[0].max_players) ){
             reject("Room is full");
           } else {
             resolve(true);
