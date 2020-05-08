@@ -157,6 +157,31 @@ module.exports = {
       }
     });
   },
+  get_rooms_for_host: (username) => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("rooms")
+          .find({ host : username }).toArray((err, doc) => {
+            if (doc !== null) {
+              console.log("exista");
+              resolve(doc);
+            }
+            if (err){throw err;}
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while searching session ${value} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
+  },
   insert_room: (room) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();

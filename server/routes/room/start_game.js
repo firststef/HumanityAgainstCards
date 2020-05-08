@@ -8,7 +8,7 @@ f_header = "[routes/room/start_game.js]";
 
 
 module.exports = function (app) {
-	app.get("/start_game", async (req, res) => {
+	app.post("/start_game", async (req, res) => {
 		try {
              if(!req.body.roomID)throw "No roomId provided !";
              if(! await room.room_exist(req.body.roomID))throw "Room does not exist!";
@@ -27,7 +27,7 @@ module.exports = function (app) {
              map.RoomMap.set(req.body.roomID,game_manager);
              //map.print();
             
-			res.status(200).send({success:true, map: map.RoomMap});
+			res.status(200).send({success:true});
 		} catch (e) {
 			console.log(e.message+" in "+f_header);
 			res.status(401).send({ success: false, reason: e.message });
