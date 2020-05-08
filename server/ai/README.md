@@ -25,17 +25,21 @@
       - intoarce un mesaj de succes si doar unul dintre arrayurile din whiteCardsList in format JSON
       - {"answer":"Success","result":[{"_id":"2","text":"Autocannibalism."}]}
       - {"answer":"Success","result":[{"_id":"1","text":"Man meat."},{"_id":"2","text":"Autocannibalism."}]}
+      - Nu exista mesaj de eroare. Singurul caz probabil este sa nu fie timeout
     - pentru *trainAi*: {*"black_card"*: "JSON.stringify(blackCard)", *"white_cards"*: "JSON.stringify(whiteCards)" }
       - blackCard este un array : [card]
-      - in acest caz, whiteCards este doar un array: [card], sau [card1, card2, ..]
+      - in acest caz, whiteCards este  un array de arrayuri: [[card]], sau [[card1], [card2], ..]
       - intoarce doar un mesaj de succes
-      - {"answer":"Success"}
+      - {"answer":"Success", "result": "Updated the db successfully."}
+      - {"answer":"Error", "result": "Couldn't update the db."}
     - pentru *getProbability*: {}
       - intoarce un mesaj de succes precum si o valoare intre 0 si 100
       - {"answer":"Success","result":"30"}
+      - { "answer": "Error", "result": "Invalid command." }
     - pentru *setProbability*: {*"p"*: "probability"}, unde 0<=probability<=100
       - intoarce doar un mesaj de succes
-      - {"answer":"Success"}
+      - {"answer":"Success", "result" : "Probability set to ***p***"}
+      - { "answer": "Error", "result": "Invalid probability. Set 0-100" }
     - exemple de utilizare: 
 
 
@@ -50,11 +54,11 @@ http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}]]}
 ```
 
 ```javascript
-http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text":  "Man meat."}]}
+http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text":  "Man meat."}]]}
 ```
 
 ```javascript
@@ -67,8 +71,5 @@ http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "30"}
     
 # Posibile erori
 
-  - doar **getAiAnswer** si **trainAi** sunt tratate
-
-  - nu este tratata exceptia pentru momentul in care nu se primeste raspuns, deci in aceste cazuri fie trebuie trimise requesturi noi, fie trebuie restartat serverul
-
+  - nu este tratata exceptia pentru momentul in care nu se primeste raspuns, deci in aceste cazuri trebuie trimise requesturi noi
 

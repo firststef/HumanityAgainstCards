@@ -1,10 +1,10 @@
-const config = require("../../config"),
+const config = require("../auth/reset_password/config"),
 	color = require("../../colors"),
 	log = require("../../utils/log"),
 	user = require("../../database/user"),
 	fs = require("fs"),
 	path = require("path"),
-	mail = require("./connect"),
+	mail = require("./reset_password/connect"),
 	generate = require("../../utils/generate"),
 	encode = require("../../utils/encode"),
 mongoose = require("mongoose"),
@@ -18,7 +18,7 @@ module.exports = function (app) {
 			if (!req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/)) throw `Invalid email !`;
 	
 			transporter = mail.get_transporter();
-			fs.readFile(path.join(__dirname, "./index.html"), "utf8", (err, html) => {
+			fs.readFile(path.join(__dirname, "./reset_password/index.html"), "utf8", (err, html) => {
 				if (err) throw err;
 				else {
 					let mail = {

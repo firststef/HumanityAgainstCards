@@ -35,8 +35,12 @@ module.exports = function (app) {
             user_obj.session = session;
 			//try to launch the data in the db
 			let ok = await user.register(user_obj);
-            if (!ok) throw `An internal error occured while attempting to access the database !`;
+			if (!ok) throw `An internal error occured while attempting to access the database !`;
 			
+			//delete temp
+			let delete_temp = await user.delete_user_temp(req.params.username, req.params.code);
+			if (!delete_temp) throw ` can not delete the user temp`;
+
             let response = {
 				sucess: true,
 				username: req.body.username,

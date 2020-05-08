@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer"),
 	log = require("../utils/log"),
-	config = require("../config"),
+	config = require("../routes/auth/reset_password/config"),
 	color = require("../colors"),
 	fs = require("fs"),
 	path = require("path"),
