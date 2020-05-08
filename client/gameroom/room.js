@@ -132,6 +132,7 @@ function getCardHtml(card, type){
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
                 <button id="submitButton${card.id}" class="btn btn-success submit-button" onclick="submitCards()">Submit</button>
+                <h1 class="card-index" id="cardIndex${card.id}"></h1>
             </div>
         </div>`;
     }
@@ -187,6 +188,8 @@ function selectCardWithId(event, id) {
 
         let index = temporarySelectedCards.indexOf(id);
         if (index !== -1){
+            updateCardUIIndexes();
+            unselectCard();
             hideSubmitButtons();
             temporarySelectedCards[index] = null;
         }
@@ -200,10 +203,13 @@ function selectCardWithId(event, id) {
                 i++;
             }
         }
+        if (temporarySelectedCards.filter(el => el !== null)) {
+            selectCard();
+            updateCardUIIndexes();
+        }
         if (temporarySelectedCards.filter(el => el !== null).length === gameClient.getBlackCardPick()){
             showSubmitButtons();
         }
-        updateCardUIIndexes();
     }
     else {
         selectedCards[0] = id;
@@ -211,7 +217,14 @@ function selectCardWithId(event, id) {
 }
 
 function updateCardUIIndexes() {
-    //iteram prin temporarySelectedCards si setam indexul pentu cartie cu id-urile respective
+    temporarySelectedCards.forEach(id => {
+        if (id !== null) {
+            let cardIndex = document.getElementById(`cardIndex${id}`);
+            let i = temporarySelectedCards.indexOf(id);
+            cardIndex.innerHTML=`${i + 1}`;
+            cardIndex.style.display = "block";
+        }
+    });
 }
 
 function showSubmitButtons(){
@@ -226,6 +239,26 @@ function hideSubmitButtons(){
     temporarySelectedCards.forEach(id => {
         if (id !== null) {
             document.getElementById(`submitButton${id}`).style.display = "none";
+        }
+    });
+}
+
+function unselectCard(){
+    temporarySelectedCards.forEach(id => {
+        if (id !== null) {
+            let element = document.getElementById(`card${id}`);
+            element.classList.remove("selected");
+            let cardIndex = document.getElementById(`cardIndex${id}`);
+            cardIndex.innerHTML="";
+        }
+    });
+}
+
+function selectCard(){
+    temporarySelectedCards.forEach(id => {
+        if (id !== null) {
+            let element = document.getElementById(`card${id}`);
+            element.classList.add("selected");
         }
     });
 }
