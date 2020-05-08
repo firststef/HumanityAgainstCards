@@ -252,7 +252,8 @@ class GameClient {
                     player_list: this.playerList,
                     cards: this.cards,
                     black_card: this.commonBlackCard,
-                    black_card_type: this.blackCardType
+                    black_card_type: this.blackCardType,
+                    player_cards: pList
                 };
             }
         }

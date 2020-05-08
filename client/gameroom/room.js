@@ -1,4 +1,4 @@
-const parent=require('./gamemanager');
+const gm=require('./gamemanager');
 
 var gameClient;
 var updateInterval;
@@ -49,7 +49,7 @@ function load() {
     request({header: 'get_id'}, request => {
         if (request.header === 'sent_id'){
             let clientId = request.id;
-            gameClient = new parent.GameClient(clientId);
+            gameClient = new gm.GameClient(clientId);
 
             checkForUpdate();
             updateInterval = setInterval(()=>{
@@ -126,8 +126,10 @@ function applyChanges(changes) {
         }
     }
     if (changes.header === 'wait_for_players'){
+        replaceHandCards(changes.player_cards);
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
         scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        otherPlayedCardsElement.innerHTML = '';
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
             document.getElementById("role").innerHTML = 'Your role is PLAYER';
         }
