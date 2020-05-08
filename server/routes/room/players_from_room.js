@@ -5,7 +5,7 @@ f_header = "[routes/room/payers_from_room.js]";
 module.exports = function (app) {
 	app.get("/players_from_room", async (req, res) => {
 		try {
-             if(!req.body.roomID) throw "No roomID provided."
+             if(!req.headers.roomID) throw "No roomID provided."
 
             let players=Array();
             let player_object=await room.get_players(req.body.roomID);

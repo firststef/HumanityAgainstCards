@@ -90,9 +90,13 @@ module.exports = function (app, secured) {
       let u_id = await user.get_user_id(req.headers.session);
       if(u_id===false) throw "internal error";
 
-      //update or not the session ?
-      await room.add_player(req.body.roomID, u_id[0].username);
-      await room.increase_counter(req.body.roomID);
+      let ok =await room.is_player_in_room(u_id);
+      if(ok===false)
+      {
+        await room.add_player(req.body.roomID, u_id[0].username);
+        await room.increase_counter(req.body.roomID);
+      }
+      else throw "Player is already in the game";
 
       res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {

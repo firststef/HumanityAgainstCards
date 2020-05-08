@@ -16,7 +16,7 @@ module.exports = {
             console.log(
               log.date_now() + f_header,
               color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
+              ` deleted room ${JSON.stringify(roomID)} !\n`
             );
             resolve(true);
           });
@@ -24,7 +24,7 @@ module.exports = {
         console.log(
           log.date_now() + f_header,
           color.red,
-          `Error while deleteing  room ${JSON.stringify(roomID)} !\n`,
+          `Error  room ${JSON.stringify(roomID)} !\n`,
           color.white,
           err
         );
@@ -42,7 +42,7 @@ module.exports = {
             console.log(
               log.date_now() + f_header,
               color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
+              ` deleted room ${JSON.stringify(roomID)} !\n`
             );
             resolve(true);
           });
@@ -93,11 +93,11 @@ module.exports = {
                 return o.id;
               })
             );
-            console.log(
+            /*console.log(
               log.date_now() + f_header,
               color.green,
-              "am fcaut maximul " + max
-            ); //, result);
+              "am facut maximul " + max
+            ); //, result);*/
             resolve(max);
           }
         });
