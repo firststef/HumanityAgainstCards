@@ -22,7 +22,7 @@ body {
   align-items: center;
 }
 
-#startButton {
+.start-button {
   background: black;
   text-transform: uppercase;
   font-size: 1rem;
@@ -32,7 +32,7 @@ body {
   border-radius: 6px;
 }
 
-#startButton:hover {
+.start-button:hover {
   transition: 0.2s;
   background: darkgreen;
   cursor: pointer;
@@ -44,20 +44,72 @@ body {
   text-align: center;
 }
 
-#player-list {
+#playerList {
   width: 20%;
-  background: rgb(169, 169, 169, 0.5);
+  background: rgba(169, 169, 169, 0.5);
 }
 
-#player-list .player:first-child {
+#playerList .player:first-child {
   margin-top: 20%;
 }
 
-#player-list .player:last-child {
+#playerList .player:last-child {
   margin-bottom: 20%;
 }
 
 .player {
+  display: flex;
+  align-items: center;
   height: 7.5%;
-  background: red;
+  border-top: 4px solid black;
+  background: rgba(255, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+#playerList .player:last-of-type {
+  border-bottom: 4px solid black;
+}
+
+.player b {
+  margin-left: 5%;
+}
+
+@media (min-width: 769px) {
+  #mobileButton {
+    display: none;
+  }
+
+  #hostInfo {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  #presentation {
+    display: none;
+  }
+
+  #playerList {
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .player  {
+    justify-content: center;
+  }
+
+  #playerList .player:first-child {
+    margin-top: 0px;
+  }
+
+  #playerList .player:last-child {
+    margin-bottom: 0px;
+  }
+
+  #hostInfo {
+    text-align: center;
+  }
 }
