@@ -39,11 +39,7 @@ module.exports = {
           .collection("current_user_rooms")
           .deleteMany({ id_room : roomID }, (err) => {
             if (err) throw err;
-            console.log(
-              log.date_now() + f_header,
-              color.red,
-              ` deleted room ${JSON.stringify(roomID)} !\n`
-            );
+          
             resolve(true);
           });
       } catch (err) {
@@ -86,7 +82,7 @@ module.exports = {
             );
             reject({ err: err });
           } else {
-            console.log(result);
+            //console.log(result);
             let max = Math.max.apply(
               Math,
               result.map(function (o) {
@@ -159,6 +155,38 @@ module.exports = {
         }
       });
     },
+    is_player_in_room: (roomID,user) => {
+          return new Promise((resolve, reject) => {
+            let db = database.get_db();
+          //  console.log(roomID);
+            //console.log(user);
+            try {
+              db.db("HumansAgainstCards")
+                .collection("current_user_rooms")
+                .findOne({ id_room: roomID , user_id: user}, (err, doc) => {
+                if (err) {throw err;
+                              //console.log(" NU exista");
+                              }
+                  if (doc ==null) {
+                  //  console.log("nu exista");
+                  //  console.log(doc);
+                    resolve(true);
+                  }
+                  else
+                  resolve(false);
+                });
+            } catch (err) {
+              console.log(
+                log.date_now() + f_header,
+                color.red,
+                `Error while searching session ${value} !\n`,
+                color.white,
+                err
+              );
+              reject(false);
+            }
+          });
+        },
   get_all_rooms: () => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
@@ -167,11 +195,11 @@ module.exports = {
           .collection("rooms")
           .find({  }).toArray((err, doc) => {
             if (doc !== null) {
-              console.log("exista");
+              //console.log("exista");
               resolve(doc);
             }
             if (err) throw err;
-            console.log(" NU exista");
+            //console.log(" NU exista");
             resolve(false);
           });
       } catch (err) {
@@ -194,8 +222,8 @@ module.exports = {
           .collection("rooms")
           .find({ host : username }).toArray((err, doc) => {
             if (doc !== null) {
-              console.log("exista");
-              resolve(doc);
+              //console.log("exista");
+              //resolve(doc);
             }
             if (err){throw err;}
           });
@@ -242,7 +270,7 @@ module.exports = {
         .toArray((err, docs) => {
           if (!docs || !docs[0]) {
             reject("Room does not exist");
-          } else if (docs[0].players_in_game === docs[0].max_players) {
+          } else if (docs[0].players_in_game === parseInt(docs[0].max_players) ){
             reject("Room is full");
           } else {
             resolve(true);
