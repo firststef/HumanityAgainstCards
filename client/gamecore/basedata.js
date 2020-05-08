@@ -41,9 +41,9 @@ class Card {
 
 //Only used for arrays
 class Player {
-    constructor(id) {
+    constructor(id, name) {
         this.id = id;
-        this.name = 'player';
+        this.name = name;
         this.points = 0;
         this.cards = [];
         this.type = null;

@@ -109,7 +109,8 @@
     sid = undefined;
 
     function getRoomHtml(room) {
-        return `<div class="card" id="${room.id}">
+        return `
+            <div class="card" id="${room.id}">
                 <h5 class="card-header" >Room name: ${room.room_name} (${room.players_in_game}/${room.max_players})</h5>
                 <div class="card-body">
                     <h5 class="card-title">Players: Player, Player, Player, Player, Player, Player, Player, Player</h5>

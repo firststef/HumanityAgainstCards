@@ -5,7 +5,7 @@ const config = require("../../config"),
     engine = require("../../../client/gamecore/library");
 f_header = "[routes/game/game_handler.js]";
 
-var game_manager = new engine.GameManager(2, 0, [0, 1]);
+var game_manager = new engine.GameManager(3, 0, [0, 1, 2]);
 
 module.exports = function (app,secured) {
     app.post("/game_manager/response", secured, async (req, res) => {
@@ -22,7 +22,7 @@ module.exports = function (app,secured) {
                 response = game_manager.response(req.body);
             }
             if (response.error !== undefined) throw `Awkward client error thrown "${response}"`;
-            console.log(JSON.stringify({  success: true, data: response }));
+            //console.log(JSON.stringify({  success: true, data: response }));
             res.status(200).send(JSON.stringify({  success: true, data: response }));
         } catch (e) {
             console.log(JSON.stringify({ success: false, err: e }));

@@ -23,7 +23,7 @@ function sendActivationCode(){
 
     server_message.style.color='red';
     console.log("Script for account activation request");
-    let url = "http://localhost:8081/routes/auth/confirm_account";
+    let url = "http://localhost:8081/auth/confirm_account";
 
 
     sendHttpRequest('POST', url, {

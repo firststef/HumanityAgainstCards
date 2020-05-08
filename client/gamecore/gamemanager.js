@@ -7,7 +7,7 @@ function fetchAI(blackCard, listOfCards){
 }
 
 class GameManager {
-    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList, roomID) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false;
         this.waitEnded_Czar = false;
 
@@ -25,19 +25,22 @@ class GameManager {
 
         this.maxPoints = 2; //2 is set just for cycle preview -- use higher values
 
-        playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid)));
-        //here add foreach ai player an ai player with a flag and unique id for ai
+        playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid, "player")));
+        for (let i = 0; i < numberOfAIPlayers; i++){
+            this.playerList.push(new basedata.Player(i, "ai"));
+        }
 
         //init selected cards array for each player
         for(let i=0; i < this.numberOfPlayers + this.numberOfAIPlayers; i++) {
             this.selectedWhiteCards[i] = new Array(3);
         }
+        this.getBlackCard();
     }
 
     getBlackCard(){
         //todo: request card
-        this.commonBlackCard = new basedata.Card(999, 'Some black card text');
-        this.blackCardType = 2;
+        this.commonBlackCard = new basedata.Card(999, 'Black card');
+        this.blackCardType = Math.ceil(Math.random() * 3);
     }
 
     resetData(){
@@ -54,7 +57,7 @@ class GameManager {
     response(data){//TODO: in server === 'error' should be consistent
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
-            console.log('[SERVER] Error on player index: ' + playerIndex);
+            //console.log('[SERVER] Error on player index: ' + playerIndex);
             return {
                 error: 'Error on player index'
             }
@@ -80,8 +83,6 @@ class GameManager {
                 this.playerList[playerIndex].cards.push(card);
             });
 
-            this.getBlackCard();
-
             if(this.currentCzarIndex === null) {
                 this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.numberOfPlayers + this.numberOfAIPlayers));
             }
@@ -93,12 +94,26 @@ class GameManager {
                 }
             });
 
+            let player_list = [];
+            this.playerList.forEach((player)=> {
+                let playerObj = {
+                    name: player.name,
+                    points: player.points
+                };
+                if (player.id === data.player_id){
+                    playerObj.id = player.id;
+                    playerObj.type = player.type;
+                    playerObj.cards = this.playerList[playerIndex].cards;
+                }
+                player_list.push(playerObj);
+            });
+
             return {
                 header: basedata.RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: card_lst,
                 black_card:  this.commonBlackCard,
                 black_card_type: this.blackCardType,
-                player_list: this.playerList,//todo: remove player cards from getting to other players
+                player_list: player_list,
                 current_czar: this.currentCzarIndex
             };
         }
@@ -106,9 +121,11 @@ class GameManager {
         /**
          * After a player chooses cards, add the cards to the list and remove them from hand
          * count how many players are ready and send which wait ended
+         *
+         * receives an array of Cards and player_id
          */
         if (data.header === basedata.RequestHeaders.REQUEST_CHOSE_CARD){
-            console.log('[SERVER] Client id ' + data.player_id + ' chose cards: ' + data.cards);
+            //console.log('[SERVER] Client id ' + data.player_id + ' chose cards: ' + data.cards);
             if(this.playerList[playerIndex].type === basedata.PlayerTypes.PLAYER) {
                 //iterate through the normal player selected cards
                 for (let i = 0; i < this.blackCardType; i++) {
@@ -127,8 +144,6 @@ class GameManager {
                  * Generate the new black card for next round
                  * when czar chooses white card set index in the current round
                  */
-
-
                 //for czar, data.cards is the index in selectedWhiteCards
                 if (data.cards < this.selectedWhiteCards.length){
                     this.winningCardSet = this.selectedWhiteCards[data.cards];
@@ -141,20 +156,23 @@ class GameManager {
                                 foundOwner = true;
                                 if (player.points >= this.maxPoints) {
                                     this.winnerPlayer = player;
-                                    console.log('[SERVER] Winner set(id): ' + +player.id + '; points= ' + player.points);
+                                    //('[SERVER] Winner set(id): ' + +player.id + '; points= ' + player.points);
                                 }
-                                console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
+                                //console.log('[SERVER] Updated points for client id: ' + player.id + '; points= ' + player.points);
                             }
                             //from every player deleting the cards he used
                             for (let i = 0; i < this.blackCardType; i++) {
                                 let tempPlayerIndex = this.playerList.findIndex(p => p.id === player.id);
                                 let cardIndex = player.cards.findIndex(card => card.id === this.selectedWhiteCards[tempPlayerIndex][i].id);
+
                                 if (cardIndex !== -1) {
                                     player.cards.splice(cardIndex, 1);
+                                    player.cards.push(new basedata.Card(this.generateCardId, getRandomString()));
+                                    this.generateCardId++;
                                 }
                                 else
                                 {
-                                    console.log("Card not found");
+                                    console.log("Card for remove not found");
                                 }
                             }
                         }
@@ -170,8 +188,6 @@ class GameManager {
                         error: 'Error - selected index outside selectedWhiteCards range'
                     }
                 }
-                //because of the deleted cards we mut put getBlackCard() at the end;
-                this.getBlackCard();
             }
 
             this.readyPlayers++;
@@ -181,10 +197,16 @@ class GameManager {
 
                 // if czard is aistart ai choice ->
                 //fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
+
+                //fetchAI(this.commonBlackCard, player.cards)
+                //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: selectedWhiteCards]}));
+                //in this.response se modifica player.cards -> var locala
+                //trainAI
             }
             else if(this.readyPlayers === this.numberOfPlayers){
                 this.waitEnded_Czar = true;
                 this.currentCzarIndex = (this.currentCzarIndex + 1) % this.numberOfPlayers; //change czar here so it only happens once
+                this.getBlackCard(); //because of the deleted cards we must put getBlackCard() at the end;
             }
 
 
@@ -198,7 +220,7 @@ class GameManager {
          * Wait ended for players, send czar the selected cards array
          */
         if(data.header === basedata.RequestHeaders.REQUEST_WAIT_ENDED_PLAYERS){
-            console.log('[SERVER] Client requested game status');
+            //console.log('[SERVER] Client requested game status');
             return {
                 header: basedata.RequestHeaders.RESPONSE_WAIT_ENDED_PLAYERS,
                 selected_cards: this.selectedWhiteCards,
@@ -210,7 +232,7 @@ class GameManager {
          * Wait ended for czar, send winning card to players
          */
         if(data.header === basedata.RequestHeaders.REQUEST_WAIT_ENDED_CZAR){
-            console.log('[SERVER] Client requested game status');
+            //console.log('[SERVER] Client requested game status');
             return {
                 header: basedata.RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
                 wait_end: this.waitEnded_Czar,
@@ -226,41 +248,54 @@ class GameManager {
          * if there is a winner set 'endGame' to true
          */
         if(data.header === basedata.RequestHeaders.REQUEST_END_ROUND) {
-            console.log('[SERVER] Client id ' + data.player_id + ' requested end round');
+            //console.log('[SERVER] Client id ' + data.player_id + ' requested end round');
             let returnObject = {};
 
             returnObject.winner_player = this.winnerPlayer;
-            returnObject.common_black_card = this.commonBlackCard;
+            returnObject.black_card = this.commonBlackCard;
             returnObject.black_card_type = this.blackCardType;
             returnObject.current_czar = this.currentCzarIndex;
             returnObject.cards = this.playerList[playerIndex].cards;
-            returnObject.player_list = this.playerList; //todo: unsafe
 
             if (this.winnerPlayer === null) {
-                console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
+                //console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
                 this.resetData();
 
                 if(playerIndex === this.currentCzarIndex){
-                    console.log('Player id ' + this.playerList[playerIndex].id + ' is czar');
+                    //console.log('Player id ' + this.playerList[playerIndex].id + ' is czar');
                     this.playerList[playerIndex].type = basedata.PlayerTypes.CZAR;
                 } else {
                     this.playerList[playerIndex].type = basedata.PlayerTypes.PLAYER;
-                    let card = new basedata.Card(555, "Something...");
-                    this.playerList[playerIndex].cards.push(card);
-                    console.log(card);
-                    returnObject.white_card = card;
                 }
 
                 //for each ai player
-                //fetchAI(this.commonBlackCard, [0,0,0,0,0]).then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, card_id: id}));
+                //fetchAI(this.commonBlackCard, player.cards)
+                //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: [...]]}));
+                //in this.response se modifica player.cards -> var locala
+                //trainAI
             }
 
+            returnObject.player_list = [];
+            this.playerList.forEach((player)=> {
+                let playerObj = {
+                    name: player.name,
+                    points: player.points
+                };
+                if (player.id === data.player_id){
+                    playerObj.id = player.id;
+                    playerObj.type = player.type;
+                    playerObj.cards = this.playerList[playerIndex].cards;
+                }
+                returnObject.player_list.push(playerObj);
+            });
             returnObject.header = basedata.RequestHeaders.RESPONSE_END_ROUND;
+            //console.log(returnObject);
             return returnObject;
         }
 
         if (data.header === basedata.RequestHeaders.REQUEST_EMPTY){
             return {
+                selected_cards: this.selectedWhiteCards,
                 header: basedata.RequestHeaders.RESPONSE_EMPTY
             }
         }

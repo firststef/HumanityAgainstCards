@@ -232,14 +232,17 @@ class GameClient {
             this.currentCzarIndex = data.current_czar;
             this.cards = data.cards;
 
+            let pList = [];
+            this.playerList.filter((player) => player.id === this.id)[0].cards.forEach((el) => pList.push(el));
             if (this.type === basedata.PlayerTypes.PLAYER) {
-                console.log('Received card: ', data.white_card);
-                this.cards.push(data.white_card);
                 this.state = basedata.GameStates.CHOOSE_WHITE_CARD;
                 this.test = true;
                 return {
                     header: 'new_round_for_normal_player',
-                    player_list: this.playerList
+                    player_list: this.playerList,
+                    black_card: this.commonBlackCard,
+                    black_card_type: this.blackCardType,
+                    player_cards: pList
                 };
             } else {
                 this.state = basedata.GameStates.WAIT_FOR_PLAYERS;
@@ -247,14 +250,18 @@ class GameClient {
                 return {
                     header: 'wait_for_players',
                     player_list: this.playerList,
-                    cards: this.cards
+                    cards: this.cards,
+                    black_card: this.commonBlackCard,
+                    black_card_type: this.blackCardType,
+                    player_cards: pList
                 };
             }
         }
 
         if(data.header === basedata.RequestHeaders.RESPONSE_EMPTY){
             return {
-                header: 'no-change'
+                header: 'no_change',
+                selected_cards: data.selected_cards
             };
         }
 

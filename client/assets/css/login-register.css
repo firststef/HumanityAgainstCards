@@ -44,6 +44,10 @@ body, html {
 #exampleModal{
     margin-top: 150px;
 }
+
+#register{
+    margin-top: -10px;
+}
 .color{
     color: white;
 }

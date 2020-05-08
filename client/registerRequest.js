@@ -1,8 +1,13 @@
-const sendHttpRequest1 = (method, url, data) => {
-    return fetch(url, {
+const sendHttpRequest = (method, url, data) => {
+    return fetch(url,{
         method: method,
-        body: JSON.stringify(data),
-        headers: data ? { 'Content-Type': 'application/json' } : {}
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(data)
     }).then(response => {
         if (response.status >= 400) {
             // !response.ok
@@ -44,8 +49,5 @@ function sendRegisterJSON(){
             //Show link to activation page
             document.getElementById('account_activation').style.display = 'block';
 
-        })
-        .catch(err => {
-            console.log(err, err.data);
-        });
+        }).catch(err => console.log(err));
 }

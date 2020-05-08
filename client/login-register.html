@@ -11,7 +11,7 @@
 
     <script src="registerRequest.js"></script>
     <script src="loginRequest.js"></script>
-    <script src="auth/reset_password/sendResetRequest.js"></script>
+    <script src="sendResetRequest.js"></script>
     <script src="validate_register_input.js"></script>
 
 
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
 
                 <!--REGISTRATION-->
                 <div role="tabpanel" class="tab-pane fade" id="register">
@@ -81,7 +81,7 @@
                                 Facebook
                             </a>
 
-                            <a href="#" class="btn-google">
+                            <a href="/auth/google" class="btn-google">
                                 <img src="assets/img/icon-google.png" alt="GOOGLE">
                                   Google
                             </a>
@@ -122,7 +122,7 @@
                                 <input type="password" name="register_cpassword"  id="register_cpassword" class="form-control" placeholder="Confirm Password" required onkeyup='check();' >
                             </div>
                             <span id='register_message'></span>
-                            <a id='account_activation' href="confirm_account.html" style="display: none">Go activate your account!</a>
+                            <a id='account_activation' href="confirm_account.html" style="display: none;text-align: center;">Go activate your account!</a>
 
                         </div>
                         

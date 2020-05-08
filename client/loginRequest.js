@@ -1,22 +1,3 @@
-const sendHttpRequest2 = (method, url, data) => {
-    return fetch(url, {
-        method: method,
-        body: JSON.stringify(data),
-        headers: data ? { 'Content-Type': 'application/json' } : {}
-    }).then(response => {
-        if (response.status >= 400) {
-            // !response.ok
-            return response.json().then(errResData => {
-                const error = new Error('Something went wrong!');
-                error.data = errResData;
-                throw error;
-            });
-        }
-        return response.json();
-    });
-};
-
-
 function sendLoginJSON(){
     let server_message = document.getElementById('login_message');
     let email = document.getElementById('login_email');
@@ -27,7 +8,7 @@ function sendLoginJSON(){
     let url = "http://localhost:8081/routes/auth/login";
 
 
-    sendHttpRequest2('POST', url, {
+    sendHttpRequest('POST', url, {
         "username": email.value,
         "password": password.value
     })
@@ -40,7 +21,7 @@ function sendLoginJSON(){
 
         })
         .catch(err => {
-            console.log(err, err.data);
+            console.log(err);
             //display message
             server_message.innerHTML = 'Input not valid!';
         });
