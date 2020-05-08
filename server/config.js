@@ -136,6 +136,10 @@ module.exports = {
 		"/waitingRoom.css": {
 			path: "\\..\\..\\..\\client/waitingRoom.css",
 			type: "text/css"
+		},
+		"/waitingRoom.js": {
+			path: "\\..\\..\\..\\client/waitingRoom.js",
+			type: "text/javascript"
 		}
 	},
 	require_auth : false, // false doar pt testare
