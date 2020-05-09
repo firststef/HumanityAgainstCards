@@ -1,6 +1,9 @@
 let roomID;
 
 function load() {
+    window.onresize = () => {
+        revealIfHost();
+    }
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     roomID = urlParams.get("roomID");
@@ -8,6 +11,7 @@ function load() {
         window.location.href = '/lobbies.html';
     }
 
+    document.getElementById("roomId").innerHTML = roomID;
     getJoinedPlayers();
     setInterval(getJoinedPlayers, 1000);
 
@@ -25,7 +29,16 @@ function revealIfHost() {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                document.getElementById("startGameDiv").style.display = 'block';
+                if (window.innerWidth < 769) {
+                    document.getElementById("hostInfo").style.display = 'block';
+                    document.getElementById("mobileButton").style.display = 'block';
+                    document.getElementById("startGameDiv").style.display = 'none';
+                }
+                else {
+                    document.getElementById("startGameDiv").style.display = 'block';
+                    document.getElementById("hostInfo").style.display = 'none';
+                    document.getElementById("mobileButton").style.display = 'none';
+                }
             } else {
                 console.log("error on isHost");
             }
@@ -39,7 +52,7 @@ function attemptStartGame() {
             "Content-type": "application/json",
             "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c='
         },
-        body: JSON.stringify({roomID: roomID})
+        body: JSON.stringify({ roomID: roomID })
     })
         .then(res => res.json())
         .then(res => {
@@ -63,7 +76,7 @@ function getJoinedPlayers() {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                document.getElementById("player-list").innerHTML = res.players.map(p => getPlayerDiv(p)).join('');
+                document.getElementById("playerList").innerHTML = res.players.map(p => getPlayerDiv(p)).join('');
             } else {
                 console.log('Could not get players room');
             }
@@ -72,7 +85,7 @@ function getJoinedPlayers() {
 
 function getPlayerDiv(playerName) {
     return `
-        <div class="playerDiv">
+        <div class="player">
             <p>${playerName}</p>
         </div>
     `;
