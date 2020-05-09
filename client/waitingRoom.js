@@ -30,12 +30,12 @@ function revealIfHost() {
         .then(res => {
             if (res.success === true) {
                 if (window.innerWidth < 769) {
-                    document.getElementById("hostInfo").style.display = 'block';
+                    document.getElementById("hostInfo").style.display = 'flex';
                     document.getElementById("mobileButton").style.display = 'block';
                     document.getElementById("startGameDiv").style.display = 'none';
                 }
                 else {
-                    document.getElementById("startGameDiv").style.display = 'block';
+                    document.getElementById("startGameDiv").style.display = 'flex';
                     document.getElementById("hostInfo").style.display = 'none';
                     document.getElementById("mobileButton").style.display = 'none';
                 }
@@ -86,7 +86,7 @@ function getJoinedPlayers() {
 function getPlayerDiv(playerName) {
     return `
         <div class="player">
-            <p>${playerName}</p>
+            <b>${playerName}</b>
         </div>
     `;
 }
