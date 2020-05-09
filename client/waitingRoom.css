@@ -22,6 +22,17 @@ body {
   align-items: center;
 }
 
+#startGameDiv {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+#startGameDiv p {
+  margin: 0;
+}
+
 .start-button {
   background: black;
   text-transform: uppercase;
@@ -81,6 +92,11 @@ body {
 
   #hostInfo {
     display: none;
+  }
+
+  .start-button {
+    width: 150px;
+    height: 50px;
   }
 }
 
