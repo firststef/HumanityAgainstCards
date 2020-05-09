@@ -1,9 +1,5 @@
-const config = require("../../config"),
-	color = require("../../colors"),
-	log = require("../../utils/log"),
-	user = require("../../database/user"),
-	generate = require("../../utils/generate"),
-	f_header = "[routes/auth/confirm_account.js]";
+const user = require("../../database/user"),
+	generate = require("../../utils/generate");
 
 module.exports = function (app) {
 	app.post("/confirm_account/:username/:code", async (req, res) => {
@@ -27,12 +23,10 @@ module.exports = function (app) {
 				}
 			}
 
-			let session = {
+			user_obj.session = {
 				value: cookie_session,
-				expire: Date.now() + 1000 * 60 * 60 * 24 * 1, // 1 day
+				expire: Date.now() + 1000 * 60 * 60 * 24, // 1 day
 			};
-
-            user_obj.session = session;
 			//try to launch the data in the db
 			let ok = await user.register(user_obj);
 			if (!ok) throw `An internal error occured while attempting to access the database !`;
@@ -42,7 +36,7 @@ module.exports = function (app) {
 			if (!delete_temp) throw ` can not delete the user temp`;
 
             let response = {
-				sucess: true,
+				success: true,
 				username: req.body.username,
 				session: cookie_session,
             };
@@ -50,7 +44,7 @@ module.exports = function (app) {
             res.status(200).send(response);
 
 		} catch(e){
-            res.status(401).send({ sucess: false, reason: e });
+            res.status(401).send({ success: false, reason: e });
         }
 	});
 };
