@@ -8,7 +8,7 @@ module.exports = function (app) {
 		try {
              
             var rooms = await room.get_all_rooms();
-			if(false==rooms) throw "internal error";
+			if(false===rooms) throw "internal error";
 
 			var player_object=[];
 			for (var key in rooms) {
