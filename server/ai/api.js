@@ -116,6 +116,7 @@ class AI {
                     sum += fitnessCopy[i]; //suma totala
                     partialSums.push(sum); // sume partiale
                 }
+
                 let random = Math.random() * sum * (1 + this.probability / 50);//alegem un numar random intre 0 si suma... la p=0. Daca p=100, atunci random va fi de 3 ori mai mare decat de obicei, conducand la alegeri de fitness mai mare
 
                 //vom alege cartea cu cel mai mic fitness care este deasupra lui random
@@ -145,7 +146,7 @@ class AI {
     calculateFitness(relations) {
         let tmp = Array();
         relations.forEach(relation => {
-            let cardCategory = relation.category; //categoria cartii careia i se calculeaza fitness-ul acum
+            let cardCategory = relation.category.replace(/ /g, "_"); //categoria cartii careia i se calculeaza fitness-ul acum
             tmp.push(relation.value * this.fibo(this.categories[cardCategory]));
         });
         return tmp;
@@ -187,7 +188,7 @@ class AI {
             let beforeRelation = await client.db("HumansAgainstCards").collection("blackcard_whitecard_relation").find({ blackCardId: blackCard, whiteCardId: whiteCard }).toArray();
 
             //aici vom incrementa categoria ultimei carti albe jucate:
-            this.categories[beforeRelation[0].category]++;
+            this.categories[beforeRelation[0].category.replace(/ /g, "_")]++;
             console.log(beforeRelation);
 
             let myQuery = { "blackCardId": blackCard, "whiteCardId": whiteCard };
