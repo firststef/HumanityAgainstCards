@@ -18,28 +18,22 @@ const sendHttpRequest = (method, url, data) => {
 
 
 function sendResetRequest(){
-    // let server_message = document.getElementById('reset_message');
-    let email = document.getElementById('fp_email');
-
-    // server_message.style.color='red';
-    console.log("Script for reset request");
-    let url = "http://localhost:8081/routes/auth/reset_password";
+    let email = document.getElementById('fp_email').value;
+    //console.log("Script for reset request");
+    let url = "http://localhost:8081/auth/reset_password";
 
 
     sendHttpRequest('POST', url, {
-        "email": email.value,
+        "email": email,
     })
         .then(responseData => {
             console.log(responseData);
-            //set cookie
-            document.cookie=response.session;
-            //redirect to log in
-            window.location.replace( "/login-register.html" );
+            alert("Success! Go check your email!");
+
 
         })
         .catch(err => {
             console.log(err, err.data);
-            //display message
-            server_message.innerHTML = 'Input not valid!';
+            alert("Email not valid");
         });
 }
