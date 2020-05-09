@@ -29,7 +29,7 @@ module.exports = {
 	},
 	pages: {
 		"/": {
-			path: "\\..\\..\\..\\client/HomePage.html",
+			path: "\\..\\..\\..\\client/homepage.html",
 			type: "text/html"
 		},
 		"/lobbies.html": {
@@ -85,7 +85,7 @@ module.exports = {
 			type: "text/png"
 		},
 		"/home": {
-			path: "\\..\\..\\..\\client/HomePage.html",
+			path: "\\..\\..\\..\\client/homepage.html",
 			type: "text/html"
 		},
 		"/account": {
@@ -112,6 +112,14 @@ module.exports = {
 			path: "\\..\\..\\..\\client/loginRegister.js",
 			type: "text/javascript"
 		},
+		"/lobbies.js": {
+			path: "\\..\\..\\..\\client/lobbies.js",
+			type: "text/javascript"
+		},
+		"/account.js": {
+			path: "\\..\\..\\..\\client/account.js",
+			type: "text/javascript"
+		},
 		"/waitingRoom": {
 			path: "\\..\\..\\..\\client/waitingRoom.html",
 			type: "text/html"
@@ -123,6 +131,26 @@ module.exports = {
 		"/waitingRoom.js": {
 			path: "\\..\\..\\..\\client/waitingRoom.js",
 			type: "text/javascript"
+		},
+		"/game": {
+			path: "\\..\\..\\..\\client/gameroom/room-test.html",
+			type: "text/html"
+		},
+		"/room.js": {
+			path: "\\..\\..\\..\\client/gameroom/room.js",
+			type: "text/javascript"
+		},
+		"/gamecore/basedata.js": {
+			path: "\\..\\..\\..\\client/gamecore/basedata.js",
+			type: "text/javascript"
+		},
+		"/gamecore/gameclient.js": {
+			path: "\\..\\..\\..\\client/gamecore/gameclient.js",
+			type: "text/javascript"
+		},
+		"/room-test.css": {
+			path: "\\..\\..\\..\\client/gameroom/room-test.css",
+			type: "text/css"
 		}
 	},
 	require_auth : false, // false doar pt testare

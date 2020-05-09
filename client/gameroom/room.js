@@ -1,7 +1,8 @@
 const gm=require('./gamemanager');
 
-var gameClient;
 var roomID;
+var sid;
+var gameClient;
 var updateInterval;
 var playerHandElement;
 var blackCardElement;
@@ -10,8 +11,34 @@ var otherPlayedCardsElement;
 var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
 
+function load() {
+    blackCardElement = document.getElementById("currentBlackCard");
+    scoreBoardElement = document.getElementById("scoreBoard");
+    playerHandElement = document.getElementById("playerHand");
+    otherPlayedCardsElement = document.getElementById("otherPlayedCards");
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    roomID = urlParams.get("roomID");
+    if (roomID === null) {
+        window.location = '/';
+    }
+
+    sid = getCookie("HAC_SID");
+    if (sid === null){
+        window.location = "/";
+    }
+
+    gameClient = new gm.GameClient(sid);
+
+    checkForUpdate();
+    updateInterval = setInterval(()=>{
+        checkForUpdate();
+    }, 1000);
+}
+
 function request(data, callback) {
-    fetch('http://localhost:8081/game_manager',{
+    fetch('http://localhost:8081/game_manager/' + roomID,{
             method: 'POST',
             cache: 'no-cache',
             headers: {
@@ -38,21 +65,6 @@ function request(data, callback) {
             //handle exit gracefully
         }
     }).catch(err => console.log(err));
-}
-
-function load() {
-    blackCardElement = document.getElementById("currentBlackCard");
-    scoreBoardElement = document.getElementById("scoreBoard");
-    playerHandElement = document.getElementById("playerHand");
-    otherPlayedCardsElement = document.getElementById("otherPlayedCards");
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    roomID = urlParams.get("roomID");
-    if (roomID === null) {
-        window.location.href = '/lobbies.html';
-    }
-
 }
 
 //todo: ui to add to the input array when the selection is complete

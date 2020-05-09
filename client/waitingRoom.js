@@ -1,6 +1,12 @@
 let roomID;
+let sid;
 
 function load() {
+    sid = getCookie("HAC_SID");
+    if (sid === null){
+        window.location = "/";
+    }
+
     window.onresize = () => {
         revealIfHost();
     }
@@ -23,7 +29,7 @@ function revealIfHost() {
         method: 'get',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c='
+            "session": sid
         }
     })
         .then(res => res.json())
@@ -51,14 +57,14 @@ function attemptStartGame() {
         method: 'post',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c='
+            "session": sid
         },
         body: JSON.stringify({ roomID: roomID })
     })
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                window.location.href = '/room?roomID=' + roomID;
+                window.location.href = '/game?roomID=' + roomID;
             } else {
                 alert('Could not start game room');
             }
@@ -66,12 +72,11 @@ function attemptStartGame() {
 }
 
 function getJoinedPlayers() {
-    fetch('/players_from_room', {
+    fetch('/players_from_room/'+roomID, {
         method: 'get',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c=',
-            "roomID": roomID
+            "session": sid
         }
     })
         .then(res => res.json())

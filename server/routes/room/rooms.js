@@ -1,8 +1,8 @@
 const engine = require("../../../client/gamecore/library"),
-  room = require("../../database/room"),
-  user = require("../../database/user");
-generate = require("../../utils/generate");
-f_header = "[routes/room/rooms.js]";
+    room = require("../../database/room"),
+    user = require("../../database/user"),
+    generate = require("../../utils/generate"),
+    f_header = "[routes/room/rooms.js]";
 
 module.exports = function (app, secured) {
   app.post("/rooms", secured, async (req, res) => {
