@@ -85,12 +85,18 @@ body {
   margin-left: 5%;
 }
 
+#startGameDiv {
+  display: none;
+}
+
+
 @media (min-width: 769px) {
-  #mobileButton {
+
+  #hostInfo {
     display: none;
   }
 
-  #hostInfo {
+  #mobileButton {
     display: none;
   }
 

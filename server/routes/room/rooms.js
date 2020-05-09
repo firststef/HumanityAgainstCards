@@ -8,21 +8,22 @@ module.exports = function (app, secured) {
   app.post("/rooms", secured, async (req, res) => {
     try {
         if (!req.body.type) throw "No type provided!";
-        var v_id;
+        
         if (req.body.type == "create_room") {
           if (!req.body.room_name) throw "No room_name provided!";
           if (!req.body.score_limit) throw "No score_limite provided!";
           if (!req.body.max_players) throw "No max_players provided!";
           if (req.body.password===undefined) throw "No max_players provided!";
 
-          v_id = await room.get_next_id().catch((e) => {
+          
+           var v_id = await room.get_next_id().catch((e) => {
             console.error(e.message);
           });
-          console.log(typeof v_id + " " + v_id);
+          let username= await user.get_user_id(req.headers.session);
           v_id = v_id + 1;
           let room_obj = {
             id: v_id,
-            session: req.body.session,
+            host : username[0].username,
             room_name: req.body.room_name,
             score_limit: req.body.score_limit,
             max_players: req.body.max_players,
@@ -30,11 +31,16 @@ module.exports = function (app, secured) {
             password:req.body.password,
             game_started:0
           };
+          
 
-          var status1 = await room.insert_room(room_obj).catch((e) => {
+          let status = await room.insert_room(room_obj).catch((e) => {
             console.error(e.message);
           });
-          if (true != status1) throw "Error at inserting in db.";
+          if (true != status) throw "Error at inserting in db.";
+          
+          await room.add_player(v_id,username[0].username);
+        
+
         } 
         else if (req.body.type == "delete_room") {
 
@@ -68,7 +74,7 @@ module.exports = function (app, secured) {
       res
         .status(417)
         .send(
-          JSON.stringify({ success: false,  err: e })
+          JSON.stringify({ success: false,  err: e.message })
         );
     }
   });
@@ -81,12 +87,18 @@ module.exports = function (app, secured) {
       //first check the db to see if there are any slots avaiable for our user
       await room.check(req.body.roomID,req.body.password);
 
+      //scoate usernaem-ul dupa session
       let u_id = await user.get_user_id(req.headers.session);
       if(u_id===false) throw "internal error";
+      console.log(u_id[0].username);
 
-      //update or not the session ?
-      await room.add_player(req.body.roomID, u_id[0].username);
-      await room.increase_counter(req.body.roomID);
+      //verifica daca este deja in camera ca sa il integreze
+      var ok = await room.is_player_in_room(req.body.roomID,u_id[0].username);
+      if(ok===true)
+      {
+        await room.add_player(req.body.roomID, u_id[0].username);
+        await room.increase_counter(req.body.roomID);
+      }
 
       res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
     } catch (e) {
@@ -94,7 +106,7 @@ module.exports = function (app, secured) {
       res.status(417).send(
         JSON.stringify({
           success: false,
-          err: e,
+         reason: e,
         })
       );
     }

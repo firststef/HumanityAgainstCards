@@ -29,6 +29,10 @@ module.exports = {
 	}
 	,
 	pages: {
+		"/": {
+			path: "\\..\\..\\..\\client/HomePage.html",
+			type: "text/html"
+		},
 		"/lobbies.html": {
 			path: "\\..\\..\\..\\client\\lobbies.html",
 			type: "text/html"
@@ -125,9 +129,17 @@ module.exports = {
 			path: "\\..\\..\\..\\client/validate_register_input.js",
 			type: "text/javascript"
 		},
-		"/": {
-			path: "\\..\\..\\..\\client/HomePage.html",
+		"/waitingRoom": {
+			path: "\\..\\..\\..\\client/waitingRoom.html",
 			type: "text/html"
+		},
+		"/waitingRoom.css": {
+			path: "\\..\\..\\..\\client/waitingRoom.css",
+			type: "text/css"
+		},
+		"/waitingRoom.js": {
+			path: "\\..\\..\\..\\client/waitingRoom.js",
+			type: "text/javascript"
 		}
 	},
 	require_auth : false, // false doar pt testare

@@ -16,7 +16,7 @@ module.exports = {
             console.log(
               log.date_now() + f_header,
               color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
+              ` deleted room ${JSON.stringify(roomID)} !\n`
             );
             resolve(true);
           });
@@ -24,7 +24,7 @@ module.exports = {
         console.log(
           log.date_now() + f_header,
           color.red,
-          `Error while deleteing  room ${JSON.stringify(roomID)} !\n`,
+          `Error  room ${JSON.stringify(roomID)} !\n`,
           color.white,
           err
         );
@@ -39,11 +39,7 @@ module.exports = {
           .collection("current_user_rooms")
           .deleteMany({ id_room : roomID }, (err) => {
             if (err) throw err;
-            console.log(
-              log.date_now() + f_header,
-              color.red,
-              ` deleteed room ${JSON.stringify(roomID)} !\n`
-            );
+
             resolve(true);
           });
       } catch (err) {
@@ -86,18 +82,18 @@ module.exports = {
             );
             reject({ err: err });
           } else {
-            console.log(result);
+            //console.log(result);
             let max = Math.max.apply(
               Math,
               result.map(function (o) {
                 return o.id;
               })
             );
-            console.log(
+            /*console.log(
               log.date_now() + f_header,
               color.green,
-              "am fcaut maximul " + max
-            ); //, result);
+              "am facut maximul " + max
+            ); //, result);*/
             resolve(max);
           }
         });
@@ -113,9 +109,99 @@ module.exports = {
               //console.log("exista");
               resolve(true);
             }
-            if (err) {throw err;
-            //console.log(" NU exista");
+            else {
+                if (err) {
+                    throw err;
+                }
+                resolve(false);
             }
+          });
+      } catch (err) {
+        console.log(
+          log.date_now() + f_header,
+          color.red,
+          `Error while searching session ${value} !\n`,
+          color.white,
+          err
+        );
+        reject(false);
+      }
+    });
+  },
+  is_host_to_room: (roomID, host) => {
+      return new Promise((resolve, reject) => {
+        let db = database.get_db();
+        try {
+          db.db("HumansAgainstCards")
+            .collection("rooms")
+            .findOne({ id: roomID , host: host}, (err, doc) => {
+            if (err) {throw err;
+                          //console.log(" NU exista");
+                          }
+              if (doc !== null) {
+                //console.log("exista");
+                resolve(true);
+              }
+              else
+              resolve(false);
+            });
+        } catch (err) {
+          console.log(
+            log.date_now() + f_header,
+            color.red,
+            `Error while searching session ${value} !\n`,
+            color.white,
+            err
+          );
+          reject(false);
+        }
+      });
+    },
+    is_player_in_room: (roomID,user) => {
+          return new Promise((resolve, reject) => {
+            let db = database.get_db();
+          //  console.log(roomID);
+            //console.log(user);
+            try {
+              db.db("HumansAgainstCards")
+                .collection("current_user_rooms")
+                .findOne({ id_room: roomID , user_id: user}, (err, doc) => {
+                if (err) {throw err;
+                              //console.log(" NU exista");
+                              }
+                  if (doc ==null) {
+                  //  console.log("nu exista");
+                  //  console.log(doc);
+                    resolve(true);
+                  }
+                  else
+                  resolve(false);
+                });
+            } catch (err) {
+              console.log(
+                log.date_now() + f_header,
+                color.red,
+                `Error while searching session ${value} !\n`,
+                color.white,
+                err
+              );
+              reject(false);
+            }
+          });
+        },
+  get_all_rooms: () => {
+    return new Promise((resolve, reject) => {
+      let db = database.get_db();
+      try {
+        db.db("HumansAgainstCards")
+          .collection("rooms")
+          .find({  }).toArray((err, doc) => {
+            if (doc !== null) {
+              //console.log("exista");
+              resolve(doc);
+            }
+            if (err) throw err;
+            //console.log(" NU exista");
             resolve(false);
           });
       } catch (err) {
@@ -130,20 +216,18 @@ module.exports = {
       }
     });
   },
-  get_all_rooms: () => {
+  get_rooms_for_host: (username) => {
     return new Promise((resolve, reject) => {
       let db = database.get_db();
       try {
         db.db("HumansAgainstCards")
           .collection("rooms")
-          .find({  }).toArray((err, doc) => {
+          .find({ host : username }).toArray((err, doc) => {
             if (doc !== null) {
-              console.log("exista");
+              //console.log("exista");
               resolve(doc);
             }
-            if (err) throw err;
-            console.log(" NU exista");
-            resolve(false);
+            if (err){throw err;}
           });
       } catch (err) {
         console.log(
@@ -188,7 +272,7 @@ module.exports = {
         .toArray((err, docs) => {
           if (!docs || !docs[0]) {
             reject("Room does not exist");
-          } else if (docs[0].players_in_game === docs[0].max_players) {
+          } else if (docs[0].players_in_game === parseInt(docs[0].max_players) ){
             reject("Room is full");
           } else {
             resolve(true);
