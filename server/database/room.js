@@ -459,8 +459,8 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
-                        console.log(result);
-                        console.log("promis");
+                       // console.log(result);
+                       // console.log("promis");
                         resolve(result);
                     }
                 });
