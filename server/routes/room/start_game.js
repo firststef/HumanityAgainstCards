@@ -1,6 +1,5 @@
-const config   = require("../../config"),
+const
       room     = require("../../database/room"),
-      user     = require("./../../database/user"),
       map      = require("./../../map"),
       engine   = require("../../../client/gamecore/library"),
       f_header = "[routes/room/start_game.js]";
@@ -13,29 +12,20 @@ module.exports = function (app) {
 
                      if ( !await room.room_exist(parseInt(req.body.roomID)) ) throw "Room does not exist!";
 
-                     let username = await user.get_user_id(req.headers.session);
-
-                     if ( username.length === 0 ) throw" session not registered";
-
                      if ( await room.is_host_to_room(parseInt(req.body.roomID),
-                                                     username[0].username) === false ) throw "You are not host to this room!";
+                         req.headers.session) === false ) throw "You are not host to this room!";
 
-                     let playerList = await room.get_players(req.body.roomID);
+                     let playerList = await room.get_players_from_room(req.body.roomID);
                      let playerIDList = Array();
-                     let ok = false;
+                     //let ok = false;
 
                      for (let i = 0; i < playerList.length; i++) {
-                         ok = await user.get_user_session(playerList[i].user_id);
-                         if ( !ok ) throw "Internal error!";
-                         playerIDList.push(ok[0].session.value);
+                         playerIDList.push(playerList[i].user_id);
                      }
 
-                     let game_manager = new engine.GameManager(playerIDList.length,
-                                                               1,
-                                                               playerIDList);
+                     let game_manager = new engine.GameManager(playerIDList.length,0,playerIDList);
                      
-                     map.RoomMap.set(req.body.roomID,
-                                     game_manager);
+                     map.RoomMap.set(req.body.roomID,game_manager);
 
                      res.status(200).send({ success: true });
                  } catch (e) {
