@@ -6,8 +6,6 @@
     <title>Humanity Against Cards</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="newPassValidator.js"></script>
-    <script src="sendNewPass.js"></script>
 </head>
 
 <body style="width: 440px;margin: 0 auto; display: flex !important; flex-flow: column !important;align-items: center;padding: 2em;font-family: 'Roboto', sans-serif; ">
@@ -27,17 +25,23 @@
         </div>
 
 
-        <form action="" method="post" style="text-align: center;">
-            <div class="grid-item-2">
+        <form  style="text-align: start;" onsubmit="return false;">
+            <div class="grid-item-2" style="text-align: center">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="grid-item-2" style="text-align: center">
+                <label for="new_pass">New  Password</label>
                 <input type="password" id="new_pass" name="new_pass" placeholder="New Password" required onkeyup="validatePass();">
             </div>
-            <div class="grid-item-2">
+            <div class="grid-item-2" style="text-align: center">
+                <label for="c_new_pass">Confirm Password</label>
                 <input type="password" id="c_new_pass" name="c_new_pass" placeholder="Confirm Password" required  onkeyup="validatePass();">
             </div>
 
             <span id='reset_message'></span>
 
-            <div class="grid-item-3">
+            <div class="grid-item-3" style="text-align: center">
                 <input type="submit" class="button-Start" value="SEND" onclick="sendNewPassword();">
             </div>
 
@@ -50,6 +54,9 @@
     <p style="color: rgb(112, 112, 112);font-size: 14px;text-align: center;">
     </p>
 </div>
+
+<script src="sendNewPass.js"></script>
+
 </body>
 </html>
 
