@@ -3,8 +3,8 @@ const config = require("../../config"),
 	log = require("../../utils/log"),
 	user = require("../../database/user"),
 	generate = require("../../utils/generate"),
-	encode = require("../../utils/encode");
-f_header = "[routes/auth/register.js]";
+	encode = require("../../utils/encode"),
+	f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
 	app.post("/auth/login", async (req, res) => {

@@ -12,13 +12,12 @@ function sendNewPassword(){
         "new_password": new_pass.value,
         "confirm_new_password": new_pass.value
     })
-        .then(responseData => {
-            console.log(responseData);
-
-        })
-        .catch(err => {
-            console.log(err, err.data);
-            //display message
-            document.getElementById('reset_message').innerHTML = 'Input not valid!';
-        });
+    .then(responseData => {
+        console.log(responseData);
+    })
+    .catch(err => {
+        console.log(err, err.data);
+        //display message
+        document.getElementById('reset_message').innerHTML = 'Input not valid!';
+    });
 }

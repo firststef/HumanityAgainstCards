@@ -29,15 +29,16 @@ function revealIfHost() {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                if (window.innerWidth < 769) {
-                    document.getElementById("hostInfo").style.display = 'block';
-                    document.getElementById("mobileButton").style.display = 'block';
-                    document.getElementById("startGameDiv").style.display = 'none';
-                }
-                else {
-                    document.getElementById("startGameDiv").style.display = 'block';
-                    document.getElementById("hostInfo").style.display = 'none';
-                    document.getElementById("mobileButton").style.display = 'none';
+                if (res.rooms.includes(parseInt(roomID))) {
+                    if (window.innerWidth < 769) {
+                        document.getElementById("hostInfo").style.display = 'block';
+                        document.getElementById("mobileButton").style.display = 'block';
+                        document.getElementById("startGameDiv").style.display = 'none';
+                    } else {
+                        document.getElementById("startGameDiv").style.display = 'block';
+                        document.getElementById("hostInfo").style.display = 'none';
+                        document.getElementById("mobileButton").style.display = 'none';
+                    }
                 }
             } else {
                 console.log("error on isHost");

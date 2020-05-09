@@ -1,6 +1,7 @@
 const gm=require('./gamemanager');
 
 var gameClient;
+var roomID;
 var updateInterval;
 var playerHandElement;
 var blackCardElement;
@@ -10,7 +11,7 @@ var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
 
 function request(data, callback) {
-    fetch('http://localhost:8081/game_manager/response',{
+    fetch('http://localhost:8081/game_manager',{
             method: 'POST',
             cache: 'no-cache',
             headers: {
@@ -45,20 +46,13 @@ function load() {
     playerHandElement = document.getElementById("playerHand");
     otherPlayedCardsElement = document.getElementById("otherPlayedCards");
 
-    //Getting SID, normally this will be provided at auth time
-    request({header: 'get_id'}, request => {
-        if (request.header === 'sent_id'){
-            let clientId = request.id;
-            gameClient = new gm.GameClient(clientId);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    roomID = urlParams.get("roomID");
+    if (roomID === null) {
+        window.location.href = '/lobbies.html';
+    }
 
-            checkForUpdate();
-            updateInterval = setInterval(()=>{
-                checkForUpdate();
-            }, 1000);
-        }
-        else
-            throw 'could_not_retrieve_id';
-    });
 }
 
 //todo: ui to add to the input array when the selection is complete

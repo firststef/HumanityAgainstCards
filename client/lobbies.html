@@ -38,13 +38,13 @@
 
         <ul class="navbar-nav ml-auto" id="authButton">
             <li class="nav-item">
-                <a class="nav-link" href="login-register.html">Login/Register</a>
+                <a class="nav-link" href="login-register">Login/Register</a>
             </li>
         </ul>
 
         <ul class="navbar-nav ml-auto" id="accountPageButton" style="display: none">
             <li class="nav-item">
-                <a class="nav-link" href="account.html">Profile</a>
+                <a class="nav-link" href="account">Profile</a>
             </li>
         </ul>
 
@@ -114,11 +114,9 @@
                 <h5 class="card-header" >Room name: ${room.room_name} (${room.players_in_game}/${room.max_players})</h5>
                 <div class="card-body">
                     <h5 class="card-title">Players: ${room.players.join(', ')}</h5>
-                    <h5 class="card-title">Spectators: Player, Player, Player, Player, Player, Player, Player, Player</h5>
                     <h5 class="card-title">Goal: ${room.score_limit} </h5>
                     <p class="card-text">Id: ${room.id}</p>
                     <a class="btn btn-primary" onclick="attemptJoinRoom(${room.id})">Join as Player</a>
-                    <a class="btn btn-secondary">Join as Spectator</a>
                 </div>
             </div>`;
     }

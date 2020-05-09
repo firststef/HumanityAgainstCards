@@ -26,8 +26,7 @@ module.exports = {
 	account: {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
-	}
-	,
+	},
 	pages: {
 		"/": {
 			path: "\\..\\..\\..\\client/HomePage.html",
@@ -69,7 +68,7 @@ module.exports = {
 			path: "/../../../client/assets/css/purecookie.css",
 			type: "text/css"
 		},
-		"/login-register.html": {
+		"/login-register": {
 			path:"\\..\\..\\..\\client\\login-register.html",
 			type: "text/html"
 		},
@@ -105,28 +104,12 @@ module.exports = {
 			path: "\\..\\..\\..\\client/assets/js/purecookie.js",
 			type: "text/javascript"
 		},
-		"/home.js": {
-			path: "\\..\\..\\..\\client/home.js",
-			type: "text/javascript"
-		},
-		"/loginRequest.js": {
-			path: "\\..\\..\\..\\client/loginRequest.js",
-			type: "text/javascript"
-		},
-		"/registerRequest.js": {
-			path: "\\..\\..\\..\\client/registerRequest.js",
-			type: "text/javascript"
-		},
 		"/sendActivationCode.js": {
 			path: "\\..\\..\\..\\client/sendActivationCode.js",
 			type: "text/javascript"
 		},
-		"/sendResetRequest.js": {
-			path: "\\..\\..\\..\\client/sendResetRequest.js",
-			type: "text/javascript"
-		},
-		"/validate_register_input.js": {
-			path: "\\..\\..\\..\\client/validate_register_input.js",
+		"/loginRegister.js": {
+			path: "\\..\\..\\..\\client/loginRegister.js",
 			type: "text/javascript"
 		},
 		"/waitingRoom": {
