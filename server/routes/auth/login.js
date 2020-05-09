@@ -1,23 +1,21 @@
-const config = require("../../config"),
-	color = require("../../colors"),
-	log = require("../../utils/log"),
+const
 	user = require("../../database/user"),
 	generate = require("../../utils/generate"),
 	encode = require("../../utils/encode");
-f_header = "[routes/auth/register.js]";
+
 
 module.exports = function (app) {
 	app.post("/auth/login", async (req, res) => {
 		try {
-			if (!req.body.username || typeof req.body.username !== "string") throw `No username provided !`;
-			if (!req.body.password || typeof req.body.password !== "string") throw `No password provided !`;
+			if (!req.body.username || typeof req.body.username !== "string"|| req.body.username ==="" ) throw `No username provided !`;
+			if (!req.body.password || typeof req.body.password !== "string"||req.body.password==="") throw `No password provided !`;
 			
 
             //md5 encode the password
 			let password = encode.md5(req.body.password);
 			
 			/** check if the user with that password exists in the database */
-			if (await user.check_login_info(req.body.username,password)==false) throw `You got the username or password wrong !`;
+			if (await user.check_login_info(req.body.username,password)===false) throw `You got the username or password wrong !`;
 		   
 			//generate cookie session
 			let cookie_session = "";
@@ -33,17 +31,17 @@ module.exports = function (app) {
 
 			//let old_session=await user.get_old_session(req.body.username,password);
 			
-			if(false==await user.session_update_login(req.body.username,password,cookie_session)) throw "Error at updateing the session !";
+			if(false===await user.session_update_login(req.body.username,password,cookie_session)) throw "Error at updateing the session !";
 
 			let response = {
-				sucess: true,
+				success: true,
 				session: cookie_session,
 			};
             
 			res.status(200).send(response);
 		} catch (e) {
 			
-			res.status(401).send({ sucess: false, reason: e });
+			res.status(401).send({ success: false, reason: e });
 		}
 	});
 };
