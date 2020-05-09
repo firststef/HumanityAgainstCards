@@ -6,6 +6,7 @@ body {
 
 .room-info {
   height: 100%;
+  background: black;
   display:flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -13,7 +14,6 @@ body {
 
 #presentation {
   width: 80%;
-  background: darkcyan;
   font-size: 2rem;
   color: white;
   display: flex;
@@ -57,7 +57,7 @@ body {
 
 #playerList {
   width: 20%;
-  background: rgba(169, 169, 169, 0.5);
+  background: #5b5b5b;
 }
 
 #playerList .player:first-child {
@@ -73,7 +73,7 @@ body {
   align-items: center;
   height: 7.5%;
   border-top: 4px solid black;
-  background: rgba(255, 0, 0, 0.5);
+  background: whitesmoke;
   text-transform: uppercase;
 }
 
@@ -89,6 +89,9 @@ body {
   display: none;
 }
 
+.start-button {
+  height: 50px;
+}
 
 @media (min-width: 769px) {
 
@@ -102,7 +105,6 @@ body {
 
   .start-button {
     width: 150px;
-    height: 50px;
   }
 }
 
@@ -113,6 +115,7 @@ body {
   }
 
   #playerList {
+    height: fit-content;
     width:100%;
     display: flex;
     flex-wrap: wrap;
@@ -132,6 +135,12 @@ body {
   }
 
   #hostInfo {
+    height: inherit;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    color: white;
     text-align: center;
+    background: gray;
   }
 }
