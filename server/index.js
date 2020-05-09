@@ -43,6 +43,7 @@ require("./routes/cards/get_cards")(app,secured);
 require("./routes/game/game_handler2")(app,secured);
 require("./routes/auth/register")(app);
 require("./routes/auth/login")(app);
+require("./routes/auth/auth_with_name")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
 require("./routes/room/rooms")(app,secured);
