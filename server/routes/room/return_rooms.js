@@ -1,21 +1,23 @@
-const config = require("../../config"),
+const
 	room = require("../../database/room"),
-f_header = "[routes/room/return_room.js]";
+	user=require("../../database/user");
 
 module.exports = function (app) {
 	app.get("/get_rooms", async (req, res) => {
 		try {
              
             var rooms = await room.get_all_rooms();
-			if(false==rooms) throw "internal error";
+			if(false===rooms) throw "internal error";
 
-			var player_object=[];
+			var player_object=Array();
 			for (var key in rooms) {
-				 player_object=await room.get_players(rooms[key].id);
+				 player_object=await room.get_players_from_room(rooms[key].id);
+				 console.log(player_object);
 				 rooms[key].players=[];
 				 for(var key2 in player_object){
 					if (player_object.hasOwnProperty(key2)) {
-						rooms[key].players.push(player_object[key2].user_id);
+						let username= await user.get_user_id(player_object[key2].user_id);
+						rooms[key].players.push(username[0].username);
 				   }
 				 }
 			}

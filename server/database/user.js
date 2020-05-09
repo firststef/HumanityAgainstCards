@@ -26,7 +26,7 @@ module.exports = {
                         name: 0,
                         surname: 0,
                         nickname: 0,
-                        "session.value": 0,
+                        "session.value": 1,
                         "session.expire": 0
                     }
                 )
@@ -41,7 +41,7 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
-                        if ( result == null )
+                        if ( result === null )
                             resolve(false);
                         resolve(result);
                     }
@@ -482,7 +482,7 @@ module.exports = {
                 .find(
                     { username: username_ },
                     {
-                        username: 0,
+                        username: 1,
                         password: 0,
                         email: 0,
                         name: 0,

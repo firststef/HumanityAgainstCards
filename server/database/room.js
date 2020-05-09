@@ -1,4 +1,4 @@
-const config   = require("../config"),
+const
       database = require("../utils/database"),
       color    = require("../colors"),
       log      = require("../utils/log"),
@@ -79,8 +79,7 @@ module.exports = {
 
             db.db("HumansAgainstCards")
                 .collection("rooms")
-                .find(
-                    {},
+                .find({},
                     {
                         _id: 0,
                         id: 1,
@@ -136,6 +135,51 @@ module.exports = {
                                      resolve(false);
                                  }
                              });
+            } catch (err) {
+                console.log(
+                    log.date_now() + f_header,
+                    color.red,
+                    `Error while searching room with id ${ roomID } !\n`,
+                    color.white,
+                    err
+                );
+                reject(false);
+            }
+        });
+    },
+    room_max_id: () => {
+        return new Promise((resolve, reject) => {
+            let db = database.get_db();
+
+            try {
+                db.db("HumansAgainstCards")
+                    .collection("rooms")
+                    .find({ },
+                        {
+                            _id: 0,
+                            id: 1,
+                            session: 0,
+                            room_name: 0,
+                            score_limit: 0,
+                            max_players: 0,
+                            players_in_game: 0
+                        }).toArray(
+                        (err, doc) => {
+                            if ( doc !== null ) {
+                                let max = Math.max.apply(
+                                    Math,
+                                    doc.map(function (o) {
+                                        return o.id;
+                                    })
+                                );
+                                resolve(max);
+                            } else {
+                                if ( err ) {
+                                    throw err;
+                                }
+                                resolve(false);
+                            }
+                        });
             } catch (err) {
                 console.log(
                     log.date_now() + f_header,
@@ -280,6 +324,33 @@ module.exports = {
             }
         });
     },
+    get_players_from_room: (id) => {
+        return new Promise((resolve, reject) => {
+            let db = database.get_db();
+
+            try {
+                db.db("HumansAgainstCards")
+                    .collection("current_user_rooms")
+                    .find({ id_room:  id }).toArray((err, doc) => {
+                    if ( doc !== null ) {
+                        resolve(doc);
+                    }
+                    if ( err ) {
+                        throw err;
+                    }
+                });
+            } catch (err) {
+                console.log(
+                    log.date_now() + f_header,
+                    color.red,
+                    `Error while searching rooms having as host ${ username } !\n`,
+                    color.white,
+                    err
+                );
+                reject(false);
+            }
+        });
+    },
     /**
      * Insert a room in the database
      * @param {object} room - The room to be inserted in the database
@@ -295,7 +366,7 @@ module.exports = {
                     .insertOne(room,
                                (err) => {
                                    if ( err ) throw err;
-                                   resolve(true);
+                                   else resolve(true);
                                });
             } catch (err) {
                 console.log(
@@ -375,8 +446,7 @@ module.exports = {
             db.db("HumansAgainstCards")
                 .collection("current_user_rooms")
                 .find(
-                    { id_room: roomID },
-                    { _id: 0, id_room: 0, user_id: 1 }
+                    { id_room: roomID }
                 )
                 .toArray(function (err, result) {
                     if ( err ) {
@@ -389,6 +459,8 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
+                        console.log(result);
+                        console.log("promis");
                         resolve(result);
                     }
                 });

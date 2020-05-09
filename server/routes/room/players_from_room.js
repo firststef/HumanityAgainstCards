@@ -1,20 +1,22 @@
-const config = require("../../config"),
+const
 	room = require("../../database/room"),
-f_header = "[routes/room/payers_from_room.js]";
+	user=require("../../database/user");
 
 module.exports = function (app) {
-	app.get("/players_from_room", async (req, res) => {
+	app.get("/players_from_room/:roomID", async (req, res) => {
 		try {
-             if(!req.headers.roomid) throw "No roomID provided."
+               if(!req.params.roomID) throw "No roomID provided.";
 
-            let players=Array();
-            let player_object=await room.get_players(parseInt(req.headers.roomid));
-				 for(var key2 in player_object){
+				let player_object=await room.get_players_from_room(parseInt(req.params.roomID));
+				console.log(player_object);
+
+				let players=Array();
+				for(var key2 in player_object){
 					if (player_object.hasOwnProperty(key2)) {
-						players.push(player_object[key2].user_id);
-				   }
-				 }
-			
+						let username= await user.get_user_id(player_object[key2].user_id);
+						players.push(username[0].username);
+					}
+				}
 
 			res.status(200).send({success:true, players:players});
 		} catch (e) {
