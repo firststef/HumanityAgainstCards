@@ -4,7 +4,7 @@ const express = require("express"),
 	app = express(),
 	color = require("./colors"),
 	cors = require("cors"),
-	session = require("./middleware/session_validation"),
+	session = require("./middleware/session_validation");
 	authRoutes = require("./routes/auth/google_auth_route");
 
 app.use(cors());
@@ -49,4 +49,7 @@ require("./routes/auth/worker/clean_outdated_accounts");
 require("./utils/database");
 require("./mail/connect");
 require("./routes/auth/reset_password/connect");
+//se va decomenta cand vom vrea sa fie sterse camerele la pornirea serverului
+//require("./utils/delete_rooms");
+
 
