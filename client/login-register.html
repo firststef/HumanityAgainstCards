@@ -6,15 +6,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
           type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="assets/css/login-register.css" rel="stylesheet" type="text/css">
-
-    <script src="registerRequest.js"></script>
-    <script src="loginRequest.js"></script>
-    <script src="sendResetRequest.js"></script>
-    <script src="validate_register_input.js"></script>
-
 
 </head>
 <body>
@@ -31,7 +23,7 @@
 
             <!--SIGN IN-->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="login">
+                <div role="tabpanel" class="tab-pane fade in active" id="login" onsubmit="return false;">
                     <form class="form-horizontal" method="post" action="">
                         <div class="form-group ">
                             <div class="input-group">
@@ -50,8 +42,7 @@
 
                         <span id='login_message'></span>
 
-                        <input type="submit" value="Login" id="Login" class="btn btn-success btn-custom"
-                               onclick='sendLoginJSON();'>
+                        <input type="submit"  value="Login" class="btn btn-success btn-custom" onclick='sendLoginJSON();'>
                     </form>
 
                     <div class="form-group" id="reset_form">
@@ -82,7 +73,7 @@
 
                 <!--REGISTRATION-->
                 <div role="tabpanel" class="tab-pane fade" id="register">
-                    <form class="form-horizontal" method="post" action="">
+                    <form class="form-horizontal" action="" onsubmit="return false;">
 
                         <div class="form-group">
                             <a href="#" class="btn-facebook">
@@ -136,16 +127,10 @@
                                        class="form-control" placeholder="Confirm Password" required onkeyup='check();'>
                             </div>
                             <span id='register_message'></span>
-                            <a id='account_activation' href="confirm_account.html"
-                               style="display: none;text-align: center;">Go activate your account!</a>
+                            <a id='account_activation' href="confirm_account" style="display: none;text-align: center;">Go activate your account!</a>
 
                         </div>
-
-
-                        <input type="submit" value="Register" class="btn btn-success btn-custom"
-                               onclick='sendRegisterJSON();'>
-
-
+                        <input type="submit" value="Register" class="btn btn-success btn-custom" onclick='sendRegisterJSON();'>
                     </form>
                 </div>
             </div>
@@ -153,6 +138,8 @@
     </div>
 </div>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="loginRegister.js"></script>
 </body>
 </html>

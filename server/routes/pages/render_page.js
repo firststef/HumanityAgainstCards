@@ -20,7 +20,6 @@ module.exports = function (app) { // add the secured middleware on the propper r
                             console.log("error " + err);
                             res.writeHead(500);
                             res.end(err);
-
                         });
                 });
     }

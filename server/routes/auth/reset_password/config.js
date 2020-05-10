@@ -26,8 +26,6 @@ module.exports = {
 	account: {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
-	}
-	,
-
+	},
 	require_auth : false, // false doar pt testare
 };

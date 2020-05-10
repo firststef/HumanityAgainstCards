@@ -26,8 +26,13 @@
                 </div>
 
 
-                <form action="/" method="post" style="text-align: center;">
+                <form onsubmit="return false;" style="text-align: center;">
                 <div class="grid-item-2">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="grid-item-2">
+                    <label for="activation_code">Code</label>
                     <input type="text" id="activation_code" name="activation_code" required>
                 </div>
                 <div class="grid-item-3">
@@ -35,7 +40,7 @@
                 </div>
                     <span id='activation_message'></span>
                     <!--Activation message-->
-                    <a id='account_activation' href="login-register.html" style="display: none">Go log into your account!</a>
+                    <a id='account_activation' href="login-register" style="display: none">Success! Go log into your account!</a>
                 </form>
 
             </div>
