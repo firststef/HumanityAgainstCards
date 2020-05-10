@@ -6,7 +6,6 @@ body {
 
 .room-info {
   height: 100%;
-  background: black;
   display:flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -20,6 +19,28 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
+}
+
+#presentation::after {
+  width: 100%;
+  content: "";
+  background: url("bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
+}
+
+#roomIdContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
 }
 
 #startGameDiv {
@@ -27,6 +48,7 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
+  /* display: none; */
 }
 
 #startGameDiv p {
@@ -57,7 +79,8 @@ body {
 
 #playerList {
   width: 20%;
-  background: #5b5b5b;
+  background: #222222;
+  z-index: -2;
 }
 
 #playerList .player:first-child {
@@ -75,6 +98,7 @@ body {
   border-top: 4px solid black;
   background: whitesmoke;
   text-transform: uppercase;
+  margin-left: 10px;
 }
 
 #playerList .player:last-of-type {
@@ -85,9 +109,6 @@ body {
   margin-left: 5%;
 }
 
-#startGameDiv {
-  display: none;
-}
 
 .start-button {
   height: 50px;
