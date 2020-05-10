@@ -50,7 +50,7 @@ function sendRegisterJSON() {
 
 function sendLoginJSON() {
     let server_message = document.getElementById('login_message');
-    let email = document.getElementById('login_email');
+    let username = document.getElementById('login_username');
     let password = document.getElementById('login_password');
 
     server_message.style.color = 'red';
@@ -58,7 +58,7 @@ function sendLoginJSON() {
     let url = "http://localhost:8081/auth/login";
 
     sendHttpRequest('POST', url, {
-        "username": email.value,
+        "username": username.value,
         "password": password.value
     }).then(responseData => {
             console.log(responseData);
