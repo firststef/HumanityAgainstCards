@@ -1,42 +1,37 @@
-const config = require("../../config"),
-    room = require("../../database/room"),
-    user=require("./../../database/user"),
-    map=require("./../../map"),
-    engine = require("../../../client/gamecore/library"),
-f_header = "[routes/room/start_game.js]";
-
-
+const
+      room     = require("../../database/room"),
+      map      = require("./../../map"),
+      engine   = require("../../../client/gamecore/library"),
+      f_header = "[routes/room/start_game.js]";
 
 module.exports = function (app) {
-	app.post("/start_game", async (req, res) => {
-		try {
-             if(!req.body.roomID)throw "No roomId provided !";
-             if(! await room.room_exist(parseInt(req.body.roomID)))throw "Room does not exist!";
+    app.post("/start_game",
+             async (req, res) => {
+                 try {
+                     if ( !req.body.roomID ) throw "No roomId provided !";
 
-             var username= await user.get_user_id(req.headers.session);
-             console.log(username);
-             if(username.length===0)throw" session not registered";
-             if(await room.is_host_to_room(parseInt(req.body.roomID), username[0].username)===false) throw "You are not host to this room!";
+                     if ( !await room.room_exist(parseInt(req.body.roomID)) ) throw "Room does not exist!";
 
-             let playerList = await room.get_players(req.body.roomID);
-             let playerIDList=Array();
-             let ok=false;
-             for (var i = 0; i <playerList.length; i++)
-                {
-                    ok=await user.get_user_session(playerList[i].user_id);
-                    if(!ok)throw "Internal error!";
-                    playerIDList.push(ok[0].session.value);
-                }
+                     if ( await room.is_host_to_room(parseInt(req.body.roomID),
+                         req.headers.session) === false ) throw "You are not host to this room!";
 
-             var game_manager = new engine.GameManager(playerIDList.length, 1, playerIDList);
-             map.RoomMap.set(req.body.roomID,game_manager);
-             //map.print();
+                     let playerList = await room.get_players_from_room(req.body.roomID);
+                     let playerIDList = Array();
+                     //let ok = false;
 
-			res.status(200).send({success:true});
-		} catch (e) {
-			console.log(e.message+" in "+f_header);
-			console.log(e+" in "+f_header);
-			res.status(401).send({ success: false, reason: e });
-		}
-	});
+                     for (let i = 0; i < playerList.length; i++) {
+                         playerIDList.push(playerList[i].user_id);
+                     }
+
+                     let game_manager = new engine.GameManager(playerIDList.length,0,playerIDList);
+                     
+                     map.RoomMap.set(req.body.roomID,game_manager);
+
+                     res.status(200).send({ success: true });
+                 } catch (e) {
+                     console.log(e.message + " in " + f_header);
+                     console.log(e + " in " + f_header);
+                     res.status(401).send({ success: false, reason: e });
+                 }
+             });
 };

@@ -92,7 +92,7 @@ function getJoinedPlayers() {
 function getPlayerDiv(playerName) {
     return `
         <div class="player">
-            <p>${playerName}</p>
+            <b>${playerName}</b>
         </div>
     `;
 }

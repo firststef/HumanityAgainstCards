@@ -1,51 +1,51 @@
-const config = require("../../config"),
-  get_cards = require("../../database/get_cards"),
-  index=require("../../utils/random_indexes"),
-  f_header = "[routes/cards/get_cards.js]";
-
+const config    = require("../../config"),
+      get_cards = require("../../database/get_cards"),
+      index     = require("../../utils/random_indexes"),
+      f_header  = "[routes/cards/get_cards.js]";
 
 module.exports = function (app, secured) {
 
-  app.get("/get_black_card", secured, async (req, res) => {
-    try {
+    app.get("/get_black_card",
+            secured,
+            async (req, res) => {
+                try {
+                    let id = index.black_index();
+                    let black_card = await get_cards.get_black_cards(id);
 
-        let id=index.black_index();
-        let bcard= await get_cards.get_black_cards(id);
+                    while ( black_card[0] === undefined ) {
+                        id = index.black_index();
+                        black_card = await get_cards.get_black_cards(id);
+                    }
 
-        while(bcard[0]===undefined)
-        {
-          id=index.black_index();
-          bcard= await get_cards.get_black_cards(id);
-        }
-        
-        res.status(200).send({succes:true, card:bcard[0]});
-    } catch (e) {
-      res.status(417).send({ succes:false, error: e.message });
-    }
-  });
+                    res.status(200).send({ success: true, card: black_card[0] });
+                } catch (e) {
+                    res.status(417).send({ success: false, error: e.message });
+                }
+            });
 
-  app.get("/get_white_cards", secured, async (req, res) => {
-    try {
+    app.get("/get_white_cards",
+            secured,
+            async (req, res) => {
+                try {
 
-      if (!req.body.nr) throw `No number provided !`;
-      let indexes= Array();
-      let aux;
-      let numar= parseInt(req.body.nr);
-      
-      while(indexes.length<numar){
-      
-        aux= await get_cards.get_white_cards(index.white_index(indexes)).catch((e) => {
-          console.error(e.message);
-        });
+                    if ( !req.body.nr ) throw `No number provided !`;
+                    let indexes = Array();
+                    let aux;
+                    let numar = parseInt(req.body.nr);
 
-        if( aux[0]._id!=undefined)
-          indexes.push(aux[0]);
+                    while ( indexes.length < numar ) {
 
-      }
+                        aux = await get_cards.get_white_cards(index.white_index(indexes)).catch((e) => {
+                            console.error(e.message);
+                        });
 
-      res.status(200).send({succes:true, cards: indexes});
-    } catch (e) {
-      res.staus(417).send({ succes:false, error: e.message });
-    }
-  });
+                        if ( aux[0]._id !== undefined )
+                            indexes.push(aux[0]);
+                    }
+
+                    res.status(200).send({ success: true, cards: indexes });
+                } catch (e) {
+                    res.status(417).send({ success: false, error: e.message });
+                }
+            });
 };
