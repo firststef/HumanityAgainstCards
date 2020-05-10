@@ -93,14 +93,15 @@ function sendResetRequest() {
         });
 }
 
-var letter = /[a-zA-Z]/;
+var lowLetter = /[a-z]/
+var upperLetter=/[A-Z]/;
 var number = /[0-9]/;
 
 function check() {
     if (document.getElementById('register_password').value.length < 6) {
         document.getElementById('register_message').style.color = 'red';
         document.getElementById('register_message').innerHTML = 'Password must be at least 5 characters !';
-    } else if (!letter.test(document.getElementById('register_password').value) || !number.test(document.getElementById('register_password').value)) {
+    } else if (!upperLetter.test(document.getElementById('register_password').value) || !lowLetter.test(document.getElementById('register_password').value) || !number.test(document.getElementById('register_password').value)) {
         document.getElementById('register_message').style.color = 'red';
         document.getElementById('register_message').innerHTML = 'Password must contain an uppercase and a number!';
     } else {
