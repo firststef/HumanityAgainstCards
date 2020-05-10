@@ -1,7 +1,6 @@
-const config    = require("../../config"),
+const
       get_cards = require("../../database/get_cards"),
-      index     = require("../../utils/random_indexes"),
-      f_header  = "[routes/cards/get_cards.js]";
+      index     = require("../../utils/random_indexes");
 
 module.exports = function (app, secured) {
 
@@ -23,15 +22,15 @@ module.exports = function (app, secured) {
                 }
             });
 
-    app.get("/get_white_cards",
+    app.get("/get_white_cards/:nr",
             secured,
             async (req, res) => {
                 try {
 
-                    if ( !req.body.nr ) throw `No number provided !`;
+                    if ( !req.params.nr ) throw `No number provided !`;
                     let indexes = Array();
                     let aux;
-                    let numar = parseInt(req.body.nr);
+                    let numar = parseInt(req.params.nr);
 
                     while ( indexes.length < numar ) {
 
