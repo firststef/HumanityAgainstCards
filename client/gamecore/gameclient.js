@@ -21,11 +21,56 @@ class GameClient {
         this.currentCzarIndex = null;
         this.winnerPlayer = null;
         this.state = basedata.GameStates.INITIAL;
-
-        this.test = false;
     }
 
-    update(data){//this will return maybe a response with accepted/invalid
+    setPlayerChoice(data){
+        this.choice = [];
+        data.forEach(c_id => {
+            let cardIndex = this.cards.findIndex(card => card.id === c_id);
+            if (cardIndex === -1) {
+                return false;
+            }
+            this.choice.push(this.cards[cardIndex]);
+        });
+        this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+        return true;
+    }
+
+    setCzarChoice(data){
+        //czar chooses the index for a card set instead of individual cards
+        let index = 0;
+        for (let set of this.selectedWhiteCardSets){
+            for (let card of set){
+                if (card !== null && data[0] === parseInt(card.id)){
+                    this.choice = index;
+                    this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
+                    return true;
+                }
+            }
+            index++;
+        }
+        return false;
+    }
+
+    getBlackCardPick(){
+        return this.blackCardType;
+    }
+
+    getCards(){
+        return this.cards;
+    }
+
+    getPlayerType(){
+        return this.type;
+    }
+
+    getSelectedSets(){
+        return this.selectedWhiteCardSets;
+    }
+
+    /**=======Client update on data======**/
+
+    update(data){
         if(this.type === 0) console.log('Player is CZAR');
         else console.log('Player is NORMAL');
 
@@ -35,30 +80,13 @@ class GameClient {
         if (this.state === basedata.GameStates.CHOOSE_WHITE_CARD){
             console.log('Choosing white card');
             if (this.type === basedata.PlayerTypes.PLAYER) {
-                this.choice = [];
-                data.forEach(c_id => {
-                    let cardIndex = this.cards.findIndex(card => card.id === c_id);
-                    if (cardIndex === -1) {
-                        throw 'error - cardId not in hand';
-                    }
-                    this.choice.push(this.cards[cardIndex]);
-                });
-                this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
-            }
-            else{ //czar chooses the index for a card set instead of individual cards; czar might pick a null set!!!
-                let index = 0;
-                for (let set of this.selectedWhiteCardSets){
-                    for (let card of set){
-                        if (card !== null && data[0] === parseInt(card.id)){
-                            this.choice = index;
-                            this.state = basedata.GameStates.CHOSEN_WHITE_CARD;
-                            return;
-                        }
-                    }
-                    index++;
+                if(!this.setPlayerChoice(data)){
+                    throw 'Error: card ID not in hand';
                 }
-
-                throw 'error - cardIndex not in selection';
+            } else {
+                if(!this.setCzarChoice(data)) {
+                    throw 'Error: card Index not in selection';
+                }
             }
         }
         else if (this.state === basedata.GameStates.END_ROUND){
@@ -72,9 +100,10 @@ class GameClient {
         }
         else if (this.state === basedata.GameStates.GAME_END){
             console.log('Game has ended');
-            process.exit(0);
         }
     }
+
+    /**=======Client request data======**/
 
     getNecessaryData(){
         if (this.state === basedata.GameStates.INITIAL) {
@@ -119,10 +148,14 @@ class GameClient {
         };
     }
 
+    /**=======Client update on response======**/
+
     putData (data){
         console.log('[PID] ' + this.id);
+
         /**
          * Init white cards, black card, player list and type
+         * data: player_list, black_card, black_card_type, current_czar, cards[]
          */
         if (this.state === basedata.GameStates.INITIAL && data.header === basedata.RequestHeaders.RESPONSE_BEGIN_GAME) {
             console.log('Received cards:', data.cards);
@@ -151,8 +184,11 @@ class GameClient {
         }
 
         /**
-         * White card choice behavior. If czar picks white, end round for czar.
-         * If normal player picks white, remove card from list and set state to wait.
+         * White card choice behavior.
+         * If czar picks white, send end round request.
+         * If normal player picks white, set state to wait.
+         *
+         * data: ...
          */
         if(this.state === basedata.GameStates.CHOSEN_WHITE_CARD && data.header === basedata.RequestHeaders.RESPONSE_CHOSE_CARD){
             console.log('Player has chosen card set: ', this.choice);
@@ -169,7 +205,9 @@ class GameClient {
 
         /**
          * When players are all ready, czar must choose a white card.
-         * Also receive the array with cards that the players chose.
+         * Receives the array with cards that the players chose.
+         *
+         * data: selected_cards[]
          */
         if(this.state === basedata.GameStates.WAIT_FOR_PLAYERS && data.header === basedata.RequestHeaders.RESPONSE_WAIT_ENDED_PLAYERS){
             if(data.wait_end === true){
@@ -189,8 +227,10 @@ class GameClient {
         }
 
         /**
-         * When czar has chosen the card, end round for player and show him the winning card.
-         * If the player choice is the winning card, then give him a point.
+         * When czar has chosen the card, end round for player and show the winning cards.
+         * If the player choice is the winning card, points are added on server.
+         *
+         * data: winning_cards[]
          */
         if(this.state === basedata.GameStates.WAIT_FOR_CZAR && data.header === basedata.RequestHeaders.RESPONSE_WAIT_ENDED_CZAR){
             if(data.wait_end === true) {
@@ -211,7 +251,8 @@ class GameClient {
         }
 
         /**
-         * After all players updated the points, we need to check if anyone won.
+         * If winner is NOT null, continue the game
+         * data: player_list, winner_player, black_card, black_card_type, current_czar, cards[]
          */
         if(this.state === basedata.GameStates.END_ROUND && data.header === basedata.RequestHeaders.RESPONSE_END_ROUND) {
             this.playerList = data.player_list;
@@ -232,32 +273,34 @@ class GameClient {
             this.currentCzarIndex = data.current_czar;
             this.cards = data.cards;
 
-            let pList = [];
-            this.playerList.filter((player) => player.id === this.id)[0].cards.forEach((el) => pList.push(el));
+            let pCards = [];
+            this.playerList.filter(player => player.id === this.id)[0].cards.forEach(el => pCards.push(el));
             if (this.type === basedata.PlayerTypes.PLAYER) {
                 this.state = basedata.GameStates.CHOOSE_WHITE_CARD;
-                this.test = true;
                 return {
                     header: 'new_round_for_normal_player',
                     player_list: this.playerList,
                     black_card: this.commonBlackCard,
                     black_card_type: this.blackCardType,
-                    player_cards: pList
+                    player_cards: pCards
                 };
             } else {
                 this.state = basedata.GameStates.WAIT_FOR_PLAYERS;
-
                 return {
                     header: 'wait_for_players',
                     player_list: this.playerList,
                     cards: this.cards,
                     black_card: this.commonBlackCard,
                     black_card_type: this.blackCardType,
-                    player_cards: pList
+                    player_cards: pCards
                 };
             }
         }
 
+        /**
+         * Response when nothing happens
+         * data: selected_cards[]
+         */
         if(data.header === basedata.RequestHeaders.RESPONSE_EMPTY){
             return {
                 header: 'no_change',
@@ -268,22 +311,6 @@ class GameClient {
         return {
             header:'error - unknown header'
         };
-    }
-
-    getBlackCardPick(){
-        return this.blackCardType;
-    }
-
-    getCards(){
-        return this.cards;
-    }
-
-    getPlayerType(){
-        return this.type;
-    }
-
-    getSelectedSets(){
-        return this.selectedWhiteCardSets;
     }
 }
 

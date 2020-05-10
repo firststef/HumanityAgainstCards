@@ -1,5 +1,6 @@
 const config = require("../../config"),
 	room = require("../../database/room"),
+	user=require("../../database/user"),
 f_header = "[routes/room/payers_from_room.js]";
 
 module.exports = function (app) {
@@ -8,10 +9,14 @@ module.exports = function (app) {
              if(!req.headers.roomid) throw "No roomID provided."
 
             let players=Array();
-            let player_object=await room.get_players(parseInt(req.headers.roomid));
+            let player_object=await room.get_players_from_room(parseInt(req.headers.roomid));
+            console.log(player_object);
 				 for(var key2 in player_object){
+				 	console.log(player_object[key2].user_id);
 					if (player_object.hasOwnProperty(key2)) {
-						players.push(player_object[key2].user_id);
+						let aux=await user.get_user_id(player_object[key2].user_id);
+						console.log(aux);
+						players.push(aux[0].username);
 				   }
 				 }
 			

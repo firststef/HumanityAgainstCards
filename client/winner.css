@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    height: 100vh;
+}
+
+
+.box {
+    width: 50%;
+    margin: 0 auto;
+    background: rgba(53, 52, 52, 0.2);
+    padding: 50px;
+    border: 2px solid #fff;
+    background-clip: padding-box;
+    text-align: center;
+}
+
+.button {
+    font-size: 1em;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid #FF9800;
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+.button:hover {
+    background: #06D85F;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    font-family: 'Lucida Console', cursive, monospace;
+    position: absolute;
+    padding: 10px;
+    width: 400px;
+    height: 250px;
+    z-index: 15;
+    top: 40%;
+    left: 47%;
+    background: #161616;
+    margin: -100px 0 0 -150px;
+    box-shadow: 0 0 50px #FF9800;
+    border-radius: 2px;
+    transition: pulsate 5s ease-in-out;
+}
+
+
+.popup #endGame,
+.popup #winnerUser{
+    animation: pulsate 0.5s ease;
+    animation-iteration-count: infinite;
+    text-align: center;
+    text-shadow: 3px 3px #672232;
+    margin-top: 5%;
+    color: antiquewhite;
+    text-decoration: underline overline dotted white;
+}
+@-webkit-keyframes pulsate {
+    0% {
+        opacity: 0.5;
+        font-size: 1.9em;
+    }
+    50% {
+        opacity: 1.0;
+        font-size: 2em;
+        color: #FF9800;
+        -webkit-text-stroke: 1px white;
+
+    }
+    100% {
+        opacity: 0.5;
+        font-size: 1.9em;
+    }
+}
+
+@-webkit-keyframes pulsate1 {
+    0% {
+        opacity: 0.5;
+
+    }
+    50% {
+        opacity: 1.0;
+        color: #FF9800;
+        -webkit-text-stroke: 1px white;
+
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+.popup .content {
+    animation: pulsate1 0.5s ease;
+    animation-iteration-count: infinite;
+    text-align: center;
+    color: antiquewhite;
+    text-shadow: 3px 3px #672232;
+    max-height: 30%;
+    margin-top: 10%;
+    position: relative;
+
+}
+
+@media screen and (max-width: 700px){
+    .box{
+        width: 70%;
+    }
+    .popup{
+        width: 70%;
+    }
+}
