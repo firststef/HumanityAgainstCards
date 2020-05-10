@@ -1,7 +1,5 @@
-
-const
-      room     = require("../../database/room"),
-      map      = require("./../../map");
+const room     = require("../../database/room"),
+    map      = require("./../../map");
 
 module.exports = function (app) {
     app.post("/start_game",
@@ -31,8 +29,6 @@ module.exports = function (app) {
 
                      res.status(200).send({ success: true });
                  } catch (e) {
-                     console.log(e.message + " in " + f_header);
-                     console.log(e + " in " + f_header);
                      res.status(401).send({ success: false, reason: e });
                  }
              });

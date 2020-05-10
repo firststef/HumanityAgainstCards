@@ -25,18 +25,27 @@
         <br>
 
         <hr class="my-2">
-        <div class="grid-container">
-            <div class="grid-item-1">
-                <label for="PlayerName">Your Name</label>
+        <div class="grid-container container">
+            <div class="row">
+                <div class="col">
+                    <p>Choose a temporary account</p>
+                    <div class="grid-item-1">
+                        <label for="PlayerName">Your Name</label>
+                    </div>
+                    <form action="" method="post" onsubmit="return submitName()">
+                    <div class="grid-item-2">
+                        <input type="text" id="PlayerName" name="PlayerName" required>
+                    </div>
+                    <div class="grid-item-3">
+                        <input type="submit" class="button-Start" value="START">
+                    </div>
+                    </form>
+                <div>
+                <div class="col">
+                    <p>Or login/register an account</p>
+                    <button class="button-Start" onclick="window.location = 'login-register'">LOGIN</button>
+                </div>
             </div>
-            <form action="" method="post" onsubmit="return submitName()">
-            <div class="grid-item-2">
-                <input type="text" id="PlayerName" name="PlayerName" required>
-            </div>
-            <div class="grid-item-3">
-                <input type="submit" class="button-Start" value="START">
-            </div>
-            </form>
         </div>
     </div>
 </div>
