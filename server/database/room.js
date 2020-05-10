@@ -164,22 +164,26 @@ module.exports = {
                             max_players: 0,
                             players_in_game: 0
                         }).toArray(
-                        (err, doc) => {
-                            if ( doc !== null ) {
-                                let max = Math.max.apply(
-                                    Math,
-                                    doc.map(function (o) {
-                                        return o.id;
-                                    })
-                                );
-                                resolve(max);
-                            } else {
-                                if ( err ) {
-                                    throw err;
-                                }
-                                resolve(false);
+                    (err, doc) => {
+                        if ( doc !== null && doc.length!==0 ) {
+                            console.log("vrea sa faca max");
+                            console.log(doc);
+                            let max = Math.max.apply(
+                                Math,
+                                doc.map(function (o) {
+                                    return o.id;
+                                })
+                            );
+
+                            resolve(max);
+                        } else {
+                            console.log(doc);
+                            if ( err ) {
+                                throw err;
                             }
-                        });
+                            resolve(1000);
+                        }
+                    });
             } catch (err) {
                 console.log(
                     log.date_now() + f_header,

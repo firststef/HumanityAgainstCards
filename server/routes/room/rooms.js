@@ -18,6 +18,7 @@ module.exports = function (app, secured) {
           
            var v_id = await room.room_max_id().catch((e) => {
             console.error(e.message);
+            v_id=5000;
           });
           v_id = v_id + 1;
           let room_obj = {
