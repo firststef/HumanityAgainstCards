@@ -148,6 +148,14 @@ module.exports = {
 			path: "\\..\\..\\..\\client/gamecore/gameclient.js",
 			type: "text/javascript"
 		},
+		"/reset_password": {
+			path: "\\..\\..\\..\\client/reset_password/send_new_pass.html",
+			type: "text/html"
+		},
+		"/sendNewPass.js": {
+			path: "\\..\\..\\..\\client/reset_password/sendNewPass.js",
+			type: "text/javascript"
+		},
 		"/room-test.css": {
 			path: "\\..\\..\\..\\client/gameroom/room-test.css",
 			type: "text/css"

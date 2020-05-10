@@ -26,7 +26,6 @@ module.exports = function (app) {
                      let user_ob = {
                          username: req.body.name,
                          nickname: req.body.name
-
                      };
 
                      user_ob.session = {
