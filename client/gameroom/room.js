@@ -11,6 +11,8 @@ var otherPlayedCardsElement;
 var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
 
+window.onload = () => load();
+
 function load() {
     blackCardElement = document.getElementById("currentBlackCard");
     scoreBoardElement = document.getElementById("scoreBoard");
