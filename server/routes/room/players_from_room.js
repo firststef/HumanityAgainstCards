@@ -16,7 +16,7 @@ module.exports = function (app) {
 					if (player_object.hasOwnProperty(key2)) {
 						let aux=await user.get_user_id(player_object[key2].user_id);
 						console.log(aux);
-						players.push(aux);
+						players.push(aux[0].username);
 				   }
 				 }
 			
