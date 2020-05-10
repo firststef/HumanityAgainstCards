@@ -46,6 +46,9 @@ function revealIfHost() {
                         document.getElementById("mobileButton").style.display = 'none';
                     }
                 }
+                else {
+                    setInterval(joinRoomIfStarted,1000);
+                }
             } else {
                 console.log("error on isHost");
             }
@@ -83,6 +86,26 @@ function getJoinedPlayers() {
         .then(res => {
             if (res.success === true) {
                 document.getElementById("playerList").innerHTML = res.players.map(p => getPlayerDiv(p)).join('');
+            } else {
+                console.log('Could not get players room');
+            }
+        });
+}
+
+function joinRoomIfStarted() {
+    fetch('/game_started/'+roomID, {
+        method: 'get',
+        headers: {
+            "Content-type": "application/json",
+            "session": sid
+        }
+    })
+        .then(res => res.json())
+        .then(res => {
+            if (res.success === true) {
+                if(res.status === "started"){
+                    window.location.href = '/game?roomID=' + roomID;
+                }
             } else {
                 console.log('Could not get players room');
             }

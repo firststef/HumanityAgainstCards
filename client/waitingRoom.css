@@ -15,6 +15,7 @@ body {
   width: 80%;
   font-size: 2rem;
   color: white;
+  background: black;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -25,7 +26,7 @@ body {
 #presentation::after {
   width: 100%;
   content: "";
-  background: url("bg.png");
+  background: url("./bg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   top: 0;
@@ -44,11 +45,10 @@ body {
 }
 
 #startGameDiv {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  /* display: none; */
 }
 
 #startGameDiv p {

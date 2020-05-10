@@ -16,34 +16,11 @@
     <script crossorigin="anonymous"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script>
-        //Workaround for require on client, plz dont kill
-        var module = {exports: {}};
-        function require() {
-            return module.exports;
-        }
-    </script>
-    <script src="../gamecore/basedata.js"></script>
-    <script src="../gamecore/gameclient.js"></script>
-    <script src="../assets/js/purecookie.js"></script>
-    <script src="room.js"></script>
-    <script>
-        document.getElementById('game-id').onclick = function copyGameId() {
-            let gameid = document.getElementById('game-id').innerHTML;
-            let id = gameid.replace('Game ID: ', "");
-            var dummy = $('<input>').val(id).appendTo('body').select();
-            document.execCommand('copy');
-            document.getElementById('game-id').innerHTML = "Copied to clipboard";
-            setTimeout(() => {
-                document.getElementById('game-id').innerHTML = gameid;
-            }, 1000);
-        }
-    </script>
 </head>
-<body onload="load();">
+<body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="javascript:void(0)">Humanity Against Cards</a>
+    <a class="navbar-brand" href="lobbies.html">Humanity Against Cards</a>
     <button aria-expanded="false" class="navbar-toggler navbar-toggler-right collapsed" data-target="#navb"
             data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
@@ -96,8 +73,31 @@
 
         </div>
     </div>
-</div>
 
+    <script>
+        //Workaround for require on client, plz dont kill
+        let module = {exports: {}};
+        function require() {
+            return module.exports;
+        }
+    </script>
+    <script src="../gamecore/basedata.js"></script>
+    <script src="../gamecore/gameclient.js"></script>
+    <script src="../assets/js/purecookie.js"></script>
+    <script src="room.js"></script>
+    <!--<script>
+        document.getElementById('game-id').onclick = function copyGameId() {
+            let gameid = document.getElementById('game-id').innerHTML;
+            let id = gameid.replace('Game ID: ', "");
+            var dummy = $('<input>').val(id).appendTo('body').select();
+            document.execCommand('copy');
+            document.getElementById('game-id').innerHTML = "Copied to clipboard";
+            setTimeout(() => {
+                document.getElementById('game-id').innerHTML = gameid;
+            }, 1000);
+        }
+    </script>-->
+</div>
 
 </body>
 </html>

@@ -1,9 +1,66 @@
 const basedata=require('./basedata');
+const fetch = require('node-fetch');
 
 function fetchAI(blackCard, listOfCards){
     return {
         then: (func) => func(listOfCards[0])
     };
+}
+
+async function fetchBlackCard(){
+    let card = {
+        id: -1,
+        text: '',
+        type: 1
+    };
+    let response = await fetch('http://localhost:8081/get_black_card', {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+        });
+    let data = await response.json();
+
+    //console.log(data);
+    if(data.success === true) {
+        card.id = parseInt(data.card._id);
+        card.text = data.card.text;
+        card.type = parseInt(data.card.pick);
+    } else {
+        console.log('Error: fetch /get_black_card failed -- ', data.error);
+    }
+    //console.log(card);
+    return card;
+}
+
+async function fetchWhiteCards(cardCount){
+    let card = {
+        id: -1,
+        text: '',
+        type: 1
+    };
+    let cardList = []
+    let response = await fetch('http://localhost:8081/get_white_cards', {
+        method: 'GET',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+        //body: JSON.stringify({nr: cardCount})
+    });
+    console.log(response);
+
+    console.log(data);
+    if(data.success === true) {
+        cardList = data.cards;
+    } else {
+        console.log('Error: fetch /get_white_cards failed -- ', data.error);
+    }
+    console.log(cardList);
+    return card;
 }
 
 class GameManager {
@@ -43,13 +100,16 @@ class GameManager {
 
         this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.getAllPlayerCount()));
         this.changePlayerTypes();
-        this.setNewBlackCard();
+        setTimeout(this.setNewBlackCard.bind(this), 1000);
+        //this.setNewBlackCard();
     }
 
-    setNewBlackCard(){
-        //todo: request card
-        this.commonBlackCard = new basedata.Card(999, 'Black card');
-        this.blackCardType = Math.ceil(Math.random() * 3);
+    async setNewBlackCard(){
+        let card = await fetchBlackCard();
+        if(card.id !== -1) {
+            this.commonBlackCard = new basedata.Card(card.id, card.text);
+            this.blackCardType = card.type;
+        }
     }
 
     getWhiteCard(){
@@ -59,11 +119,16 @@ class GameManager {
         return card;
     }
 
-    setBeginningWhiteCards(playerIndex){
+    async setBeginningWhiteCards(playerIndex){
         /*these are random but they need to be taken from a db
              - we will get the number of cards in the database
              - each used id will be put in usedCards[]
              - each client gets a unique set of id's (Cards)*/
+
+        /*let cardList = await fetchWhiteCards(this.numberOfPlayers * 10);
+        cardList.foreach( card => {
+            this.playerList[playerIndex].cards.push(card);
+        })*/
         if (this.generateCardId === undefined){ //will be replaced with actual cards
             this.generateCardId = 0;
         }
