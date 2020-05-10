@@ -16,6 +16,7 @@ module.exports = function (app) {
                          req.headers.session) === false ) throw "You are not host to this room!";
 
                      let playerList = await room.get_players_from_room(req.body.roomID);
+                     console.log(playerList);
                      let playerIDList = Array();
                      //let ok = false;
 
@@ -23,9 +24,12 @@ module.exports = function (app) {
                          playerIDList.push(playerList[i].user_id);
                      }
 
+
                      let game_manager = new engine.GameManager(playerIDList.length,0,playerIDList);
                      
                      map.RoomMap.set(req.body.roomID,game_manager);
+
+                     await room.game_start(req.body.roomID);
 
                      res.status(200).send({ success: true });
                  } catch (e) {

@@ -37,6 +37,7 @@ require("./routes/auth/confirm_account")(app);
 require("./routes/room/rooms")(app,secured);
 require("./routes/room/return_rooms")(app);
 require("./routes/room/players_from_room")(app);
+require("./routes/room/is_started")(app);
 require("./routes/pages/render_page")(app,secured);
 require("./routes/ai_call/call")(app);
 require("./routes/config/pasport-setup");
