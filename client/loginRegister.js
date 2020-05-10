@@ -24,6 +24,7 @@ function sendRegisterJSON() {
     let email = document.getElementById('register_email');
     let password = document.getElementById('register_password');
 
+    server_message.innerHTML='';
     server_message.style.color = 'red';
     console.log("Script for register request");
     let url = "http://localhost:8081/auth/register";
@@ -41,7 +42,10 @@ function sendRegisterJSON() {
             server_message.innerHTML = 'Success! Go activate your account!';
             //Show link to activation page
             document.getElementById('account_activation').style.display = 'block';
-        }).catch(err => console.log(err));
+        }).catch(err => {
+                console.log(err);
+                server_message.innerHTML = 'User already register!';
+            });
 }
 
 function sendLoginJSON() {
@@ -56,15 +60,13 @@ function sendLoginJSON() {
     sendHttpRequest('POST', url, {
         "username": email.value,
         "password": password.value
-    })
-        .then(responseData => {
+    }).then(responseData => {
             console.log(responseData);
             //set cookie
             document.cookie = "HAC_SID=" + responseData.session;
             //redirect to account page
             window.location = "/account";
-        })
-        .catch(err => {
+        }).catch(err => {
             console.log(err);
             //display message
             server_message.innerHTML = 'Input not valid!';
