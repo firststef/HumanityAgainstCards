@@ -24,6 +24,7 @@ function sendRegisterJSON() {
     let email = document.getElementById('register_email');
     let password = document.getElementById('register_password');
 
+    server_message.innerHTML='';
     server_message.style.color = 'red';
     console.log("Script for register request");
     let url = "http://localhost:8081/auth/register";
@@ -41,7 +42,10 @@ function sendRegisterJSON() {
             server_message.innerHTML = 'Success! Go activate your account!';
             //Show link to activation page
             document.getElementById('account_activation').style.display = 'block';
-        }).catch(err => console.log(err));
+        }).catch(err => {
+                console.log(err);
+                server_message.innerHTML = 'User already register!';
+            });
 }
 
 function sendLoginJSON() {
@@ -56,15 +60,13 @@ function sendLoginJSON() {
     sendHttpRequest('POST', url, {
         "username": email.value,
         "password": password.value
-    })
-        .then(responseData => {
+    }).then(responseData => {
             console.log(responseData);
             //set cookie
             document.cookie = "HAC_SID=" + responseData.session;
             //redirect to account page
             window.location = "/account";
-        })
-        .catch(err => {
+        }).catch(err => {
             console.log(err);
             //display message
             server_message.innerHTML = 'Input not valid!';
@@ -91,14 +93,15 @@ function sendResetRequest() {
         });
 }
 
-var letter = /[a-zA-Z]/;
+var lowLetter = /[a-z]/
+var upperLetter=/[A-Z]/;
 var number = /[0-9]/;
 
 function check() {
     if (document.getElementById('register_password').value.length < 6) {
         document.getElementById('register_message').style.color = 'red';
         document.getElementById('register_message').innerHTML = 'Password must be at least 5 characters !';
-    } else if (!letter.test(document.getElementById('register_password').value) || !number.test(document.getElementById('register_password').value)) {
+    } else if (!upperLetter.test(document.getElementById('register_password').value) || !lowLetter.test(document.getElementById('register_password').value) || !number.test(document.getElementById('register_password').value)) {
         document.getElementById('register_message').style.color = 'red';
         document.getElementById('register_message').innerHTML = 'Password must contain an uppercase and a number!';
     } else {

@@ -1,4 +1,5 @@
-var letter = /[a-zA-Z]/;
+var lowLetter = /[a-z]/
+var upperLetter=/[A-Z]/;
 var number = /[0-9]/;
 
 var validatePass = function() {
@@ -6,7 +7,7 @@ var validatePass = function() {
         document.getElementById('reset_message').style.color = 'red';
         document.getElementById('reset_message').innerHTML = 'Password must be at least 6 characters !';
     }
-    else if(!letter.test(document.getElementById('new_pass').value) || !number.test(document.getElementById('new_pass').value))
+    else if(!upperLetter.test(document.getElementById('new_pass').value) || !lowLetter.test(document.getElementById('new_pass').value) || !number.test(document.getElementById('new_pass').value))
     {
         document.getElementById('reset_message').style.color = 'red';
         document.getElementById('reset_message').innerHTML = 'Password must contain an uppercase and a number!';

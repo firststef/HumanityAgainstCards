@@ -60,7 +60,6 @@ p.p1-my{
 
 h1-second {
     font-weight: 500;
-    line-height: 1.2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:transparent;
     -webkit-text-fill-color: transparent;
@@ -68,6 +67,10 @@ h1-second {
     -webkit-background-clip: text;
     text-shadow:none;
     font-size:5rem;
+}
+
+.grid-item-3 {
+    margin-top: 10px;
 }
 
 .button-Start {

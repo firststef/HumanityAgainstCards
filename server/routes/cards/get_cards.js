@@ -38,7 +38,7 @@ module.exports = function (app, secured) {
                             console.error(e.message);
                         });
 
-                        if ( aux[0]._id !== undefined )
+                        if ( aux!== false && aux.length!==0)
                             indexes.push(aux[0]);
                     }
 

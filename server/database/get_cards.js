@@ -27,7 +27,10 @@ module.exports = {
                         reject({ err: err });
                     } else {
                         //console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
-                        resolve(result);
+                        if(result!==null&&result.length!==0)
+                            resolve(result);
+                        else
+                            resolve(false);
                     }
                 });
         }),
