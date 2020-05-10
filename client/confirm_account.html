@@ -6,33 +6,31 @@
     <title>Humanity Against Cards</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="sendActivationCode.js"></script>
+    <link href="assets/css/confirm_account.css" rel="stylesheet">
 </head>
 
-    <body style="width: 440px; margin: 0 auto; display: flex !important; flex-flow: column !important;align-items: center;padding: 2em;font-family: 'Roboto', sans-serif; ">
-        <div style="border: 1px solid #5e5e5e86; border-radius: 23px; padding: 1em; -webkit-box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75);
-        -moz-box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75);
-        box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75); ">
-            <img src="https://i.ibb.co/8B5NNtZ/image.png" alt="logo" style="background-color: rgb(27, 27, 27);width: 400px;height: auto; border-radius:10px; margin: .5em;">
-            <div style="width: 100%; height: 1px; background-color:#5e5e5e28; margin-top: 1em; margin-bottom: 2em;"></div>
-           
-            <p style="text-align: center;">Activate you account</p>
+    <body>
+    <div class="div-principal">
+            <img src="https://i.ibb.co/8B5NNtZ/image.png" alt="logo" id="logo">
+            <br>
+            <br>
+            <p class="message">Activate you account</p>
          
 
-            <div class="grid-container" id="fp_reset_form">
+            <div class="grid-container" id="confirm_form">
 
-                <div class="grid-item-1" style="text-align: center;">
-                    <label style="width: auto;" for="fp_reset_form">Enter the activation code</label>
+                <div class="grid-item-1">
+                    <label for="confirm_form">Enter the activation code</label>
                 </div>
 
 
-                <form onsubmit="return false;" style="text-align: center;">
+                <form class="sendCode" onsubmit="return false;">
                 <div class="grid-item-2">
-                    <label style="width: 100px;" for="username">Username</label>
+                    <label class="label" for="username">Username</label>
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="grid-item-2">
-                    <label style="width: 100px;" for="activation_code">Code</label>
+                    <label  class="label" for="activation_code">Code</label>
                     <input type="text" id="activation_code" name="activation_code" required>
                 </div>
                 <div class="grid-item-3">
@@ -40,16 +38,17 @@
                 </div>
                     <span id='activation_message'></span>
                     <!--Activation message-->
-                    <a id='account_activation' href="login-register" style="display: none">Success! Go log into your account!</a>
+                    <a id='account_activation' href="login-register">Success! Go log into your account!</a>
                 </form>
 
             </div>
 
             
-            <div style="width: 100%; height: 1px; background-color:#5e5e5e28; margin-top: 1em; margin-bottom: 2em;"></div>
-            <p style="color: rgb(112, 112, 112);font-size: 14px;text-align: center;">
-            </p>
-        </div> 
+            <div class="footer"></div>
+
+     </div>
+    <script src="sendActivationCode.js"></script>
+
     </body>
 </html>
                  

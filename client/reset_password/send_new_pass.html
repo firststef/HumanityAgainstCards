@@ -6,42 +6,42 @@
     <title>Humanity Against Cards</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="../assets/css/confirm_account.css" rel="stylesheet">
 </head>
 
-<body style="width: 440px;margin: 0 auto; display: flex !important; flex-flow: column !important;align-items: center;padding: 2em;font-family: 'Roboto', sans-serif; ">
-<div style="border: 1px solid #5e5e5e86; border-radius: 23px; padding: 1em; -webkit-box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75);
-        -moz-box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75);
-        box-shadow: 0px 0px 56px -45px rgba(0,0,0,0.75); ">
-    <img src="https://i.ibb.co/8B5NNtZ/image.png" alt="logo" style="background-color: rgb(27, 27, 27);width: 400px;height: auto; border-radius:10px; margin: .5em;">
-    <div style="width: 100%; height: 1px; background-color:#5e5e5e28; margin-top: 1em; margin-bottom: 2em;"></div>
+<body>
+<div class="div-principal">
+    <img src="https://i.ibb.co/8B5NNtZ/image.png" alt="logo" id="logo">
+    <br>
+    <br>
 
     <p style="text-align: center;">Forgot Password?</p>
 
 
     <div class="grid-container" id="fp_reset_form">
 
-        <div class="grid-item-1" style="text-align: center;">
+        <div class="grid-item-1 message" >
             <label for="fp_reset_form">Send your new password</label>
         </div>
 
 
-        <form  style="text-align: start;" onsubmit="return false;">
-            <div class="grid-item-2" style="text-align: center">
-                <label for="username">Username</label>
+        <form  onsubmit="return false;">
+            <div class="grid-item-2">
+                <label class="label" for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Username" required>
             </div>
-            <div class="grid-item-2" style="text-align: center">
-                <label for="new_pass">New  Password</label>
+            <div class="grid-item-2">
+                <label class="label" for="new_pass">New Password</label>
                 <input type="password" id="new_pass" name="new_pass" placeholder="New Password" required onkeyup="validatePass();">
             </div>
-            <div class="grid-item-2" style="text-align: center">
-                <label for="c_new_pass">Confirm Password</label>
+            <div class="grid-item-2">
+                <label class="label" for="c_new_pass">Confirm Password</label>
                 <input type="password" id="c_new_pass" name="c_new_pass" placeholder="Confirm Password" required  onkeyup="validatePass();">
             </div>
 
             <span id='reset_message'></span>
 
-            <div class="grid-item-3" style="text-align: center">
+            <div class="grid-item-3">
                 <input type="submit" class="button-Start" value="SEND" onclick="sendNewPassword();">
             </div>
 
@@ -50,9 +50,8 @@
     </div>
 
 
-    <div style="width: 100%; height: 1px; background-color:#5e5e5e28; margin-top: 1em; margin-bottom: 2em;"></div>
-    <p style="color: rgb(112, 112, 112);font-size: 14px;text-align: center;">
-    </p>
+    <div class="footer"></div>
+
 </div>
 
 <script src="sendNewPass.js"></script>
