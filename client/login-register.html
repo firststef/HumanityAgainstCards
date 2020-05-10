@@ -4,20 +4,13 @@
     <meta charset="UTF-8">
     <title>Login / Register</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link href="assets/css/login-register.css" rel="stylesheet"  type="text/css">
-
-    <script src="registerRequest.js"></script>
-    <script src="loginRequest.js"></script>
-    <script src="sendResetRequest.js"></script>
-    <script src="validate_register_input.js"></script>
-
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="assets/css/login-register.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
-<h1  class="message">Welcome back to<br/><strong>Humanity Against Cards</strong>!</h1>
+<h1 class="message">Welcome back to<br/><strong>Humanity Against Cards</strong>!</h1>
 
 <br>
 <div class="row">
@@ -30,37 +23,44 @@
 
             <!--SIGN IN-->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="login">
+                <div role="tabpanel" class="tab-pane fade in active" id="login" onsubmit="return false;">
                     <form class="form-horizontal" method="post" action="">
-                        <div class="form-group " >
+                        <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                <input type="text" name="login_email" id="login_email" class="form-control" placeholder="Email" required=>
+                                <input type="text" name="login_email" id="login_email" class="form-control"
+                                       placeholder="Email" required=>
                             </div>
-                        </div> 
+                        </div>
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-key"></i></div>
-                                <input type="password" name="login_password" id="login_password"class="form-control" placeholder="Password" required>
+                                <input type="password" name="login_password" id="login_password" class="form-control"
+                                       placeholder="Password" required>
                             </div>
                         </div>
 
                         <span id='login_message'></span>
 
-                        <input type="submit"  value="Login" id="Login" class="btn btn-success btn-custom" onclick='sendLoginJSON();'>
+                        <input type="submit"  value="Login" class="btn btn-success btn-custom" onclick='sendLoginJSON();'>
                     </form>
 
                     <div class="form-group" id="reset_form">
-                        <button type="button" class="btn btn-primary" id="f_pass" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Forgot password?</button>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <button type="button" class="btn btn-primary" id="f_pass" data-toggle="modal"
+                                data-target="#exampleModal" data-whatever="@mdo">Forgot password?
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body" id="f_pass_form">
-                                        <form style="align-items: center">
-                                            <label for="fp_email" class="col-form-label" style="align-self:center;">Enter your email address bellow</label>
+                                        <form style="text-align: center" onsubmit="return false;">
+                                            <label for="fp_email" class="col-form-label" style="align-self:start;">Enter your email address below</label>
                                             <div class="form-group">
-                                                <input type="email" id="fp_email" name="fp_email"  style="color: #121212" placeholder="email" required>
-                                                <input type="submit" class="button-Start" value="SEND" id="fp" onclick="sendResetRequest();" style="color: #121212">
+                                                <input type="email" id="fp_email" name="fp_email" style="color: #121212"
+                                                       placeholder="email" required>
+                                                <input type="submit" class="button-Start" value="SEND" id="fp"
+                                                       onclick="sendResetRequest();" style="color: #121212">
                                             </div>
                                         </form>
                                     </div>
@@ -73,8 +73,8 @@
 
                 <!--REGISTRATION-->
                 <div role="tabpanel" class="tab-pane fade" id="register">
-                    <form class="form-horizontal" method="post" action="">
-                    
+                    <form class="form-horizontal" action="" onsubmit="return false;">
+
                         <div class="form-group">
                             <a href="#" class="btn-facebook">
                                 <img src="assets/img/icon-facebook.png" alt="FACEBOOK">
@@ -83,7 +83,7 @@
 
                             <a href="/auth/google" class="btn-google">
                                 <img src="assets/img/icon-google.png" alt="GOOGLE">
-                                  Google
+                                Google
                             </a>
                         </div>
 
@@ -94,42 +94,43 @@
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                <input type="text" name="register_username"  id="register_username" class="form-control" placeholder="Username" required>
+                                <input type="text" name="register_username" id="register_username" class="form-control"
+                                       placeholder="Username" required>
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                <input type="text" name="register_nickname" id="register_nickname" class="form-control" placeholder="Nickname" required>
+                                <input type="text" name="register_nickname" id="register_nickname" class="form-control"
+                                       placeholder="Nickname" required>
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                <input type="email" name="register_email"  id="register_email" class="form-control" placeholder="Email" required>
+                                <input type="email" name="register_email" id="register_email" class="form-control"
+                                       placeholder="Email" required>
                             </div>
                         </div>
 
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                <input type="password" name="register_password"  id="register_password"class="form-control" placeholder="Password" required  onkeyup='check();' >
+                                <input type="password" name="register_password" id="register_password"
+                                       class="form-control" placeholder="Password" required onkeyup='check();'>
                             </div>
                         </div>
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-lock"></i></div>
-                                <input type="password" name="register_cpassword"  id="register_cpassword" class="form-control" placeholder="Confirm Password" required onkeyup='check();' >
+                                <input type="password" name="register_cpassword" id="register_cpassword"
+                                       class="form-control" placeholder="Confirm Password" required onkeyup='check();'>
                             </div>
                             <span id='register_message'></span>
-                            <a id='account_activation' href="confirm_account.html" style="display: none;text-align: center;">Go activate your account!</a>
+                            <a id='account_activation' href="confirm_account" style="display: none;text-align: center;">Go activate your account!</a>
 
                         </div>
-                        
-
                         <input type="submit" value="Register" class="btn btn-success btn-custom" onclick='sendRegisterJSON();'>
-
-                        
                     </form>
                 </div>
             </div>
@@ -137,7 +138,8 @@
     </div>
 </div>
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="loginRegister.js"></script>
 </body>
 </html>

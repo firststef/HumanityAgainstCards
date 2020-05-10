@@ -10,6 +10,38 @@ module.exports = {
      * @param {int} roomID - The id of the required room
      * @returns {Promise<unknown>} - Result after deleting the room
      */
+    game_start: (roomID) => {
+        return new Promise((resolve, reject) => {
+            let db = database.get_db();
+
+            try {
+                db.db("HumansAgainstCards")
+                    .collection("rooms")
+                    .updateOne(
+                        { id: roomID},
+                        {
+                            $set: {
+                                game_started: 1
+                            }
+                        },
+                        (err, doc) => {
+                            if ( doc !== null ) resolve(true);
+                            if ( err ) throw err;
+                            resolve(false);
+                        }
+                    );
+            } catch (e) {
+                console.log(
+                    log.date_now() + f_header,
+                    color.red,
+                    `Error while searching user ${ username_ } !\n`,
+                    color.white,
+                    e
+                );
+                reject({error:e});
+            }
+        });
+    },
     delete_room: (roomID) => {
         return new Promise((resolve, reject) => {
             let db = database.get_db();
@@ -164,22 +196,24 @@ module.exports = {
                             max_players: 0,
                             players_in_game: 0
                         }).toArray(
-                        (err, doc) => {
-                            if ( doc !== null ) {
-                                let max = Math.max.apply(
-                                    Math,
-                                    doc.map(function (o) {
-                                        return o.id;
-                                    })
-                                );
-                                resolve(max);
-                            } else {
-                                if ( err ) {
-                                    throw err;
-                                }
-                                resolve(false);
+                    (err, doc) => {
+                        if ( doc !== null && doc.length!==0 ) {
+                            let max = Math.max.apply(
+                                Math,
+                                doc.map(function (o) {
+                                    return o.id;
+                                })
+                            );
+
+                            resolve(max);
+                        } else {
+                            console.log(doc);
+                            if ( err ) {
+                                throw err;
                             }
-                        });
+                            resolve(1000);
+                        }
+                    });
             } catch (err) {
                 console.log(
                     log.date_now() + f_header,
@@ -488,5 +522,37 @@ module.exports = {
                 reject(e);
             }
         });
-    }
+    },
+    is_game_started :(roomID) => {
+    return new Promise((resolve, reject) => {
+        let db = database.get_db();
+
+        try {
+            db.db("HumansAgainstCards")
+                .collection("rooms")
+                .findOne({ id: roomID, game_started:1},
+                    (err, doc) => {
+                        if ( err ) {
+                            throw err;
+                        }
+                        if ( doc === null ) {
+                            console.log(doc);
+                            resolve("not_started");
+                        } else{
+                            resolve("started");}
+                    });
+        } catch (err) {
+            console.log(
+                log.date_now() + f_header,
+                color.red,
+                `Error while searching room ${ roomID } with host ${ host } !\n`,
+                color.white,
+                err
+            );
+            reject(false);
+        }
+    });
+},
+
+
 };

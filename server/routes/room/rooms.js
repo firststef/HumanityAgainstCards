@@ -1,8 +1,5 @@
-const engine = require("../../../client/gamecore/library"),
-  room = require("../../database/room"),
-  user = require("../../database/user");
-generate = require("../../utils/generate");
-
+const
+    room = require("../../database/room");
 
 module.exports = function (app, secured) {
   app.post("/rooms", secured, async (req, res) => {
@@ -18,6 +15,7 @@ module.exports = function (app, secured) {
           
            var v_id = await room.room_max_id().catch((e) => {
             console.error(e.message);
+            v_id=5000;
           });
           v_id = v_id + 1;
           let room_obj = {
@@ -26,7 +24,7 @@ module.exports = function (app, secured) {
             room_name: req.body.room_name,
             score_limit: req.body.score_limit,
             max_players: req.body.max_players,
-            players_in_game: 0,
+            players_in_game: 1,
             password:req.body.password,
             game_started:0
           };

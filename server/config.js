@@ -26,11 +26,10 @@ module.exports = {
 	account: {
 		temp_lifetime : 1000*60*30, // 30m
 		cleaner_interval : 1000*60*15 // 15m
-	}
-	,
+	},
 	pages: {
 		"/": {
-			path: "\\..\\..\\..\\client/HomePage.html",
+			path: "\\..\\..\\..\\client/homepage.html",
 			type: "text/html"
 		},
 		"/lobbies.html": {
@@ -69,7 +68,7 @@ module.exports = {
 			path: "/../../../client/assets/css/purecookie.css",
 			type: "text/css"
 		},
-		"/login-register.html": {
+		"/login-register": {
 			path:"\\..\\..\\..\\client\\login-register.html",
 			type: "text/html"
 		},
@@ -86,7 +85,7 @@ module.exports = {
 			type: "text/png"
 		},
 		"/home": {
-			path: "\\..\\..\\..\\client/HomePage.html",
+			path: "\\..\\..\\..\\client/homepage.html",
 			type: "text/html"
 		},
 		"/account": {
@@ -105,28 +104,20 @@ module.exports = {
 			path: "\\..\\..\\..\\client/assets/js/purecookie.js",
 			type: "text/javascript"
 		},
-		"/home.js": {
-			path: "\\..\\..\\..\\client/home.js",
-			type: "text/javascript"
-		},
-		"/loginRequest.js": {
-			path: "\\..\\..\\..\\client/loginRequest.js",
-			type: "text/javascript"
-		},
-		"/registerRequest.js": {
-			path: "\\..\\..\\..\\client/registerRequest.js",
-			type: "text/javascript"
-		},
 		"/sendActivationCode.js": {
 			path: "\\..\\..\\..\\client/sendActivationCode.js",
 			type: "text/javascript"
 		},
-		"/sendResetRequest.js": {
-			path: "\\..\\..\\..\\client/sendResetRequest.js",
+		"/loginRegister.js": {
+			path: "\\..\\..\\..\\client/loginRegister.js",
 			type: "text/javascript"
 		},
-		"/validate_register_input.js": {
-			path: "\\..\\..\\..\\client/validate_register_input.js",
+		"/lobbies.js": {
+			path: "\\..\\..\\..\\client/lobbies.js",
+			type: "text/javascript"
+		},
+		"/account.js": {
+			path: "\\..\\..\\..\\client/account.js",
 			type: "text/javascript"
 		},
 		"/waitingRoom": {
@@ -140,6 +131,34 @@ module.exports = {
 		"/waitingRoom.js": {
 			path: "\\..\\..\\..\\client/waitingRoom.js",
 			type: "text/javascript"
+		},
+		"/game": {
+			path: "\\..\\..\\..\\client/gameroom/room-test.html",
+			type: "text/html"
+		},
+		"/room.js": {
+			path: "\\..\\..\\..\\client/gameroom/room.js",
+			type: "text/javascript"
+		},
+		"/gamecore/basedata.js": {
+			path: "\\..\\..\\..\\client/gamecore/basedata.js",
+			type: "text/javascript"
+		},
+		"/gamecore/gameclient.js": {
+			path: "\\..\\..\\..\\client/gamecore/gameclient.js",
+			type: "text/javascript"
+		},
+		"/reset_password": {
+			path: "\\..\\..\\..\\client/reset_password/send_new_pass.html",
+			type: "text/html"
+		},
+		"/sendNewPass.js": {
+			path: "\\..\\..\\..\\client/reset_password/sendNewPass.js",
+			type: "text/javascript"
+		},
+		"/room-test.css": {
+			path: "\\..\\..\\..\\client/gameroom/room-test.css",
+			type: "text/css"
 		}
 	},
 	require_auth : false, // false doar pt testare

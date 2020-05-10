@@ -12,10 +12,10 @@ module.exports = function (app) {
 
                 let room_ids = Array();
 
-                for (let key in rooms) {
-                    if (rooms.hasOwnProperty(key)) {
-                        room_ids.push(rooms[key].id);
-                    }
+                for (let key of rooms) {
+
+                        room_ids.push(key.id);
+
                 }
 
                 res.status(200).send({success: true, rooms: room_ids});

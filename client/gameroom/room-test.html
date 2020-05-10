@@ -7,6 +7,38 @@
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
     <link href="room-test.css" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        //Workaround for require on client, plz dont kill
+        var module = {exports: {}};
+        function require() {
+            return module.exports;
+        }
+    </script>
+    <script src="../gamecore/basedata.js"></script>
+    <script src="../gamecore/gameclient.js"></script>
+    <script src="../assets/js/purecookie.js"></script>
+    <script src="room.js"></script>
+    <script>
+        document.getElementById('game-id').onclick = function copyGameId() {
+            let gameid = document.getElementById('game-id').innerHTML;
+            let id = gameid.replace('Game ID: ', "");
+            var dummy = $('<input>').val(id).appendTo('body').select();
+            document.execCommand('copy');
+            document.getElementById('game-id').innerHTML = "Copied to clipboard";
+            setTimeout(() => {
+                document.getElementById('game-id').innerHTML = gameid;
+            }, 1000);
+        }
+    </script>
 </head>
 <body onload="load();">
 
@@ -23,7 +55,7 @@
                 <a class="navbar-brand" href="#" id="game-id">Game ID: 123abc</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="login-register.html">Login/Register</a>
+                <a class="nav-link" href="login-register">Login/Register</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="lobbies.html">Disconnect</a>
@@ -54,46 +86,18 @@
         </div>
     </div>
 
-    <div id="separator">
-        <h2 id="role">Your role is:</h2>
-        <h2>Your cards</h2>
-    </div>
+    <div id="bottom_row">
+        <div id="separator">
+            <h2 id="role">Your role is:</h2>
+            <h2>Your cards</h2>
+        </div>
 
-    <div class="player-hand" id="playerHand">
+        <div class="player-hand" id="playerHand">
 
+        </div>
     </div>
 </div>
 
-<script crossorigin="anonymous"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-    //Workaround for require on client, plz dont kill
-    var module = {exports: {}};
-    function require() {
-        return module.exports;
-    }
-</script>
-<script src="../gamecore/basedata.js"></script>
-<script src="../gamecore/gameclient.js"></script>
-<script src="room.js"></script>
-<script>
-    document.getElementById('game-id').onclick = function copyGameId() {
-        let gameid = document.getElementById('game-id').innerHTML;
-        let id = gameid.replace('Game ID: ', "");
-        var dummy = $('<input>').val(id).appendTo('body').select();
-        document.execCommand('copy');
-        document.getElementById('game-id').innerHTML = "Copied to clipboard";
-        setTimeout(() => {
-            document.getElementById('game-id').innerHTML = gameid;
-        }, 1000);
-    }
-</script>
+
 </body>
 </html>

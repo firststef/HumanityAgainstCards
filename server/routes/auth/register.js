@@ -44,6 +44,8 @@ module.exports = function (app) {
                          password: password,
                          email: req.body.email,
                          nickname: req.body.nickname,
+                         games_played: 0,
+                         games_won: 0,
                          timestamp: Date.now()
                      };
 

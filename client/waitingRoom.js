@@ -1,6 +1,12 @@
 let roomID;
+let sid;
 
 function load() {
+    sid = getCookie("HAC_SID");
+    if (sid === null){
+        window.location = "/";
+    }
+
     window.onresize = () => {
         revealIfHost();
     }
@@ -23,21 +29,22 @@ function revealIfHost() {
         method: 'get',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c='
+            "session": sid
         }
     })
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                if (window.innerWidth < 769) {
-                    document.getElementById("hostInfo").style.display = 'flex';
-                    document.getElementById("mobileButton").style.display = 'block';
-                    document.getElementById("startGameDiv").style.display = 'none';
-                }
-                else {
-                    document.getElementById("startGameDiv").style.display = 'flex';
-                    document.getElementById("hostInfo").style.display = 'none';
-                    document.getElementById("mobileButton").style.display = 'none';
+                if (res.rooms.includes(parseInt(roomID))) {
+                    if (window.innerWidth < 769) {
+                        document.getElementById("hostInfo").style.display = 'block';
+                        document.getElementById("mobileButton").style.display = 'block';
+                        document.getElementById("startGameDiv").style.display = 'none';
+                    } else {
+                        document.getElementById("startGameDiv").style.display = 'flex';
+                        document.getElementById("hostInfo").style.display = 'none';
+                        document.getElementById("mobileButton").style.display = 'none';
+                    }
                 }
             } else {
                 console.log("error on isHost");
@@ -50,14 +57,14 @@ function attemptStartGame() {
         method: 'post',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c='
+            "session": sid
         },
         body: JSON.stringify({ roomID: roomID })
     })
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                window.location.href = '/room?roomID=' + roomID;
+                window.location.href = '/game?roomID=' + roomID;
             } else {
                 alert('Could not start game room');
             }
@@ -65,12 +72,11 @@ function attemptStartGame() {
 }
 
 function getJoinedPlayers() {
-    fetch('/players_from_room', {
+    fetch('/players_from_room/'+roomID, {
         method: 'get',
         headers: {
             "Content-type": "application/json",
-            "session": 'dGs0bXJqOTh1bmRlZmluZWQxNTg4NDEzMjE4ODA4Y3c=',
-            "roomID": roomID
+            "session": sid
         }
     })
         .then(res => res.json())

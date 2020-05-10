@@ -62,13 +62,13 @@ function sendNewPassword(){
         "new_password": new_pass,
         "confirm_new_password": new_pass
     })
-        .then(responseData => {
-            console.log(responseData);
-            window.location.replace( "/login-register");
+    .then(responseData => {
+        console.log(responseData);
+        window.location.replace( "/login-register");
 
-        })
-        .catch(err => {
-            console.log(err, err.data);
-            document.getElementById('reset_message').innerHTML = 'Username not valid!';
-        });
+    })
+    .catch(err => {
+        console.log(err, err.data);
+        document.getElementById('reset_message').innerHTML = 'Username not valid!';
+    });
 }
