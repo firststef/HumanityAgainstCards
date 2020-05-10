@@ -10,6 +10,7 @@ var scoreBoardElement;
 var otherPlayedCardsElement;
 var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
+var gameId;
 
 window.onload = () => load();
 
@@ -18,6 +19,7 @@ function load() {
     scoreBoardElement = document.getElementById("scoreBoard");
     playerHandElement = document.getElementById("playerHand");
     otherPlayedCardsElement = document.getElementById("otherPlayedCards");
+    gameId = document.getElementById("game-id");
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -25,6 +27,8 @@ function load() {
     if (roomID === null) {
         window.location = '/';
     }
+
+    gameId.innerHTML = "Game ID: " + roomID;
 
     sid = getCookie("HAC_SID");
     if (sid === null){
