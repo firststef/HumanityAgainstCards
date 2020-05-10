@@ -18,6 +18,8 @@ passport.use(
                                username: profile.displayName,
                                nickname: profile.displayName,
                                email: 'unknown@gmail.com',
+                               games_played: 0,
+                               games_won: 0,
                                session: {
                                    value: profile.id,
                                    expire: Date.now() + 1000 * 60 * 60 * 24
