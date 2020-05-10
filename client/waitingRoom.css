@@ -45,11 +45,10 @@ body {
 }
 
 #startGameDiv {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-  /* display: none; */
 }
 
 #startGameDiv p {
