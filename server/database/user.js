@@ -26,6 +26,8 @@ module.exports = {
                         name: 0,
                         surname: 0,
                         nickname: 0,
+                        game_played: 0,
+                        game_won: 0,
                         "session.value": 1,
                         "session.expire": 0
                     }
@@ -68,6 +70,8 @@ module.exports = {
                         name: 0,
                         surname: 0,
                         nickname: 0,
+                        games_played: 0,
+                        games_won: 0,
                         "session.value": 1,
                         "session.expire": 0
                     }
@@ -442,6 +446,8 @@ module.exports = {
                         name: 0,
                         surname: 0,
                         nickname: 0,
+                        games_played: 0,
+                        games_won: 0,
                         "session.value": 1,
                         "session.expire": 0
                     }
@@ -488,6 +494,8 @@ module.exports = {
                         name: 0,
                         surname: 0,
                         nickname: 0,
+                        games_played: 0,
+                        games_won: 0,
                         "session.value": 1,
                         "session.expire": 0
                     }
@@ -630,6 +638,42 @@ module.exports = {
                     e
                 );
                 reject(false);
+            }
+        });
+    },
+    increase_games_played: (value_) => {
+        return new Promise((resolve, reject) => {
+            let db = database.get_db();
+
+            try {
+                db.db("HumansAgainstCards")
+                    .collection("user")
+                    .updateOne({ "session.value": value_ },
+                               { $inc: { games_played: 1 } },
+                               (err) => {
+                                   if ( err ) throw err;
+                                   resolve();
+                               });
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+    increase_games_won: (value_) => {
+        return new Promise((resolve, reject) => {
+            let db = database.get_db();
+
+            try {
+                db.db("HumansAgainstCards")
+                    .collection("user")
+                    .updateOne({ "session.value": value_ },
+                               { $inc: { games_won: 1 } },
+                               (err) => {
+                                   if ( err ) throw err;
+                                   resolve();
+                               });
+            } catch (e) {
+                reject(e);
             }
         });
     }

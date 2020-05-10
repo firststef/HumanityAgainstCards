@@ -198,8 +198,6 @@ module.exports = {
                         }).toArray(
                     (err, doc) => {
                         if ( doc !== null && doc.length!==0 ) {
-                            console.log("vrea sa faca max");
-                            console.log(doc);
                             let max = Math.max.apply(
                                 Math,
                                 doc.map(function (o) {
