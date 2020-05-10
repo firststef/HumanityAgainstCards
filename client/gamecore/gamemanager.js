@@ -18,12 +18,10 @@ async function fetchBlackCard(){
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin',
+            }
         });
     let data = await response.json();
 
-    //console.log(data);
     if(data.success === true) {
         card.id = parseInt(data.card._id);
         card.text = data.card.text;
@@ -31,36 +29,30 @@ async function fetchBlackCard(){
     } else {
         console.log('Error: fetch /get_black_card failed -- ', data.error);
     }
-    //console.log(card);
+
     return card;
 }
 
 async function fetchWhiteCards(cardCount){
-    let card = {
-        id: -1,
-        text: '',
-        type: 1
-    };
     let cardList = []
-    let response = await fetch('http://localhost:8081/get_white_cards', {
+    let response = await fetch('http://localhost:8081/get_white_cards/' + cardCount, {
         method: 'GET',
         cache: 'no-cache',
         headers: {
             'Content-Type': 'application/json'
         },
         credentials: 'same-origin'
-        //body: JSON.stringify({nr: cardCount})
     });
-    console.log(response);
 
-    console.log(data);
+    let data = await response.json();
+
     if(data.success === true) {
         cardList = data.cards;
     } else {
         console.log('Error: fetch /get_white_cards failed -- ', data.error);
     }
-    console.log(cardList);
-    return card;
+
+    return cardList;
 }
 
 class GameManager {
@@ -78,7 +70,6 @@ class GameManager {
         this.commonBlackCard = null;
         this.blackCardType = 0;
         this.selectedWhiteCards = []; //cards selected by normal players; index in this array represents player index
-        this.generateCardId = 0;
         this.winningCardSet = []; //cards chosen by czar
         this.winnerPlayer = null;
 
@@ -100,43 +91,21 @@ class GameManager {
 
         this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.getAllPlayerCount()));
         this.changePlayerTypes();
-        setTimeout(this.setNewBlackCard.bind(this), 1000);
-        //this.setNewBlackCard();
+        setTimeout(this.setNewBlackCard, 1000);
     }
 
     async setNewBlackCard(){
         let card = await fetchBlackCard();
         if(card.id !== -1) {
+            console.log("BLACK CARD SEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!");
             this.commonBlackCard = new basedata.Card(card.id, card.text);
             this.blackCardType = card.type;
         }
     }
 
-    getWhiteCard(){
-        //todo: request card
-        let card = new basedata.Card(this.generateCardId, getRandomString());
-        this.generateCardId++;
-        return card;
-    }
-
-    async setBeginningWhiteCards(playerIndex){
-        /*these are random but they need to be taken from a db
-             - we will get the number of cards in the database
-             - each used id will be put in usedCards[]
-             - each client gets a unique set of id's (Cards)*/
-
-        /*let cardList = await fetchWhiteCards(this.numberOfPlayers * 10);
-        cardList.foreach( card => {
-            this.playerList[playerIndex].cards.push(card);
-        })*/
-        if (this.generateCardId === undefined){ //will be replaced with actual cards
-            this.generateCardId = 0;
-        }
-        [...Array(10).keys()].forEach(() => {
-            let card = this.getWhiteCard();
-            this.generateCardId++;
-            this.playerList[playerIndex].cards.push(card);
-        });
+    async getWhiteCard(){
+        let data = await fetchWhiteCards(1);
+        return new basedata.Card(data[0]._id, data[0].text);
     }
 
     getCleanPlayerList(playerId, playerIndex){
@@ -246,7 +215,7 @@ class GameManager {
 
     /**=======Server request handling=======**/
 
-    response(data){
+    async response(data){
         let playerIndex = this.playerList.findIndex(player => player.id === data.player_id);
         if (playerIndex === -1){
             //console.log('[SERVER] Error on player index: ' + playerIndex);
@@ -261,7 +230,10 @@ class GameManager {
          * data: player_id
          */
         if (data.header === basedata.RequestHeaders.REQUEST_BEGIN_GAME){
-            this.setBeginningWhiteCards(playerIndex);
+            for (let i = 0; i < 10; i++){
+                let card = await this.getWhiteCard();
+                this.playerList[playerIndex].cards.push(card);
+            }
 
             return {
                 header: basedata.RequestHeaders.RESPONSE_BEGIN_GAME,
@@ -370,7 +342,7 @@ class GameManager {
                     this.resetData();
                     this.changeCzarIndex();
                     this.changePlayerTypes();
-                    this.setNewBlackCard();
+                    await this.setNewBlackCard();
                 }
 
                 //for each ai player

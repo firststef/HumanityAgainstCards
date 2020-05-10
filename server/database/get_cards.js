@@ -26,13 +26,11 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        console.log(log.date_now() + f_header,
-                                    color.green,
-                                    "Black cards loaded ! !\n",
-                                    result);
-                       if(resultu!==null&&result.length!==0)
-                           resolve(result);
-                       else resolve(false);
+                        //console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
+                        if(result!==null&&result.length!==0)
+                            resolve(result);
+                        else
+                            resolve(false);
                     }
                 });
         }),
@@ -56,10 +54,7 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        console.log(log.date_now() + f_header,
-                                    color.green,
-                                    "White cards loaded ! !\n",
-                                    result);
+                        //console.log(log.date_now() + f_header, color.green, "White cards loaded ! !\n", result);
                         resolve(result);
                     }
                 });

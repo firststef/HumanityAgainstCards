@@ -23,11 +23,7 @@ function clean(lifetime) {
             .deleteMany({ timestamp: { $lt: timestamp } },
                         (err) => {
                             if ( err ) throw err;
-                            console.log(log.date_now(),
-                                        f_header,
-                                        color.green,
-                                        "Sucess !\n",
-                                        color.white);
+                            //console.log(log.date_now(), f_header, color.green, "Sucess !\n", color.white);
                         });
     } catch (e) {
         console.log(log.date_now(),
