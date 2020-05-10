@@ -41,7 +41,7 @@ function revealIfHost() {
                         document.getElementById("mobileButton").style.display = 'block';
                         document.getElementById("startGameDiv").style.display = 'none';
                     } else {
-                        document.getElementById("startGameDiv").style.display = 'block';
+                        document.getElementById("startGameDiv").style.display = 'flex';
                         document.getElementById("hostInfo").style.display = 'none';
                         document.getElementById("mobileButton").style.display = 'none';
                     }

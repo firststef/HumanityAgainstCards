@@ -67,8 +67,7 @@ function createRoom() {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                alert('Room created');
-                getRooms();
+                window.location.href = '/waitingRoom?roomID=' + res.roomID;
             } else alert('Failed to create room');
         });
     return false;
