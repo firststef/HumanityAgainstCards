@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -7,60 +8,73 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/home.css">
 </head>
+
 <body>
 
-<section>
-<div class="mb-0 jumbotron-fluid d-flex align-items-center min-vh-100 border-radius-0 background black main">
-    <div class="container text-center">
-        <h1-second >Humanity Against Cards</h1-second>
-        <p></p>
-        <br>
-        <p class="lead">Are you funnier than a computer?</p>
-        <br>
-        <p class="p1-my"> If you have not played before, when you enter this game you are given some cards and there are more people, each with their own cards.</p>
-        <p class="p1-my">The server chooses a random sentence and players must choose one of their cards to complete the sentence and be as amusing as possible.</p>
-        <p class="p1-my">One of the players, the "Judge", chosen on the turn, sits on the sidelines and votes the most amusing answer.  </p>
-        <p class="p1-my">The chosen card earns points. The game continues with another Judge, another sentence, etc. for a certain number of rounds.  </p></p>
-        <p class="p1-my">The winner is of course the one with the most points. </p>
-        <br>
+    <section>
+        <div class="mb-0 jumbotron-fluid d-flex align-items-center min-vh-100 border-radius-0 background black main">
+            <div class="container text-center">
+                <h1-second>Humanity Against Cards</h1-second>
+                <br>
+                <p class="lead">Are you funnier than a computer?</p>
+                <br>
+                <p class="p1-my"> If you have not played before, when you enter this game you are given some cards and
+                    there are more people, each with their own cards.</p>
+                <p class="p1-my">The server chooses a random sentence and players must choose one of their cards to
+                    complete the sentence and be as amusing as possible.</p>
+                <p class="p1-my">One of the players, the "Judge", chosen on the turn, sits on the sidelines and votes
+                    the most amusing answer. </p>
+                <p class="p1-my">The chosen card earns points. The game continues with another Judge, another sentence,
+                    etc. for a certain number of rounds. </p>
+                </p>
+                <p class="p1-my">The winner is of course the one with the most points. </p>
+                <br>
 
-        <hr class="my-2">
-        <div class="grid-container container">
-            <div class="row">
-                <div class="col">
-                    <p>Choose a temporary account</p>
-                    <div class="grid-item-1">
-                        <label for="PlayerName">Your Name</label>
+                <hr class="my-2">
+                <div class="grid-container container">
+                    <div class="row">
+                        <div class="col">
+                            <p>Choose a temporary account</p>
+                            <div class="grid-item-1">
+                                <label for="PlayerName">Your Name</label>
+                            </div>
+                            <form action="" method="post" onsubmit="return submitName()">
+                                <div class="grid-item-2">
+                                    <input type="text" id="PlayerName" name="PlayerName" required>
+                                </div>
+                                <div class="grid-item-3">
+                                    <input type="submit" class="button-Start" value="START">
+                                </div>
+                            </form>
+                            <div>
+                                <div class="col">
+                                    <p>OR</p>
+                                    <button class="button-Start"
+                                        onclick="window.location = 'login-register'">LOGIN</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <form action="" method="post" onsubmit="return submitName()">
-                    <div class="grid-item-2">
-                        <input type="text" id="PlayerName" name="PlayerName" required>
-                    </div>
-                    <div class="grid-item-3">
-                        <input type="submit" class="button-Start" value="START">
-                    </div>
-                    </form>
-                <div>
-                <div class="col">
-                    <p>Or login/register an account</p>
-                    <button class="button-Start" onclick="window.location = 'login-register'">LOGIN</button>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
+    </section>
 
-<script src="assets/js/purecookie.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script>
-    function submitName(){
-        document.cookie = "HAC_PlayerName=" + document.getElementById("PlayerName").value;
-        window.location.href = "/lobbies.html";
-        return false;
-    }
-</script>
+    <script src="assets/js/purecookie.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+        function submitName() {
+            document.cookie = "HAC_PlayerName=" + document.getElementById("PlayerName").value;
+            window.location.href = "/lobbies.html";
+            return false;
+        }
+    </script>
 </body>
+
 </html>
