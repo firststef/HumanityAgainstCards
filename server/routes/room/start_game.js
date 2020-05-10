@@ -1,8 +1,7 @@
+
 const
       room     = require("../../database/room"),
-      map      = require("./../../map"),
-      engine   = require("../../../client/gamecore/library"),
-      f_header = "[routes/room/start_game.js]";
+      map      = require("./../../map");
 
 module.exports = function (app) {
     app.post("/start_game",

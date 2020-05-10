@@ -8,8 +8,6 @@ module.exports = function (app) {
                   if(!req.params.roomID) throw" no roomID provided!";
 
                   let started=await room.is_game_started(parseInt(req.params.roomID));
-                  console.log(started);
-
 
                 res.status(200).send({success: true, status: started});
             } catch (e) {
