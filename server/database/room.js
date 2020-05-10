@@ -536,7 +536,6 @@ module.exports = {
                             throw err;
                         }
                         if ( doc === null ) {
-                            console.log(doc);
                             resolve("not_started");
                         } else{
                             resolve("started");}

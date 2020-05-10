@@ -15,7 +15,6 @@ body {
   width: 80%;
   font-size: 2rem;
   color: white;
-  background: black;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -26,7 +25,7 @@ body {
 #presentation::after {
   width: 100%;
   content: "";
-  background: url("./bg.png");
+  background: url("assets/img/bg.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   top: 0;

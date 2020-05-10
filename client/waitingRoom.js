@@ -55,7 +55,8 @@ function revealIfHost() {
         });
 }
 
-function attemptStartGame() {
+function attemptStartGame(event) {
+    event.preventDefault();
     fetch('/start_game', {
         method: 'post',
         headers: {
@@ -105,6 +106,7 @@ function joinRoomIfStarted() {
             if (res.success === true) {
                 if(res.status === "started"){
                     window.location.href = '/game?roomID=' + roomID;
+                    console.log("Started");
                 }
             } else {
                 console.log('Could not get players room');

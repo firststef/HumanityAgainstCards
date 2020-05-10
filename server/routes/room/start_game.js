@@ -1,4 +1,5 @@
 const room     = require("../../database/room"),
+    engine = require('../../../client/gamecore/gamemanager')
     map      = require("./../../map");
 
 module.exports = function (app) {
@@ -23,9 +24,9 @@ module.exports = function (app) {
 
                      let game_manager = new engine.GameManager(playerIDList.length,0,playerIDList);
                      
-                     map.RoomMap.set(req.body.roomID,game_manager);
+                     map.RoomMap.set(parseInt(req.body.roomID),game_manager);
 
-                     await room.game_start(req.body.roomID);
+                     await room.game_start(parseInt(req.body.roomID));
 
                      res.status(200).send({ success: true });
                  } catch (e) {

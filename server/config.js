@@ -159,6 +159,10 @@ module.exports = {
 		"/room-test.css": {
 			path: "\\..\\..\\..\\client/gameroom/room-test.css",
 			type: "text/css"
+		},
+		"/assets/img/bg.png": {
+			path: "\\..\\..\\..\\client/assets/img/bg.png",
+			type: "image/png"
 		}
 	},
 	require_auth : false, // false doar pt testare

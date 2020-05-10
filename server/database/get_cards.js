@@ -26,10 +26,7 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        console.log(log.date_now() + f_header,
-                                    color.green,
-                                    "Black cards loaded ! !\n",
-                                    result);
+                        //console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
                         resolve(result);
                     }
                 });
@@ -54,10 +51,7 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        console.log(log.date_now() + f_header,
-                                    color.green,
-                                    "White cards loaded ! !\n",
-                                    result);
+                        //console.log(log.date_now() + f_header, color.green, "White cards loaded ! !\n", result);
                         resolve(result);
                     }
                 });

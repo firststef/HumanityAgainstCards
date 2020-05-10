@@ -12,19 +12,17 @@ module.exports = function (app,secured) {
             if (!req.body) throw "No provided header data !";
             if (!req.params.roomID) throw "No roomID present";
 
-            //get game_manager by roomID
-            let game_manager = map.get(req.params.roomID);
+            let game_manager = map.get(parseInt(req.params.roomID));
             if (game_manager === undefined)
                 throw "Room not found";
 
-            let response = game_manager.response(req.body);
+            let response = await game_manager.response(req.body);
             if (response.error !== undefined)
                 throw `Game Manager Error: "${response}"`;
             res.status(200).send(JSON.stringify({  success: true, data: response }));
         } catch (e) {
-            console.log(JSON.stringify({ success: false, err: e }));
+            //console.log(JSON.stringify({ success: false, err: e }));
             res.status(417).send(JSON.stringify({ success: false, err: e }));
         }
     });
 };
-    

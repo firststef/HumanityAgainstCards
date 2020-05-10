@@ -89,7 +89,7 @@ function attemptJoinRoom(id) {
         .then(res => res.json())
         .then(res => {
             if (res.success === true) {
-                window.location.href = '/waitingRoom?roomID=' + id;
+                window.location = '/waitingRoom?roomID=' + id;
             } else {
                 alert('Could not join room');
             }
