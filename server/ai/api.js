@@ -283,7 +283,7 @@ class AI {
                 blackCardId: blackCard,
                 whiteCardId: whiteCard
             }).toArray();
-            console.log(afterRelation);
+            //console.log(afterRelation);
 
             return "Success";
         } catch (e) {
