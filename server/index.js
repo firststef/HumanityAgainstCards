@@ -25,6 +25,13 @@ app.listen(config.server.port, function(err) {
 	}
 });
 
+// app.use(express.static(`${__dirname}/test-client/build/`));
+// app.get("/", function(req, res) {
+// 	res.sendFile(`${__dirname}/test-client/build/index.html`);
+// });
+// app.get("*", function(req, res, next) {
+// 	res.sendFile(`${__dirname}/test-client/build/index.html`);
+// }); // DEVELOPMENT WITH COOKIE HANDLER ON BACKEND
 
 require("./routes/cards/add_cards")(app);
 require("./routes/cards/get_cards")(app,secured);
