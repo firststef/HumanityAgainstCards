@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Humanity Against Cards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="../assets/css/confirm_account.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="div-principal">
+    <img src="https://i.ibb.co/8B5NNtZ/image.png" alt="logo" id="logo">
+    <br>
+    <br>
+
+    <p style="text-align: center;">Forgot Password?</p>
+
+
+    <div class="grid-container" id="fp_reset_form">
+
+        <div class="grid-item-1 message" >
+            <label for="fp_reset_form">Send your new password</label>
+        </div>
+
+
+        <form  onsubmit="return false;">
+            <div class="grid-item-2">
+                <label class="label" for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="grid-item-2">
+                <label class="label" for="new_pass">New Password</label>
+                <input type="password" id="new_pass" name="new_pass" placeholder="New Password" required onkeyup="validatePass();">
+            </div>
+            <div class="grid-item-2">
+                <label class="label" for="c_new_pass">Confirm Password</label>
+                <input type="password" id="c_new_pass" name="c_new_pass" placeholder="Confirm Password" required  onkeyup="validatePass();">
+            </div>
+
+            <span id='reset_message'></span>
+
+            <div class="grid-item-3">
+                <input type="submit" class="button-Start" value="SEND" onclick="sendNewPassword();">
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="footer"></div>
+
+</div>
+
+<script src="sendNewPass.js"></script>
+
+</body>
+</html>
+
+

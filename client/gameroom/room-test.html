@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Room HAC</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href="room-test.css" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="lobbies.html">Humanity Against Cards</a>
+    <button aria-expanded="false" class="navbar-toggler navbar-toggler-right collapsed" data-target="#navb"
+            data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="navb">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="navbar-brand" href="#" id="game-id"></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="login-register">Login/Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="lobbies.html">Disconnect</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="room-info">
+    <div id="upper_row">
+        <!-- TODO on desktop other-played should be right of current black card, on mobile make it move under, add delimiter bars -->
+        <div class="current-black-card" id="currentBlackCard">
+
+        </div>
+        <div id="otherPlayedCards" class="other-played-cards">
+
+        </div>
+        <div class="score-board" id="scoreBoard">
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div id="bottom_row">
+        <div id="separator">
+            <h2 id="role">Your role is:</h2>
+            <h2>Your cards</h2>
+        </div>
+
+        <div class="player-hand" id="playerHand">
+
+        </div>
+    </div>
+
+    <script>
+        //Workaround for require on client, plz dont kill
+        let module = {exports: {}};
+        function require() {
+            return module.exports;
+        }
+    </script>
+    <script src="../gamecore/basedata.js"></script>
+    <script src="../gamecore/gameclient.js"></script>
+    <script src="../assets/js/purecookie.js"></script>
+    <script src="room.js"></script>
+    <script>
+        document.getElementById('game-id').onclick = function copyGameId() {
+            let gameid = document.getElementById('game-id').innerHTML;
+            let id = gameid.replace('Game ID: ', "");
+            let dummy = $('<input>').val(id).appendTo('body').select();
+            document.execCommand('copy');
+            dummy.remove();
+            document.getElementById('game-id').innerHTML = "Copied to clipboard";
+            setTimeout(() => {
+                document.getElementById('game-id').innerHTML = gameid;
+            }, 1000);
+        }
+    </script>
+</div>
+
+</body>
+</html>

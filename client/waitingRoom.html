@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>HAC</title>
+  <link href="waitingRoom.css" rel="stylesheet">
+  <script src="assets/js/purecookie.js"></script>
+  <script src="waitingRoom.js"></script>
+</head>
+
+<body onload="load()" >
+  <div class="room-info">
+    <div id="presentation">
+        <h1>HAC</h1>
+        <div id="startGameDiv">
+            <p>Press</p>
+            <input value="Everybody's in" class="start-button" id="startButton" onclick="attemptStartGame(event)">
+            <p>to start the game</p>
+        </div>
+        <div class="room-id-container">
+            <p>Your room ID is</p>
+            <div id="roomId">
+                123abc
+            </div>
+        </div>
+    </div>
+    <div id="playerList">        
+    </div>
+    <div id="hostInfo">
+        <p>Press this button when everybody has joined</p>
+        <button class="start-button" id="mobileButton">Everybody's in</button>
+    </div>
+</div>
+</body>
+
+</html>

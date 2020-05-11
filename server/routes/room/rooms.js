@@ -1,92 +1,103 @@
+const
+    room = require("../../database/room");
 
-   const engine = require("../../../client/gameclient/library"),
-   room = require("../../database/room"),
-   user = require("../../database/user");
-   generate = require("../../utils/generate");
-   f_header = "[routes/room/rooms.js]";
+module.exports = function (app, secured) {
+  app.post("/rooms", secured, async (req, res) => {
+    try {
+        if (!req.body.type) throw "No type provided!";
+        
+        if (req.body.type === "create_room") {
+          if (!req.body.room_name) throw "No room_name provided!";
+          if (!req.body.score_limit) throw "No score_limite provided!";
+          if (!req.body.max_players) throw "No max_players provided!";
+          if (req.body.password===undefined) throw "No max_players provided!";
 
- 
+          
+           var v_id = await room.room_max_id().catch((e) => {
+            console.error(e.message);
+            v_id=5000;
+          });
+          v_id = v_id + 1;
+          let room_obj = {
+            id: v_id,
+            host : req.headers.session,
+            room_name: req.body.room_name,
+            score_limit: req.body.score_limit,
+            max_players: req.body.max_players,
+            players_in_game: 1,
+            password:req.body.password,
+            game_started:0
+          };
+          
 
-   module.exports = function (app) {
-      
-       app.post("/rooms", async (req, res) => {
-           try {
+          let status = await room.insert_room(room_obj).catch((e) => {
+            console.error(e.message);
+          });
+          if (true !== status) throw "Error at inserting in db.";
+          
+          await room.add_player(v_id,req.headers.session);
+        
 
-               if(!req.body.session) throw "No session provided!";
-               let cookie_session = "";
-               while (cookie_session.length < 10) {
-                   cookie_session = generate.unique(req.body.username, 32);
-                   if (!await user.session_is_unique(cookie_session)) {
-                       cookie_session = "";
-                   }
-               }
-               if(await user.session_verify(req.body.session) == false) throw "No session found!";
-               else {
-                   let new_value = cookie_session;
-                   if(await user.session_update(req.body.session, new_value) == false) throw "No session updated";
-               }
-              
-               if(!req.body.type) throw "No type provided!";
-               var  v_id;
-               if(req.body.type=="create_room" )
-               {
-                   if(!req.body.room_name) throw "No room_name provided!";
-                   if(!req.body.score_limit) throw "No score_limite provided!";
-                   if(!req.body.max_players) throw "No max_players provided!";
-                   
-                   v_id= await room.get_next_id().catch((e) => { console.error(e.message);  });
-                   console.log(typeof(v_id)+ " "+ v_id);
-                   v_id=v_id+1;
-                   let room_obj={
-                       id:v_id,
-                       session: req.body.session, 
-                       room_name: req.body.room_name,
-                       score_limit: req.body.score_limit,
-                       max_players:req.body.max_players,
-                       players_in_game:0
-                   }
+        } 
+        else if (req.body.type === "delete_room") {
 
-                   var status1=await room.insert_room(room_obj).catch((e) => { console.error(e.message);  });
-                  if(true!=status1) throw "Error at inserting in db.";
+          if (!req.body.roomID) throw " No roomID provided!";
 
-               }
-               else if(req.body.type=="delete_room"){
-           
-                   if(!req.body.roomID) throw " No roomID provided!";
-                   if(! await room.room_exist(req.body.roomID)) throw " Room with this id dose not exist.";
-                   else 
-                       if(! await room.delete_room(req.body.roomID)) throw "Internal problem.";
-                   
-               }
-               else throw "Type of command not detected."
-               
-              
-               if(req.body.type!="create_room" )res.status(200).send(JSON.stringify({  success: true, session: cookie_session }));
-               else res.status(200).send(JSON.stringify({  success: true, roomID:  v_id, session: cookie_session }));
-           } catch (e) {
-               console.log("prinde eroarea "+ e);
-               res.status(417).send(JSON.stringify({ success: false, session: cookie_session, err: e }));
-           }
-       });
-      
+          if (!(await room.room_exist(req.body.roomID)))
+            throw " Room with this id dose not exist.";
+          else 
+            if (!(await room.delete_room(req.body.roomID)))
+               throw "Internal problem.";
+            if(!(await room.delete_current_user_rooms(req.body.roomID)))
+               throw "Internal problem."
+            
 
-       app.get("room/join", async (req, res) => {
-           try { 
-                if(!req.body.roomID) throw "No roomID provided!";
-                if(!req.body.session) throw "No session provided!";
+        }
+         else throw "Type of command not detected.";
 
-                //TODO add session validation
-                
-                 var user_id=await user.get_user_id().catch((e) => { console.error(e.message); });
-                  
-               
-                var cookie_session="123";
-              
-               res.status(200).send(JSON.stringify({  success: max, session: cookie_session }));
-           } catch (e) {
-               console.log(e.message);
-               res.status(417).send(JSON.stringify({ success: false, session: cookie_session, err: e.message }));
-           }
-       });
-   };
-   
+        if (req.body.type != "create_room")
+          res
+            .status(200)
+            .send(JSON.stringify({ success: true }));
+        else
+          res.status(200).send(
+            JSON.stringify({
+              success: true,
+              roomID: v_id
+            })
+          );
+    } catch (e) {
+      console.log("prinde eroarea " + e);
+      res
+        .status(417)
+        .send(
+          JSON.stringify({ success: false,  err: e.message })
+        );
+    }
+  });
+
+  app.post("/join_room", secured, async (req, res) => {
+    try {
+      if (!req.body.roomID) throw "No roomID provided!";
+      if (req.body.password === undefined) throw "No password provided!";
+
+      //first check the db to see if there are any slots avaiable for our user
+      await room.check(req.body.roomID,req.body.password);
+
+
+      //verifica daca este deja in camera ca sa il integreze
+      var ok = await room.is_player_in_room(req.body.roomID,req.headers.session);
+      if(ok===true)
+      {
+        await room.add_player(req.body.roomID, req.headers.session);
+        await room.increase_counter(req.body.roomID);
+      }
+
+      res.send(JSON.stringify({ success:true })); // since the timestamp got updated the session parameter is not as required anymore
+    } catch (e) {
+      console.log(e);
+      res.status(417).send(JSON.stringify({success: false,reason: e })
+      );
+    }
+  });
+};
