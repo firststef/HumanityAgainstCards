@@ -12,9 +12,9 @@ module.exports = {
      */
     get_user_id: (value) =>
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("user")
                 .find(
                     { "session.value": value },
@@ -56,9 +56,9 @@ module.exports = {
      */
     get_user_session: (user) =>
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("user")
                 .find(
                     { username: user },
@@ -98,10 +98,10 @@ module.exports = {
      */
     check_presence: (username, email) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne(
                         { $or: [{ username: username }, { email: email }] },
@@ -130,10 +130,10 @@ module.exports = {
      */
     check_presence_temp: (username, email) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("temp_user")
                     .findOne(
                         { $or: [{ username: username }, { email: email }] },
@@ -162,10 +162,10 @@ module.exports = {
      */
     confirm_account: (username, code) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("temp_user")
                     .findOne({ username: username, code: code },
                              (err, doc) => {
@@ -192,10 +192,10 @@ module.exports = {
      */
     delete_user_temp: (username, code) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("temp_user")
                     .deleteOne({ username: username, code: code },
                                (err, doc) => {
@@ -221,10 +221,10 @@ module.exports = {
      */
     check_login_info: (username_, password_) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne({ username: username_, password: password_ },
                              (err, doc) => {
@@ -252,10 +252,10 @@ module.exports = {
      */
     session_is_unique: (session) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne({ "session.value": session },
                              (err, doc) => {
@@ -282,10 +282,10 @@ module.exports = {
      */
     session_verify: (value) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne(
                         { "session.value": value, "session.expire": { $gt: Date.now() } },
@@ -315,7 +315,7 @@ module.exports = {
      */
     session_update_timestamp: (value) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
             let now = Date.now() + 1000 * 60 * 60 * 24;
             let updated = {
                 expire: now,
@@ -323,7 +323,7 @@ module.exports = {
             };
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne(
                         { "session.value": value },
@@ -355,10 +355,10 @@ module.exports = {
      */
     session_update_login: (username_, password_, new_value) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne(
                         { username: username_, password: password_ },
@@ -394,10 +394,10 @@ module.exports = {
      */
     session_update: (old_value, new_value) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne(
                         { "session.value": old_value },
@@ -433,9 +433,9 @@ module.exports = {
      */
     get_old_session: (username_, password_) => {
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("user")
                 .find(
                     { username: username_, password: password_ },
@@ -466,7 +466,7 @@ module.exports = {
                         console.log(
                             log.date_now() + f_header,
                             color.green,
-                            "Black cards loaded ! !\n",
+                            "Old Session extracted !\n",
                             result
                         );
                         resolve(result);
@@ -481,9 +481,9 @@ module.exports = {
      */
     get_session: (username_) => {
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("user")
                 .find(
                     { username: username_ },
@@ -528,10 +528,10 @@ module.exports = {
      */
     temp_register: (user) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("temp_user")
                     .insertOne(user,
                                (err) => {
@@ -557,10 +557,10 @@ module.exports = {
      */
     register: (user) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .insertOne(user,
                                (err) => {
@@ -586,10 +586,10 @@ module.exports = {
      */
     check_email: (email) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne({ $or: [{ email: email }] },
                              (err, doc) => {
@@ -617,11 +617,11 @@ module.exports = {
      */
     reset_password: (username_, password_) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
             let my_user_name = { username: username_ };
             let new_password = { $set: { password: password_ } };
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne(my_user_name,
                                new_password,
@@ -643,10 +643,10 @@ module.exports = {
     },
     increase_games_played: (value_) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne({ "session.value": value_ },
                                { $inc: { games_played: 1 } },
@@ -661,10 +661,10 @@ module.exports = {
     },
     increase_games_won: (value_) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("user")
                     .updateOne({ "session.value": value_ },
                                { $inc: { games_won: 1 } },

@@ -1,8 +1,8 @@
 const
-      database = require("../utils/database"),
-      color    = require("../colors"),
-      log      = require("../utils/log"),
-      f_header = "[database/user.js]";
+    database = require("../utils/database"),
+    color    = require("../colors"),
+    log      = require("../utils/log"),
+    f_header = "[database/user.js]";
 
 module.exports = {
     /**
@@ -12,13 +12,13 @@ module.exports = {
      */
     game_start: (roomID) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .updateOne(
-                        { id: roomID},
+                        { id: roomID },
                         {
                             $set: {
                                 game_started: 1
@@ -34,20 +34,25 @@ module.exports = {
                 console.log(
                     log.date_now() + f_header,
                     color.red,
-                    `Error while searching user ${ username_ } !\n`,
+                    `Error while starting game !\n`,
                     color.white,
                     e
                 );
-                reject({error:e});
+                reject({ error: e });
             }
         });
     },
+    /**
+     * Delete a certain room
+     * @param roomID - The id of the room which has to be deleted
+     * @returns {Promise<unknown>} - Result after deleting the room
+     */
     delete_room: (roomID) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .deleteOne({ id: roomID },
                                (err) => {
@@ -72,16 +77,16 @@ module.exports = {
         });
     },
     /**
-     * Deletes all the rooms with a given id
+     * Deletes the rooms from the collection with room-user_id
      * @param {int} roomID - The id of the required rooms
      * @returns {Promise<unknown>} - Result after deleting rooms
      */
     delete_current_user_rooms: (roomID) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("current_user_rooms")
                     .deleteMany({ id_room: roomID },
                                 (err) => {
@@ -107,20 +112,20 @@ module.exports = {
      */
     get_next_id: () => {
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("rooms")
                 .find({},
-                    {
-                        _id: 0,
-                        id: 1,
-                        session: 0,
-                        room_name: 0,
-                        score_limit: 0,
-                        max_players: 0,
-                        players_in_game: 0
-                    }
+                      {
+                          _id: 0,
+                          id: 1,
+                          session: 0,
+                          room_name: 0,
+                          score_limit: 0,
+                          max_players: 0,
+                          players_in_game: 0
+                      }
                 )
                 .toArray(function (err, result) {
                     if ( err ) {
@@ -151,10 +156,10 @@ module.exports = {
      */
     room_exist: (roomID) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .findOne({ id: roomID },
                              (err, doc) => {
@@ -181,23 +186,23 @@ module.exports = {
     },
     room_max_id: () => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
-                    .find({ },
-                        {
-                            _id: 0,
-                            id: 1,
-                            session: 0,
-                            room_name: 0,
-                            score_limit: 0,
-                            max_players: 0,
-                            players_in_game: 0
-                        }).toArray(
+                    .find({},
+                          {
+                              _id: 0,
+                              id: 1,
+                              session: 0,
+                              room_name: 0,
+                              score_limit: 0,
+                              max_players: 0,
+                              players_in_game: 0
+                          }).toArray(
                     (err, doc) => {
-                        if ( doc !== null && doc.length!==0 ) {
+                        if ( doc !== null && doc.length !== 0 ) {
                             let max = Math.max.apply(
                                 Math,
                                 doc.map(function (o) {
@@ -234,10 +239,10 @@ module.exports = {
      */
     is_host_to_room: (roomID, host) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .findOne({ id: roomID, host: host },
                              (err, doc) => {
@@ -269,10 +274,10 @@ module.exports = {
      */
     is_player_in_room: (roomID, user) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("current_user_rooms")
                     .findOne({ id_room: roomID, user_id: user },
                              (err, doc) => {
@@ -302,10 +307,10 @@ module.exports = {
      */
     get_all_rooms: () => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .find({}).toArray((err, doc) => {
                     if ( doc !== null ) {
@@ -333,10 +338,10 @@ module.exports = {
      */
     get_rooms_for_host: (username) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .find({ host: username }).toArray((err, doc) => {
                     if ( doc !== null ) {
@@ -360,12 +365,12 @@ module.exports = {
     },
     get_players_from_room: (id) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("current_user_rooms")
-                    .find({ id_room:  id }).toArray((err, doc) => {
+                    .find({ id_room: id }).toArray((err, doc) => {
                     if ( doc !== null ) {
                         resolve(doc);
                     }
@@ -392,10 +397,10 @@ module.exports = {
      */
     insert_room: (room) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .insertOne(room,
                                (err) => {
@@ -422,9 +427,9 @@ module.exports = {
      */
     check: (roomID, password) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("rooms")
                 .find({ id: eval(roomID), password: password })
                 .toArray((err, docs) => {
@@ -446,10 +451,10 @@ module.exports = {
      */
     add_player: (roomID, u_id) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("current_user_rooms")
                     .insertOne({ id_room: roomID, user_id: u_id },
                                (err) => {
@@ -475,9 +480,9 @@ module.exports = {
      */
     get_players: (roomID) => {
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("current_user_rooms")
                 .find(
                     { id_room: roomID }
@@ -493,8 +498,6 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
-                       // console.log(result);
-                       // console.log("promis");
                         resolve(result);
                     }
                 });
@@ -507,10 +510,10 @@ module.exports = {
      */
     increase_counter: (roomID) => {
         return new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
             try {
-                db.db("HumansAgainstCards")
+                connection.db("HumansAgainstCards")
                     .collection("rooms")
                     .updateOne({ id: roomID },
                                { $inc: { players_in_game: 1 } },
@@ -523,35 +526,40 @@ module.exports = {
             }
         });
     },
-    is_game_started :(roomID) => {
-    return new Promise((resolve, reject) => {
-        let db = database.get_db();
+    /**
+     * Check if a the game from room with roomID has started
+     * @param roomID - Room to be checked if has started the game
+     * @returns {Promise<unknown>} - Result after checking
+     */
+    is_game_started: (roomID) => {
+        return new Promise((resolve, reject) => {
+            let connection = database.get_db();
 
-        try {
-            db.db("HumansAgainstCards")
-                .collection("rooms")
-                .findOne({ id: roomID, game_started:1},
-                    (err, doc) => {
-                        if ( err ) {
-                            throw err;
-                        }
-                        if ( doc === null ) {
-                            resolve("not_started");
-                        } else{
-                            resolve("started");}
-                    });
-        } catch (err) {
-            console.log(
-                log.date_now() + f_header,
-                color.red,
-                `Error while searching room ${ roomID } with host ${ host } !\n`,
-                color.white,
-                err
-            );
-            reject(false);
-        }
-    });
-},
-
+            try {
+                connection.db("HumansAgainstCards")
+                    .collection("rooms")
+                    .findOne({ id: roomID, game_started: 1 },
+                             (err, doc) => {
+                                 if ( err ) {
+                                     throw err;
+                                 }
+                                 if ( doc === null ) {
+                                     resolve("not_started");
+                                 } else {
+                                     resolve("started");
+                                 }
+                             });
+            } catch (err) {
+                console.log(
+                    log.date_now() + f_header,
+                    color.red,
+                    `Error while searching room ${ roomID } !\n`,
+                    color.white,
+                    err
+                );
+                reject(false);
+            }
+        });
+    }
 
 };

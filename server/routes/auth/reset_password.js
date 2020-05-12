@@ -11,12 +11,17 @@ const config   = require("../auth/reset_password/config"),
       f_header = "[routes/auth/register.js]";
 
 module.exports = function (app) {
+    /**
+     * Reset password for an user
+     */
     app.post("/auth/reset_password",
              async (req, res) => {
                  try {
                      if ( !req.body.email || typeof req.body.email !== "string" ) throw `No email provided !`;
 
-                     if ( ( await user.check_email(req.body.email) ) === false ) throw `this email is not existing !`;
+                     if ( (
+                         await user.check_email(req.body.email)
+                     ) === false ) throw `this email is not existing !`;
                      if ( !req.body.email.match(/\w{1,}@\w{1,}(\.\w{1,}){1,}/) ) throw `Invalid email !`;
 
                      transporter = mail.get_transporter();
@@ -48,13 +53,17 @@ module.exports = function (app) {
 
                  }
              });
-
+    /**
+     * Reset password for a given username
+     */
     app.post("/auth/reset_password/:username",
              async (req, res) => {
                  try {
                      if ( !req.body.new_password || typeof req.body.new_password !== "string" ) throw `No new password provided !`;
 
-                     if ( !(req.body.new_password.match(/[A-Z]/) && req.body.new_password.match(/[0-9]/) && req.body.new_password.length > 5) )
+                     if ( !(
+                         req.body.new_password.match(/[A-Z]/) && req.body.new_password.match(/[0-9]/) && req.body.new_password.length > 5
+                     ) )
                          throw `The password must be at least 5 characters long, and it must contain an uppercase character, and a number !`;
 
                      if ( !req.body.confirm_new_password || typeof req.body.confirm_new_password !== "string" ) throw `No confirm new password provided !`;

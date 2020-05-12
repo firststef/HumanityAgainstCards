@@ -30,9 +30,9 @@ module.exports = function (app, secured) {
                     if ( !req.params.nr ) throw `No number provided !`;
                     let indexes = Array();
                     let aux;
-                    let numar = parseInt(req.params.nr);
+                    let number = parseInt(req.params.nr);
 
-                    while ( indexes.length < numar ) {
+                    while ( indexes.length < number ) {
 
                         aux = await get_cards.get_white_cards(index.white_index(indexes)).catch((e) => {
                             console.error(e.message);

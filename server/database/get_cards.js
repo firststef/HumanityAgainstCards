@@ -12,9 +12,9 @@ module.exports = {
      */
     get_black_cards: (id) =>
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("black_cards")
                 .find({ _id: id })
                 .toArray(function (err, result) {
@@ -26,8 +26,7 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        //console.log(log.date_now() + f_header, color.green, "Black cards loaded ! !\n", result);
-                        if(result!==null&&result.length!==0)
+                        if ( result !== null && result.length !== 0 )
                             resolve(result);
                         else
                             resolve(false);
@@ -40,9 +39,9 @@ module.exports = {
      */
     get_white_cards: (id) =>
         new Promise((resolve, reject) => {
-            let db = database.get_db();
+            let connection = database.get_db();
 
-            db.db("HumansAgainstCards")
+            connection.db("HumansAgainstCards")
                 .collection("white_cards")
                 .find({ _id: id })
                 .toArray(function (err, result) {
@@ -54,7 +53,6 @@ module.exports = {
                                     err);
                         reject({ err: err });
                     } else {
-                        //console.log(log.date_now() + f_header, color.green, "White cards loaded ! !\n", result);
                         resolve(result);
                     }
                 });
