@@ -66,7 +66,7 @@ h1-second {
     background: -webkit-linear-gradient(red, yellow);
     -webkit-background-clip: text;
     text-shadow:none;
-    font-size:5rem;
+    font-size:4rem;
 }
 
 .grid-item-3 {

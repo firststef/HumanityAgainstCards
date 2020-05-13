@@ -26,7 +26,7 @@ body {
   width: 100%;
   content: "";
   background: url("assets/img/bg.png");
-  background-size: 100% 100%;
+  background-size: 101% 100%;
   background-repeat: no-repeat;
   top: 0;
   left: 0;
@@ -58,6 +58,7 @@ body {
   background: black;
   text-transform: uppercase;
   font-size: 1rem;
+  text-align: center;
   color: white;
   text-shadow: 1px 1px black;
   border: 1px solid white;
@@ -150,6 +151,7 @@ body {
   }
 
   .player  {
+    margin: 0;
     justify-content: center;
   }
 

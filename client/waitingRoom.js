@@ -37,7 +37,7 @@ function revealIfHost() {
             if (res.success === true) {
                 if (res.rooms.includes(parseInt(roomID))) {
                     if (window.innerWidth < 769) {
-                        document.getElementById("hostInfo").style.display = 'block';
+                        document.getElementById("hostInfo").style.display = 'flex';
                         document.getElementById("mobileButton").style.display = 'block';
                         document.getElementById("startGameDiv").style.display = 'none';
                     } else {
