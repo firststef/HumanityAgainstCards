@@ -5,6 +5,9 @@ const engine   = require("../../../client/gamecore/library"),
       f_header = "[routes/room/rooms.js]";
 
 module.exports = function (app) {
+    /**
+     * End a game by deleting the room and the documents from collection with users - room_game
+     */
     app.post("/end_game",
              async (req, res) => {
                  try {
@@ -17,15 +20,16 @@ module.exports = function (app) {
                      let players = await room.get_players_from_room(req.body.roomID);
 
                      if ( !await room.delete_current_user_rooms(parseInt(req.body.roomID)) )
-                         throw `A problem occurred when deleting room ${req.body.roomID} from current user rooms!`;
+                         throw `A problem occurred when deleting room ${ req.body.roomID } from current user rooms!`;
 
-                     if( !await room.delete_room(parseInt(req.body.roomID)))
-                         throw `A problem occurred when deleting room ${req.body.roomID} from rooms!`;
+                     if ( !await room.delete_room(parseInt(req.body.roomID)) )
+                         throw `A problem occurred when deleting room ${ req.body.roomID } from rooms!`;
 
                      for (let i = 0; i < players.length; i++) {
                          if ( await user.increase_games_played(players[i].user_id) )
                              throw "Internal error!";
-                         if( players[i].user_id === username[0].session.value )
+
+                         if ( players[i].user_id === username[0].session.value )
                              if ( await user.increase_games_won(players[i].user_id) )
                                  throw "Internal error!";
                      }

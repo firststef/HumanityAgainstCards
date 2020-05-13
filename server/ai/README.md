@@ -1,3 +1,4 @@
+
 # instantiere:
   - trebuie descarcat fisierul api.js intr-un folder separat
   - in acest folder in care se afla api.js se deschide si ruleaza comenzile npm init (se apasa apoi enter pana se termina, sau se seteaza api.js ca entry point)
@@ -72,4 +73,6 @@ http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "30"}
 # Posibile erori
 
   - nu este tratata exceptia pentru momentul in care nu se primeste raspuns, deci in aceste cazuri trebuie trimise requesturi noi
+
+
 

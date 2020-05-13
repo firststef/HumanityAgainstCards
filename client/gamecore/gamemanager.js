@@ -91,13 +91,12 @@ class GameManager {
 
         this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.getAllPlayerCount()));
         this.changePlayerTypes();
-        setTimeout(this.setNewBlackCard, 1000);
+        setTimeout(this.setNewBlackCard, 1);
     }
 
     async setNewBlackCard(){
         let card = await fetchBlackCard();
         if(card.id !== -1) {
-            console.log("BLACK CARD SEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEET!!!");
             this.commonBlackCard = new basedata.Card(card.id, card.text);
             this.blackCardType = card.type;
         }
@@ -172,7 +171,7 @@ class GameManager {
     }
 
 
-    removeCardsFromPlayer(player){
+    async removeCardsFromPlayer(player){
         for (let i = 0; i < this.blackCardType; i++) {
             let tempPlayerIndex = this.playerList.findIndex(p => p.id === player.id);
             let cardIndex = player.cards.findIndex(card => card.id === this.selectedWhiteCards[tempPlayerIndex][i].id);
@@ -180,7 +179,7 @@ class GameManager {
             //remove a white card and give a new one back
             if (cardIndex !== -1) {
                 player.cards.splice(cardIndex, 1);
-                player.cards.push(this.getWhiteCard());
+                player.cards.push(await this.getWhiteCard());
             }
             else {
                 console.log("Error: Card for remove not found");
@@ -188,16 +187,17 @@ class GameManager {
         }
     }
 
-    setWinningCardSet(cardSetIndex){
+    async setWinningCardSet(cardSetIndex){
         this.winningCardSet = this.selectedWhiteCards[cardSetIndex];
         let foundOwner = false;
-        this.playerList.forEach(player => {
+        for (let player of this.playerList){
             if(player.type !== basedata.PlayerTypes.CZAR) {
                 if(foundOwner === false)
                     foundOwner = this.checkWinningCards(player);
-                this.removeCardsFromPlayer(player);
+                await this.removeCardsFromPlayer(player);
             }
-        });
+        }
+
         return foundOwner;
     }
 
@@ -235,6 +235,10 @@ class GameManager {
                 this.playerList[playerIndex].cards.push(card);
             }
 
+            if (this.commonBlackCard === null){
+                await this.setNewBlackCard();
+            }
+
             return {
                 header: basedata.RequestHeaders.RESPONSE_BEGIN_GAME,
                 cards: this.playerList[playerIndex].cards,
@@ -263,7 +267,7 @@ class GameManager {
             } else {
                 //for czar, data.cards is the index in selectedWhiteCards
                 if (data.cards < this.selectedWhiteCards.length){
-                    if (!this.setWinningCardSet(data.cards)) {
+                    if (!await this.setWinningCardSet(data.cards)) {
                         return {
                             error: 'Error: invalid card set index selected by czar'
                         }

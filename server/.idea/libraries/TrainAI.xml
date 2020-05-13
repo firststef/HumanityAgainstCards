@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="TrainAI">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/ai/TrainAI_GUI/TrainAI.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

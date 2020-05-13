@@ -2,6 +2,9 @@ const
     room = require("../../database/room");
 
 module.exports = function (app) {
+    /**
+     * Verify if a game has started
+     */
     app.get("/game_started/:roomID",
         async (req, res) => {
             try {

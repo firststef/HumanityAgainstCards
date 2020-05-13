@@ -1,8 +1,8 @@
 const node_mailer = require("nodemailer"),
-      log        = require("../utils/log"),
-      config     = require("../routes/auth/reset_password/config"),
-      color      = require("../colors"),
-      f_header   = "[mail/connect.js]";
+      log         = require("../utils/log"),
+      config      = require("../routes/auth/reset_password/config"),
+      color       = require("../colors"),
+      f_header    = "[mail/connect.js]";
 
 let transporter = node_mailer.createTransport(
     {
