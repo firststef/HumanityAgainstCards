@@ -43,16 +43,16 @@ require("./routes/auth/auth_with_name")(app);
 require("./routes/auth/reset_password")(app);
 require("./routes/auth/confirm_account")(app);
 require("./routes/room/rooms")(app,secured);
-require("./routes/room/return_rooms")(app);
-require("./routes/room/players_from_room")(app);
-require("./routes/room/is_started")(app);
+require("./routes/room/return_rooms")(app,secured);
+require("./routes/room/players_from_room")(app,secured);
+require("./routes/room/is_started")(app,secured);
 require("./routes/pages/render_page")(app,secured);
 require("./routes/ai_call/call")(app);
 require("./routes/config/pasport-setup");
 
-require("./routes/room/start_game")(app);
-require("./routes/room/end_game")(app);
-require("./routes/room/get_hosted_rooms")(app);
+require("./routes/room/start_game")(app,secured);
+require("./routes/room/end_game")(app,secured);
+require("./routes/room/get_hosted_rooms")(app,secured);
 
 //Workers & connectors
 require("./routes/auth/worker/clean_outdated_accounts");
@@ -61,5 +61,6 @@ require("./mail/connect");
 require("./routes/auth/reset_password/connect");
 //se va decomenta cand vom vrea sa fie sterse camerele la pornirea serverului
 //require("./utils/delete_rooms");
+require("./utils/delete_name_auth_users");
 
 

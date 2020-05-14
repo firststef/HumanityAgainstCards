@@ -2,7 +2,7 @@ const
     room = require("../../database/room"),
     user = require("../../database/user");
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * Gets all the players from a certain room
      */
@@ -14,10 +14,10 @@ module.exports = function (app) {
                     let players = Array();
 
                     let player_objects = await room.get_players_from_room(parseInt(req.params.roomID));
-
+                    console.log(player_objects);
                     for (let player_obj of player_objects) {
                         let aux = await user.get_user_id(player_obj.user_id);
-
+                        if(aux!==false)
                         players.push(aux[0].username);
                     }
 

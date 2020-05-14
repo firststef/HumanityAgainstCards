@@ -1,7 +1,7 @@
 const
     room = require("../../database/room");
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * Get hosted rooms
      */
