@@ -40,6 +40,7 @@ Example:
 
 const unitTester = new (require('./unittester').UnitTester)();
 const tests = require('./tests');
+const server = require('child_process').fork('index');
 
 unitTester.register('AI get card', tests.testAIGetCard);
 
