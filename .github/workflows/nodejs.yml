@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env: 
+      working-directory: src/server
 
     strategy:
       matrix:
@@ -24,8 +26,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn install, build, and test
-      working-directory: src/server
+    - name: tester
       run: |
         npm install
         npm run build --if-present
