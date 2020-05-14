@@ -4,7 +4,7 @@ const config   = require("../../config"),
       log      = require("../../utils/log"),
       engine   = require("../../../client/gamecore/library"),
       map      = require("./../../map").RoomMap,
-      f_header = "[routes/game/game_handler.js]";
+      f_header = "[routes/game/game_handler2.js]";
 
 module.exports = function (app, secured) {
     app.post("/game_manager/:roomID",

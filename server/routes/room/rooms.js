@@ -13,11 +13,8 @@ module.exports = function (app, secured) {
 
                      if ( req.body.type === "create_room" ) {
                          if ( !req.body.room_name ) throw "No room_name provided!";
-
                          if ( !req.body.score_limit ) throw "No score limit provided!";
-
                          if ( !req.body.max_players ) throw "No max_players provided!";
-
                          if ( req.body.password === undefined ) throw "No max_players provided!";
 
                          var v_id = await room.room_max_id().catch((e) => {

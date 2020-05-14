@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Humanity Against Cards</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/purecookie.css">
     <link rel="stylesheet" href="assets/css/home.css">
 </head>
 
@@ -71,6 +72,11 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script>
+        sid = getCookie("HAC_SID");
+        if (sid !== null){
+            window.location = "/lobbies.html";
+        }
+
         function submitName() {
             document.cookie = "HAC_PlayerName=" + document.getElementById("PlayerName").value;
             window.location.href = "/lobbies.html";

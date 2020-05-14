@@ -141,7 +141,7 @@ module.exports = {
 			type: "text/javascript"
 		},
 		"/gamecore/basedata.js": {
-			path: "\\..\\..\\..\\client/gamecore/basedata.js",
+			path: "\\..\\..\\..\\server/gamecore/basedata.js",
 			type: "text/javascript"
 		},
 		"/gamecore/gameclient.js": {
@@ -165,5 +165,5 @@ module.exports = {
 			type: "image/png"
 		}
 	},
-	require_auth : false, // false doar pt testare
+	require_auth : true, // false doar pt testare
 };
