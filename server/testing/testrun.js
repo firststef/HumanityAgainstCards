@@ -41,7 +41,6 @@ Example:
 const unitTester = new (require('./unittester').UnitTester)();
 const tests = require('./tests');
 
-unitTester.register('AI get card', tests.testAIGetCard);
-unitTester.register('AI', tests.testAIGetCard);
+unitTester.register('test', (ut, test) => ut.notify(test, {status: 'success'}));
 
 unitTester.run();
