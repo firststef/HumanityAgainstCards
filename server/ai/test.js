@@ -14,7 +14,14 @@ http.get('http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={'+
 
   // The whole response has been received. Print out the result.
   resp.on('end', () => {
-    assert(JSON.parse(data).answer==='Success','Failed');
+    try{
+      assert(JSON.parse(data).answer==='Success','Failed');
+    }
+    catch (e) {
+      console.log('[ERROR]: ' + e.message);
+      return;
+    }
+    console.log('[SUCCESS]');
   });
 
 }).on("error", (err) => {

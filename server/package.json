@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "test": "node testing/testrun.js",
     "dev-nodemon": "npx nodemon index.js"
   },
   "author": "",
