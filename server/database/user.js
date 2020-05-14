@@ -43,9 +43,9 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
-                        if ( result === null )
+                        if ( result ===null || result.length===0 )
                             resolve(false);
-                        resolve(result);
+                       else  resolve(result);
                     }
                 });
         }),

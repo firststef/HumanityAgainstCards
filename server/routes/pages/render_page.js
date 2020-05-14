@@ -2,7 +2,7 @@ const fs    = require('fs').promises,
       array = require("../../config.js"),
       path  = require("path");
 
-module.exports = function (app) { // add the secured middleware on the propper requests
+module.exports = function (app, secured) { // add the secured middleware on the propper requests
     for (let key in array.pages) {
         let route = JSON.parse(JSON.stringify(key));
 

@@ -4,7 +4,7 @@ const engine   = require("../../../client/gamecore/library"),
       generate = require("../../utils/generate"),
       f_header = "[routes/room/rooms.js]";
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * End a game by deleting the room and the documents from collection with users - room_game
      */

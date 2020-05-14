@@ -1,8 +1,9 @@
 const room   = require("../../database/room"),
+      user=require("../../database/user"),
       engine = require('../../gamecore/gamemanager');
 map = require("./../../map");
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * Start a game in room with id = roomID send in body.roomID
      */
@@ -17,6 +18,7 @@ module.exports = function (app) {
                                                      req.headers.session) === false ) throw "You are not host to this room!";
 
                      let playerList = await room.get_players_from_room(parseInt(req.body.roomID));
+                     // console.log(playerList);
 
                      if ( playerList.length === 0 )
                          throw "Room cannot have 0 players";
@@ -24,8 +26,19 @@ module.exports = function (app) {
                      let playerIDList = Array();
 
                      for (let i = 0; i < playerList.length; i++) {
-                         playerIDList.push(playerList[i].user_id);
+                         let playerObject={
+                             sid:playerList[i].user_id
+                         };
+
+                         let user_name = await user.get_user_id(playerList[i].user_id);
+                         if(user_name!==false){
+                             playerObject.username=user_name[0].username;
+                             playerIDList.push(playerObject);
+                         }
+                         else throw "Internl error";
                      }
+
+                     console.log(playerIDList);
 
                      let game_manager = new engine.GameManager(playerIDList.length,
                                                                0,
