@@ -14,7 +14,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env: 
-      working-directory: src/server
+      working-directory: ./src/server
 
     strategy:
       matrix:
