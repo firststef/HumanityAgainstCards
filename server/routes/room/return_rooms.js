@@ -3,7 +3,7 @@ const config   = require("../../config"),
       user     = require("../../database/user"),
       f_header = "[routes/room/return_room.js]";
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * Gets all existing rooms
      */

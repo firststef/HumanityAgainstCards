@@ -3,7 +3,7 @@ const room   = require("../../database/room"),
       engine = require('../../gamecore/gamemanager');
 map = require("./../../map");
 
-module.exports = function (app) {
+module.exports = function (app, secured) {
     /**
      * Start a game in room with id = roomID send in body.roomID
      */
