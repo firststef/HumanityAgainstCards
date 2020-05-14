@@ -4,8 +4,9 @@ const express = require("express"),
 	app = express(),
 	color = require("./colors"),
 	cors = require("cors"),
-	session = require("./middleware/session_validation");
-	authRoutes = require("./routes/auth/google_auth_route");
+	session = require("./middleware/session_validation"),
+	authRoutes = require("./routes/auth/google_auth_route"),
+	ai_server = require('child_process').fork('./ai/api.js');
 
 app.use(cors());
 app.use(body_parser.urlencoded({ extended: true, limit: "10mb" }));

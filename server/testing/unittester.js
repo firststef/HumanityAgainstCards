@@ -52,7 +52,7 @@ class UnitTester{
         }
         console.log(passedTests + '/' + numOfTests);
         if (numOfTests > 0){
-            console.log('Percentage%: ' + passedTests / numOfTests);
+            console.log('Percentage%: ' + passedTests / numOfTests * 100);
         }
         process.exit(numOfTests !== passedTests);
     }
