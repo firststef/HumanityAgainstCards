@@ -7,7 +7,8 @@ class UnitTester{
         this.tests.push({name: testName, callback: callback});
     }
 
-    run(){
+    run(finishCallback){
+        this.finishCallback = finishCallback;
         for (let test of this.tests){
             test.callback(this, test);
         }
@@ -54,7 +55,13 @@ class UnitTester{
         if (numOfTests > 0){
             console.log('Percentage%: ' + passedTests / numOfTests * 100);
         }
-        process.exit(numOfTests !== passedTests);
+        this.finalResult(numOfTests !== passedTests);
+    }
+
+    finalResult(result){
+        if (this.finishCallback){
+            this.finishCallback(result);
+        }
     }
 }
 
