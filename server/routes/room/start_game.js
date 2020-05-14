@@ -7,7 +7,7 @@ module.exports = function (app, secured) {
     /**
      * Start a game in room with id = roomID send in body.roomID
      */
-    app.post("/start_game",
+    app.post("/start_game",secured,
              async (req, res) => {
                  try {
                      if ( !req.body.roomID ) throw "No roomId provided !";
@@ -18,7 +18,6 @@ module.exports = function (app, secured) {
                                                      req.headers.session) === false ) throw "You are not host to this room!";
 
                      let playerList = await room.get_players_from_room(parseInt(req.body.roomID));
-                     // console.log(playerList);
 
                      if ( playerList.length === 0 )
                          throw "Room cannot have 0 players";

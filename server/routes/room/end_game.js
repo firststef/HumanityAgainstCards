@@ -8,7 +8,7 @@ module.exports = function (app, secured) {
     /**
      * End a game by deleting the room and the documents from collection with users - room_game
      */
-    app.post("/end_game",
+    app.post("/end_game",secured,
              async (req, res) => {
                  try {
                      if ( !req.body.roomID ) throw "No roomId provided !";
