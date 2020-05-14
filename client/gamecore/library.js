@@ -1,4 +1,4 @@
-const basedata=require('./basedata');
+const basedata=require('../../server/gamecore/basedata');
 const gameclient=require('./gameclient');
 const gamemanager=require('../../server/gamecore/gamemanager');
 

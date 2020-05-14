@@ -1,4 +1,4 @@
-const basedata=require('./basedata');
+const basedata=require('../../server/gamecore/basedata');
 
 /** Momentan reprezinta un singur joc, e treaba backend-ului sa aiba grija de apelurile catre fiecare obiect GameManager sa fie facut corect */
 
