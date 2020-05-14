@@ -1,6 +1,6 @@
 const basedata=require('./basedata');
 const gameclient=require('./gameclient');
-const gamemanager=require('./gamemanager');
+const gamemanager=require('../../server/gamecore/gamemanager');
 
 module.exports.RequestHeaders = basedata.RequestHeaders;
 module.exports.GameStates = basedata.GameStates;

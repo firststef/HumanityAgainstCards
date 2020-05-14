@@ -1,5 +1,5 @@
 const room   = require("../../database/room"),
-      engine = require('../../../client/gamecore/gamemanager');
+      engine = require('../../gamecore/gamemanager');
 map = require("./../../map");
 
 module.exports = function (app) {
