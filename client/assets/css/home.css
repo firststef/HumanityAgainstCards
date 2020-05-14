@@ -4,6 +4,31 @@ body {
     color: white;
 }
 
+#join-container{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#separator{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#guest-form{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#player-name-input{
+    width: 200px;
+}
+
 .main {
     background-color: black;
 }
@@ -58,7 +83,7 @@ p.p1-my{
     text-shadow: none;
 }
 
-h1-second {
+#h1-second {
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:transparent;
@@ -73,7 +98,8 @@ h1-second {
     margin-top: 10px;
 }
 
-.button-Start {
+.button-start {
+    /*
     background-color: #f4511e;
     border: none;
     color: white;
@@ -85,10 +111,40 @@ h1-second {
     transition: 0.3s;
     display: inline-block;
     text-decoration: none;
-    cursor: pointer;
+    cursor: pointer;*/
+
+
+    width: 200px;
+
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    color: #232323;
+    outline: none;
+    border: 2px solid #232323;
+    background-color: white;
+    white-space: nowrap;
+    appearance: none;
+    box-shadow: inset 0 -4px 0 0 #232323;
+    border-radius: 7px;
+    font-size: 18px;
+    font-size: 1.125rem;
+    line-height: 18px;
+    line-height: 1.125rem;
+    padding: 14px 20px 18px;
+    padding: 0.875rem 1.25rem 1.125rem;
+    min-width: 225px;
+    min-width: 14.0625rem;
+    transition: width 0.2s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.button-Start:hover {opacity: 1;}
+#join-button{
+    margin-top:30px;
+}
+
+.button-start:hover {opacity: 1;}
 
 .grid-container{
     display: grid;
@@ -124,11 +180,12 @@ h1-second {
     line-height: 20px;
     margin-bottom: 2px;
     margin-top: 2px ;
-} .cookieConsentContainer .cookieDesc a {
+}
+.cookieConsentContainer .cookieDesc a {
       font-family: OpenSans, arial, "sans-serif";
       color: #FFFFFF;
       text-decoration: underline;
-  }
+}
 .cookieConsentContainer .cookieButton a {
     float: right;
     font-family: OpenSans, arial, "sans-serif";

@@ -10,11 +10,10 @@
 </head>
 
 <body>
-
     <section>
         <div class="mb-0 jumbotron-fluid d-flex align-items-center min-vh-100 border-radius-0 background black main">
             <div class="container text-center">
-                <h1-second>Humanity Against Cards</h1-second>
+                <h1 id="h1-second">Humanity Against Cards</h1>
                 <br>
                 <p class="lead">Are you funnier than a computer?</p>
                 <br>
@@ -31,29 +30,23 @@
                 <br>
 
                 <hr class="my-2">
-                <div class="grid-container container">
-                    <div class="row">
-                        <div class="col">
-                            <p>Choose a temporary account</p>
-                            <div class="grid-item-1">
-                                <label for="PlayerName">Your Name</label>
-                            </div>
-                            <form action="" method="post" onsubmit="return submitName()">
-                                <div class="grid-item-2">
-                                    <input type="text" id="PlayerName" name="PlayerName" required>
-                                </div>
-                                <div class="grid-item-3">
-                                    <input type="submit" class="button-Start" value="START">
+                <div id="join-container">
+                    <div id="join-guest">
+                        <p>Join as guest</p>
+                            <form action="" method="" onsubmit="return submitName()">
+                                <div id="guest-form">
+                                    <input id="player-name-input" type="text" name="player-name" placeholder="Your name" required>
+                                    <input type="submit" class="button-start" value="START">
                                 </div>
                             </form>
-                            <div>
-                                <div class="col">
-                                    <p>OR</p>
-                                    <button class="button-Start"
-                                        onclick="window.location = 'login-register'">LOGIN</button>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div id="separator">
+                        <p>OR</p>
+                    </div>
+                    <div id="join-login">
+                        <p>Login to your account</p>
+                        <button id="join-button" class="button-start"
+                                onclick="window.location = 'login-register'">LOGIN</button>
                     </div>
                 </div>
             </div>
@@ -72,8 +65,21 @@
         crossorigin="anonymous"></script>
     <script>
         function submitName() {
-            document.cookie = "HAC_PlayerName=" + document.getElementById("PlayerName").value;
-            window.location.href = "/lobbies.html";
+            fetch('/auth/with_name', {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    "name":document.getElementById("player-name-input").value
+                })
+            })
+                .then(res => res.json())
+                .then(res => {
+                    document.cookie = "HAC_SID=" + res.session;
+                })
+                .then(wait => window.location.href = "/lobbies.html")
+            .catch(err => console.log("Could not get cookie: " + err));
             return false;
         }
     </script>
