@@ -55,12 +55,12 @@ class UnitTester{
         if (numOfTests > 0){
             console.log('Percentage%: ' + passedTests / numOfTests * 100);
         }
-        this.finalResult(numOfTests !== passedTests);
+        this.finalResult(numOfTests === passedTests);
     }
 
     finalResult(result){
         if (this.finishCallback){
-            this.finishCallback(result);
+            this.finishCallback(!result);
         }
     }
 }
