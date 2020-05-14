@@ -54,6 +54,7 @@ class UnitTester{
         if (numOfTests > 0){
             console.log('Percentage%: ' + passedTests / numOfTests);
         }
+        process.exit(numOfTests !== passedTests);
     }
 }
 
