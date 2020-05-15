@@ -36,7 +36,7 @@ module.exports = function (app, secured) {
                          else throw "Internl error";
                      }
 
-                     let game_manager = new engine.GameManager(players, 0);
+                     let game_manager = new engine.GameManager(players, 1);
 
                      map.RoomMap.set(parseInt(req.body.roomID), game_manager);
 

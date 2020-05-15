@@ -43,6 +43,7 @@ class Card {
 class Player {
     constructor(id, name) {
         this.id = id;
+        this.ai = false;
         this.name = name;
         this.points = 0;
         this.cards = [];
