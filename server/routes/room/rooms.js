@@ -1,5 +1,6 @@
 const
-    room = require("../../database/room");
+    room = require("../../database/room"),
+    user= require("../../database/user");
 
 module.exports = function (app, secured) {
     /**
@@ -9,6 +10,11 @@ module.exports = function (app, secured) {
              secured,
              async (req, res) => {
                  try {
+                     if(!req.headers.session) throw "No session ";
+
+                     if(await user.session_verify(req.headers.session)!==true)
+                         throw "Session not valid.";
+
                      if ( !req.body.type ) throw "No type provided!";
 
                      if ( req.body.type === "create_room" ) {
@@ -19,6 +25,7 @@ module.exports = function (app, secured) {
                          if ( !req.body.max_players ) throw "No max_players provided!";
 
                          if ( req.body.password === undefined ) throw "No max_players provided!";
+
 
                          var v_id = await room.room_max_id().catch((e) => {
                              console.error(e.message);

@@ -288,7 +288,7 @@ module.exports = {
                 connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne(
-                        { "session.value": value, "session.expire": { $gt: Date.now() } },
+                        { "session.value": value },
                         (err, doc) => {
                             console.log(doc);
                             if ( doc !== null ) resolve(true);

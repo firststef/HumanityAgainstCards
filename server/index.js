@@ -61,6 +61,6 @@ require("./mail/connect");
 require("./routes/auth/reset_password/connect");
 //se va decomenta cand vom vrea sa fie sterse camerele la pornirea serverului
 //require("./utils/delete_rooms");
-//require("./utils/delete_name_auth_users");
+require("./utils/delete_name_auth_users");
 
 
