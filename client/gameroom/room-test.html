@@ -6,6 +6,7 @@
     <title>Room HAC</title>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/purecookie.css">
     <link href="room-test.css" rel="stylesheet">
     <script crossorigin="anonymous"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -31,11 +32,35 @@
             <li class="nav-item">
                 <a class="navbar-brand" href="#" id="game-id"></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login-register">Login/Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="lobbies.html">Disconnect</a>
+            <li>
+                <a class="nav-link dropdown-toggle" type="button" id="dropdownScore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Show Scoreboard
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownScore">
+                    <div class="dropdown-item" id="scoreBoardTab">
+                        <table class="table table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
@@ -81,9 +106,9 @@
             return module.exports;
         }
     </script>
-    <script src="../../server/gamecore/basedata.js"></script>
-    <script src="../gamecore/gameclient.js"></script>
-    <script src="../assets/js/purecookie.js"></script>
+    <script src="/gamecore/basedata.js"></script>
+    <script src="/gamecore/gameclient.js"></script>
+    <script src="/assets/js/purecookie.js"></script>
     <script src="room.js"></script>
     <script>
         document.getElementById('game-id').onclick = function copyGameId() {

@@ -51,6 +51,10 @@ function validate() {
 }
 
 function createRoom() {
+    sid = getCookie("HAC_SID");
+    if (sid === null){
+        window.location = "/";
+    }
     let body = {type: 'create_room'};
     $('#roomSettings').serializeArray().forEach((field) => {
         body[field.name] = field.value;
@@ -74,6 +78,11 @@ function createRoom() {
 }
 
 function attemptJoinRoom(id) {
+    sid = getCookie("HAC_SID");
+    if (sid === null){
+        window.location = "/";
+    }
+
     let body = {};
     body.roomID = id;
     body.password = '';

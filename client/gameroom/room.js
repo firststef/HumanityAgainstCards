@@ -7,6 +7,7 @@ var updateInterval;
 var playerHandElement;
 var blackCardElement;
 var scoreBoardElement;
+var scoreBoardTabElement;
 var otherPlayedCardsElement;
 var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
@@ -17,6 +18,7 @@ window.onload = () => load();
 function load() {
     blackCardElement = document.getElementById("currentBlackCard");
     scoreBoardElement = document.getElementById("scoreBoard");
+    scoreBoardTabElement = document.getElementById("scoreBoard");
     playerHandElement = document.getElementById("playerHand");
     otherPlayedCardsElement = document.getElementById("otherPlayedCards");
     gameId = document.getElementById("game-id");
@@ -102,12 +104,27 @@ function applyChanges(changes) {
     if (changes.header === 'show_cards'){
         replaceHandCards(changes.cards);
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
-        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (scoreBoardElement === undefined){
+            scoreBoardElement = document.getElementById("scoreBoard");
+            if (scoreBoardElement !== undefined)
+                scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        if (scoreBoardTabElement === undefined){
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
+            if (scoreBoardTabElement !== undefined)
+                scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
-            document.getElementById("role").innerHTML = 'Your roles is PLAYER';
+            document.getElementById("role").innerHTML = 'Your role is PLAYER';
         }
         else{
-            document.getElementById("role").innerHTML = 'Your roles is CZAR';
+            document.getElementById("role").innerHTML = 'Your role is CZAR';
         }
     }
     if (changes.header === 'no_change'){
@@ -129,18 +146,48 @@ function applyChanges(changes) {
     if (changes.header === 'new_round_for_normal_player'){
         replaceHandCards(changes.player_cards);
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
-        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (scoreBoardElement === undefined){
+            scoreBoardElement = document.getElementById("scoreBoard");
+            if (scoreBoardElement !== undefined)
+                scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        if (scoreBoardTabElement === undefined){
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
+            if (scoreBoardTabElement !== undefined)
+                scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
-            document.getElementById("role").innerHTML = 'Your roles is PLAYER';
+            document.getElementById("role").innerHTML = 'Your role is PLAYER';
         }
         else{
-            document.getElementById("role").innerHTML = 'Your roles is CZAR';
+            document.getElementById("role").innerHTML = 'Your role is CZAR';
         }
     }
     if (changes.header === 'wait_for_players'){
         replaceHandCards(changes.player_cards);
         blackCardElement.innerHTML = getCardHtml({text: changes.black_card.text, type: changes.black_card_type}, "black");
-        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (scoreBoardElement === undefined){
+            scoreBoardElement = document.getElementById("scoreBoard");
+            if (scoreBoardElement !== undefined)
+                scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        if (scoreBoardTabElement === undefined){
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
+            if (scoreBoardTabElement !== undefined)
+                scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         otherPlayedCardsElement.innerHTML = '';
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
             document.getElementById("role").innerHTML = 'Your role is PLAYER';
@@ -150,7 +197,22 @@ function applyChanges(changes) {
         }
     }
     if (changes.header === "game_has_ended"){
-        scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        if (scoreBoardElement === undefined){
+            scoreBoardElement = document.getElementById("scoreBoard");
+            if (scoreBoardElement !== undefined)
+                scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        if (scoreBoardTabElement === undefined){
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
+            if (scoreBoardTabElement !== undefined)
+                scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         alert("Game has ended");
     }
 }
