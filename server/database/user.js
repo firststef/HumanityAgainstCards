@@ -665,6 +665,11 @@ module.exports = {
             }
         });
     },
+    /**
+     * Check if exists an user with a given name
+     * @param username_ - The name of the required user
+     * @returns {Promise<unknown>} - Result after searching user in database
+     */
     check_name: (username_) => {
         return new Promise((resolve, reject) => {
             let connection = database.get_db();

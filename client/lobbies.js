@@ -37,12 +37,14 @@ function getRooms() {
 getRooms();
 
 function validate() {
-    var input, li, i;
+    var input, li, i, cardHeader;
     input = document.getElementById('search').value;
     li = document.getElementsByClassName('card');
     // Loop through all list items, and hide those who don't match the search query
+    //console.log(li[0].getElementsByClassName("card-header"));
     for (i = 0; i < li.length; i++) {
-        if (li[i].id.startsWith(input) || input === "") {
+        cardHeader=li[i].getElementsByClassName("card-header")[0].innerText.replace("Room name: ",'');
+        if (li[i].id.startsWith(input) || input === "" || cardHeader.startsWith(input)) {
             li[i].style.display = "";
         } else {
             li[i].style.display = "none";

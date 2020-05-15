@@ -109,16 +109,22 @@ function applyChanges(changes) {
             if (scoreBoardElement !== undefined)
                 scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (scoreBoardTabElement === undefined){
-            scoreBoardTabElement = document.getElementById("scoreBoard");
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
             if (scoreBoardTabElement !== undefined)
                 scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
-            document.getElementById("role").innerHTML = 'Your roles is PLAYER';
+            document.getElementById("role").innerHTML = 'Your role is PLAYER';
         }
         else{
-            document.getElementById("role").innerHTML = 'Your roles is CZAR';
+            document.getElementById("role").innerHTML = 'Your role is CZAR';
         }
     }
     if (changes.header === 'no_change'){
@@ -145,10 +151,16 @@ function applyChanges(changes) {
             if (scoreBoardElement !== undefined)
                 scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (scoreBoardTabElement === undefined){
-            scoreBoardTabElement = document.getElementById("scoreBoard");
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
             if (scoreBoardTabElement !== undefined)
                 scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
             document.getElementById("role").innerHTML = 'Your role is PLAYER';
@@ -165,10 +177,16 @@ function applyChanges(changes) {
             if (scoreBoardElement !== undefined)
                 scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (scoreBoardTabElement === undefined){
-            scoreBoardTabElement = document.getElementById("scoreBoard");
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
             if (scoreBoardTabElement !== undefined)
                 scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
         otherPlayedCardsElement.innerHTML = '';
         if (gameClient.getPlayerType() === PlayerTypes.PLAYER){
@@ -184,10 +202,16 @@ function applyChanges(changes) {
             if (scoreBoardElement !== undefined)
                 scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        else {
+            scoreBoardElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
         if (scoreBoardTabElement === undefined){
-            scoreBoardTabElement = document.getElementById("scoreBoard");
+            scoreBoardTabElement = document.getElementById("scoreBoardTab");
             if (scoreBoardTabElement !== undefined)
                 scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
+        }
+        else {
+            scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
         alert("Game has ended");
     }

@@ -18,6 +18,14 @@ module.exports = function (app, secured) {
                     let player_array = [];
 
                     for (let room_obj of rooms) {
+                        if( await user.session_verify(room_obj.host) === false) {
+                            await room.delete_room(room_obj.id);
+                            await room.delete_current_user_rooms(room_obj.id);
+                            const index = rooms.indexOf(room_obj);
+                            rooms.splice(index, 1);
+                            continue;
+                        }
+
                         player_array = await room.get_players_from_room(room_obj.id);
 
                         room_obj.players = [];

@@ -1,10 +1,53 @@
 const basedata=require('./basedata');
 const fetch = require('node-fetch');
 
-function fetchAI(blackCard, listOfCards){
-    return {
-        then: (func) => func(listOfCards[0])
+async function fetchAIAnswer(blackCard, blackCardType, listOfCards){
+    let blackCardArray = [];
+    let whiteCards = [];
+    let black_card = {
+        _id : blackCard.id,
+        text: blackCard.text,
+        pick: blackCardType
     };
+
+    listOfCards.forEach(card => {
+        if (card !== null && card.id !== undefined) {
+            let white_card = {
+                _id: card.id,
+                text: card.text
+            };
+            whiteCards.push(white_card);
+        }
+    });
+    blackCardArray.push(black_card);
+
+    console.log(listOfCards);
+    console.log(whiteCards);
+
+    let bodyreq = {
+        'black_card': blackCardArray,
+        'white_cards': whiteCards
+    };
+    console.log(bodyreq);
+
+    let response = await fetch('http://localhost:8081/ai/sendCards', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyreq)
+    });
+    let data = await response.json();
+    console.log(data);
+
+    if(data.success === true) {
+        console.log(data.result);
+    } else {
+        console.log('Error: fetch /ai/sendCards failed -- ', data.response);
+    }
+
+    return data.response;
 }
 
 async function fetchBlackCard(){
@@ -14,12 +57,12 @@ async function fetchBlackCard(){
         type: 1
     };
     let response = await fetch('http://localhost:8081/get_black_card', {
-            method: 'GET',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        method: 'GET',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     let data = await response.json();
 
     if(data.success === true) {
@@ -80,17 +123,24 @@ class GameManager {
     }
 
     init(){
+        this.playerIDList.forEach((pid) => {
+            let player = new basedata.Player(pid, "player");
+            player.ai = false;
+            this.playerList.push(player);
+        });
         //init ai players
-        this.players.forEach(player => this.playerList.push(new basedata.Player(player.sid, player.username)));
         for (let i = 0; i < this.numberOfAIPlayers; i++){
-            this.playerList.push(new basedata.Player(i, "ai"));
+            let player = new basedata.Player(i, "AIplayer");
+            player.ai = true;
+            this.playerList.push(player);
         }
         //init selected cards array for each player
         for(let i=0; i < this.getAllPlayerCount(); i++) {
             this.selectedWhiteCards[i] = new Array(3);
         }
 
-        this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.getAllPlayerCount()));
+        //this.currentCzarIndex = Math.floor((Math.random() * 1000) % (this.getAllPlayerCount()));
+        this.currentCzarIndex = 2;
         this.changePlayerTypes();
         setTimeout(this.setNewBlackCard, 1);
     }
@@ -131,7 +181,8 @@ class GameManager {
     }
 
     changeCzarIndex(){
-        this.currentCzarIndex = (this.currentCzarIndex + 1) % (this.getAllPlayerCount());
+        //this.currentCzarIndex = (this.currentCzarIndex + 1) % (this.getAllPlayerCount());
+        this.currentCzarIndex = 2;
     }
 
     changePlayerTypes(){
@@ -170,7 +221,6 @@ class GameManager {
         }
         return false;
     }
-
 
     async removeCardsFromPlayer(player){
         for (let i = 0; i < this.blackCardType; i++) {
@@ -213,6 +263,25 @@ class GameManager {
         this.waitEnded_Czar = false;
     }
 
+    async handleAI(){
+        //for each ai player
+        //fetchAI(this.commonBlackCard, player.cards)
+        //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: [...]]}));
+        //in this.response se modifica player.cards -> var locala
+        //trainAI
+        for (let player of this.playerList) {
+            if(player.ai === true){
+                let playerIndex = this.playerList.findIndex(p => p.id === player.id);
+                if(playerIndex !== this.currentCzarIndex) {
+                    let response = this.response({
+                        header: basedata.RequestHeaders.REQUEST_CHOSE_CARD,
+                        player_id: player.id,
+                        cards: await fetchAIAnswer(this.commonBlackCard, this.blackCardType, player.cards)
+                    });
+                }
+            }
+        }
+    }
 
     /**=======Server request handling=======**/
 
@@ -282,8 +351,18 @@ class GameManager {
 
             this.readyPlayers++;
 
-            if(this.readyPlayers === this.numberOfPlayers - 1){
+            if(this.readyPlayers === this.getAllPlayerCount() - 1){
                 this.waitEnded_Players = true;
+
+                for (let player of this.playerList) {
+                    if(player.ai === true && player.type === basedata.PlayerTypes.CZAR){
+                        let response = await fetchAIAnswer(this.commonBlackCard, this.blackCardType, this.selectedWhiteCards);
+                        this.winningCardSet = response.response;
+                        this.waitEnded_Czar = true;
+                        break;
+                    }
+                }
+
                 // if czard is ai start ai choice ->
                 //fetchAI(0, [1,2,45,6]).then( () => console.log("AICI AI-Ul intoarce optiunea aleasa si muta state-ul inainte adica ii dai un request"));
 
@@ -343,18 +422,15 @@ class GameManager {
                 //console.log('[SERVER] Client id ' + data.player_id + ' has begun new round');
 
                 //condition so that the methods are called only once per round
-                if (this.readyPlayers === this.getAllPlayerCount()) {
+                if (this.waitEnded_Czar === true) {
                     this.resetData();
                     this.changeCzarIndex();
                     this.changePlayerTypes();
                     await this.setNewBlackCard();
+                    await this.handleAI();
                 }
 
-                //for each ai player
-                //fetchAI(this.commonBlackCard, player.cards)
-                //.then((id) => this.response({header: basedata.RequestHeaders.REQUEST_CHOSE_CARD, player_id, cards: [...]]}));
-                //in this.response se modifica player.cards -> var locala
-                //trainAI
+
             }
 
             return {
@@ -387,4 +463,3 @@ function getRandomString() {
 }
 
 module.exports.GameManager = GameManager;
-module.exports.fetchAI=fetchAI;
