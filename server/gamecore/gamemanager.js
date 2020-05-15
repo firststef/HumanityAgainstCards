@@ -56,13 +56,14 @@ async function fetchWhiteCards(cardCount){
 }
 
 class GameManager {
-    constructor(numberOfPlayers, numberOfAIPlayers, playerIDList, roomID) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+    constructor(players, numberOfAIPlayers) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false;
         this.waitEnded_Czar = false;
 
-        this.numberOfPlayers = numberOfPlayers;
+        this.players = players;
+        this.numberOfPlayers = players.length;
         this.numberOfAIPlayers = numberOfAIPlayers;
-        this.playerIDList = playerIDList;
+        this.playerIDList = players.map(player => player.sid);
         this.readyPlayers = 0;
         this.playerList = [];
 
@@ -80,7 +81,7 @@ class GameManager {
 
     init(){
         //init ai players
-        this.playerIDList.forEach((pid) => this.playerList.push(new basedata.Player(pid, "player")));
+        this.players.forEach(player => this.playerList.push(new basedata.Player(player.sid, player.username)));
         for (let i = 0; i < this.numberOfAIPlayers; i++){
             this.playerList.push(new basedata.Player(i, "ai"));
         }

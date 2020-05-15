@@ -1,7 +1,7 @@
 const room   = require("../../database/room"),
-      user=require("../../database/user"),
-      engine = require('../../gamecore/gamemanager');
-map = require("./../../map");
+    user=require("../../database/user"),
+    engine = require('../../gamecore/gamemanager'),
+    map = require("./../../map");
 
 module.exports = function (app, secured) {
     /**
@@ -14,8 +14,7 @@ module.exports = function (app, secured) {
 
                      if ( !await room.room_exist(parseInt(req.body.roomID)) ) throw "Room does not exist!";
 
-                     if ( await room.is_host_to_room(parseInt(req.body.roomID),
-                                                     req.headers.session) === false ) throw "You are not host to this room!";
+                     if ( await room.is_host_to_room(parseInt(req.body.roomID), req.headers.session) === false ) throw "You are not host to this room!";
 
                      let playerList = await room.get_players_from_room(parseInt(req.body.roomID));
                      // console.log(playerList);
@@ -23,7 +22,7 @@ module.exports = function (app, secured) {
                      if ( playerList.length === 0 )
                          throw "Room cannot have 0 players";
 
-                     let playerIDList = Array();
+                     let players = Array();
 
                      for (let i = 0; i < playerList.length; i++) {
                          let playerObject={
@@ -33,19 +32,14 @@ module.exports = function (app, secured) {
                          let user_name = await user.get_user_id(playerList[i].user_id);
                          if(user_name!==false){
                              playerObject.username=user_name[0].username;
-                             playerIDList.push(playerObject);
+                             players.push(playerObject);
                          }
                          else throw "Internl error";
                      }
 
-                     console.log(playerIDList);
+                     let game_manager = new engine.GameManager(players, 0);
 
-                     let game_manager = new engine.GameManager(playerIDList.length,
-                                                               0,
-                                                               playerIDList);
-
-                     map.RoomMap.set(parseInt(req.body.roomID),
-                                     game_manager);
+                     map.RoomMap.set(parseInt(req.body.roomID), game_manager);
 
                      await room.game_start(parseInt(req.body.roomID));
 
