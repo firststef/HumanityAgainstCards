@@ -18,6 +18,13 @@ module.exports = function (app, secured) {
                     let player_array = [];
 
                     for (let room_obj of rooms) {
+                        if( await user.session_verify(room_obj.host) === false) {
+                            await room.delete_room(room_obj.id);
+                            const index = rooms.indexOf(room_obj);
+                            rooms.splice(index, 1);
+                            continue;
+                        }
+
                         player_array = await room.get_players_from_room(room_obj.id);
 
                         room_obj.players = [];
@@ -25,7 +32,7 @@ module.exports = function (app, secured) {
                         for (let player of player_array) {
                             let users = await user.get_user_id(player.user_id);
 
-                            if ( users.length === 0 )
+                            if ( users.length === 0 || users === false)
                                 continue;
                             room_obj.players.push(users[0].username);
                         }
