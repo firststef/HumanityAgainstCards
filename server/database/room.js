@@ -57,11 +57,6 @@ module.exports = {
                     .deleteOne({ id: roomID },
                                (err) => {
                                    if ( err ) throw err;
-                                   console.log(
-                                       log.date_now() + f_header,
-                                       color.red,
-                                       ` deleted room ${ JSON.stringify(roomID) } !\n`
-                                   );
                                    resolve(true);
                                });
             } catch (err) {
@@ -212,7 +207,7 @@ module.exports = {
 
                             resolve(max);
                         } else {
-                            console.log(doc);
+                           // console.log(doc);
                             if ( err ) {
                                 throw err;
                             }
@@ -560,6 +555,28 @@ module.exports = {
                 reject(false);
             }
         });
-    }
+    },
+    delete_rooms_for_user:(session) =>{
+        return new Promise((resolve, reject) => {
+            let connection = database.get_db();
+            try {
+                connection.db("HumansAgainstCards")
+                    .collection("rooms")
+                    .deleteMany({host:session},
+                        (err) => {
+                            if ( err ) throw err;
+                        });
+                connection.db("HumansAgainstCards")
+                    .collection("current_user_rooms")
+                    .deleteMany({user_id:session},
+                        (err) => {
+                            if ( err ) throw err;
+                        });
+                resolve(true);
 
+            }catch (err) {
+                reject({error:err});
+            }
+        })
+    }
 };

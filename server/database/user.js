@@ -290,7 +290,7 @@ module.exports = {
                     .findOne(
                         { "session.value": value },
                         (err, doc) => {
-                            console.log(doc);
+                            //console.log(doc);
                             if ( doc !== null ) resolve(true);
                             if ( err ) throw err;
                             resolve(false);
@@ -463,12 +463,6 @@ module.exports = {
                         );
                         reject({ err: err });
                     } else {
-                        console.log(
-                            log.date_now() + f_header,
-                            color.green,
-                            "Old Session extracted !\n",
-                            result
-                        );
                         resolve(result);
                     }
                 });
@@ -510,12 +504,6 @@ module.exports = {
                     );
                     reject({ err: err });
                 } else {
-                    console.log(
-                        log.date_now() + f_header,
-                        color.green,
-                        "Session extracted !\n",
-                        result
-                    );
                     resolve(result);
                 }
             });
