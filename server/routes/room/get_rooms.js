@@ -25,7 +25,7 @@ module.exports = function (app, secured) {
                         for (let player of player_array) {
                             let users = await user.get_user_id(player.user_id);
 
-                            if ( users.length === 0 )
+                            if ( users.length === 0 || users === false)
                                 continue;
                             room_obj.players.push(users[0].username);
                         }
