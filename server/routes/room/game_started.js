@@ -5,7 +5,7 @@ module.exports = function (app, secured) {
     /**
      * Verify if a game has started
      */
-    app.get("/game_started/:roomID",
+    app.get("/game_started/:roomID",secured,
         async (req, res) => {
             try {
                   if(!req.params.roomID) throw" no roomID provided!";

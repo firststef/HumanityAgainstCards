@@ -5,7 +5,7 @@ module.exports = function (app, secured) {
     /**
      * Get hosted rooms
      */
-    app.get("/get_hosted_rooms",
+    app.get("/get_hosted_rooms",secured,
             async (req, res) => {
                 try {
 

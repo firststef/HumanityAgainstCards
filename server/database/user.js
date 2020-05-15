@@ -288,7 +288,7 @@ module.exports = {
                 connection.db("HumansAgainstCards")
                     .collection("user")
                     .findOne(
-                        { "session.value": value, "session.expire": { $gt: Date.now() } },
+                        { "session.value": value },
                         (err, doc) => {
                             console.log(doc);
                             if ( doc !== null ) resolve(true);
@@ -674,6 +674,33 @@ module.exports = {
                                });
             } catch (e) {
                 reject(e);
+            }
+        });
+    },
+    check_name: (username_) => {
+        return new Promise((resolve, reject) => {
+            let connection = database.get_db();
+
+            try {
+                connection.db("HumansAgainstCards")
+                    .collection("user")
+                    .findOne(
+                        { username:  username_},
+                        (err, doc) => {
+                            if ( doc !== null ) resolve(true);
+                            if ( err ) throw err;
+                            resolve(false);
+                        }
+                    );
+            } catch (e) {
+                console.log(
+                    log.date_now() + f_header,
+                    color.red,
+                    `Error while searching user ${ username_ } !\n`,
+                    color.white,
+                    e
+                );
+                reject(true);
             }
         });
     }

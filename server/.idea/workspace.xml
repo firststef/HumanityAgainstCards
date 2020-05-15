@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5af7219a-7e48-4905-a46b-457f087b669f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/auth/auth_with_name.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth/auth_with_name.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/auth/reset_password.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth/reset_password.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +45,7 @@
       <workItem from="1589129555164" duration="8104000" />
       <workItem from="1589280309463" duration="614000" />
       <workItem from="1589280980222" duration="1408000" />
+      <workItem from="1589533517167" duration="2986000" />
     </task>
     <servers />
   </component>

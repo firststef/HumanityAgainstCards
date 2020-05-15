@@ -6,7 +6,7 @@ module.exports = function (app, secured) {
     /**
      * Gets all the players from a certain room
      */
-    app.get("/players_from_room/:roomID",
+    app.get("/players_from_room/:roomID",secured,
             async (req, res) => {
                 try {
                     if ( !req.params.roomID ) throw "No roomID provided.";

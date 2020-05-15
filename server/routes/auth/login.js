@@ -12,9 +12,7 @@ module.exports = function (app) {
     app.post("/auth/login",
              async (req, res) => {
 
-                 var cookies = new Cookies(req,
-                                           res,
-                                           { keys: keys });
+                 var cookies = new Cookies(req,res,{ keys: keys });
 
                  try {
                      if ( !req.body.username || typeof req.body.username !== "string" || req.body.username === "" ) throw `No username provided !`;
