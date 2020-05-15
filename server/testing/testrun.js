@@ -43,7 +43,9 @@ const tests = require('./tests');
 const server = require('child_process').fork('index');
 
 unitTester.register('AI get card', tests.testAIGetCard);
+unitTester.register('Get rooms for host', tests.testGetHostedRooms);
+unitTester.register('Create room', tests.testCreateRoom);
 
 setTimeout(() => {
     unitTester.run((result) => process.exit(result));
-}, 1000);
+}, 5000);

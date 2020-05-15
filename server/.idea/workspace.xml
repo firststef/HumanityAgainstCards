@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5af7219a-7e48-4905-a46b-457f087b669f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/room/get_rooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/room/get_rooms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/testrun.js" beforeDir="false" afterPath="$PROJECT_DIR$/testing/testrun.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/tests.js" beforeDir="false" afterPath="$PROJECT_DIR$/testing/tests.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,6 +13,13 @@
   </component>
   <component name="ComposerSettings">
     <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -43,7 +51,7 @@
       <workItem from="1589129555164" duration="8104000" />
       <workItem from="1589280309463" duration="614000" />
       <workItem from="1589280980222" duration="1408000" />
-      <workItem from="1589533517167" duration="8018000" />
+      <workItem from="1589533517167" duration="17575000" />
     </task>
     <servers />
   </component>
