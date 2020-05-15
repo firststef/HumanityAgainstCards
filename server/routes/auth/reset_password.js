@@ -49,7 +49,7 @@ module.exports = function (app) {
                  } catch (e) {
                      console.log(log.date_now() + f_header,
                                  color.red + e);
-                     res.status(500).send({ success: false, "err": e });
+                     res.status(500).send({ success: false, reason: e });
 
                  }
              });

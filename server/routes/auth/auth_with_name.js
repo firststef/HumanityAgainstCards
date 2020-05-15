@@ -10,12 +10,13 @@ module.exports = function (app) {
                  try {
                      if ( !req.body.name || typeof req.body.name !== "string" ) throw `No username provided !`;
 
+                     if( await user.check_name(req.body.name) === true) throw `This name is already used !`;
                      //generate cookie session
                      let cookie_session = "";
 
                      while ( cookie_session.length < 10 ) {
                          // The chances that the same cookie to be generated twice is around ~ 1 to 1.531.653.719
-                         cookie_session = generate.unique(req.body.user,
+                         cookie_session = generate.unique(req.body.name,
                                                           32);
                          //Check presence of the cookie in the database
                          if ( !await user.session_is_unique(cookie_session) ) {
@@ -35,7 +36,7 @@ module.exports = function (app) {
 
                      //try to launch the data in the db
                      let ok = await user.register(user_ob);
-                     if ( !ok ) throw `An internal error occured while attempting to access the database !`;
+                     if ( !ok ) throw `An internal error occurred while attempting to access the database !`;
 
                      let response = {
                          success: true,
@@ -45,7 +46,7 @@ module.exports = function (app) {
                      res.status(200).send(response);
 
                  } catch (e) {
-                     res.status(401).send({ success: false, reason: e.message });
+                     res.status(401).send({ success: false, reason: e });
                  }
              });
 };
