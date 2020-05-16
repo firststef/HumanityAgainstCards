@@ -164,6 +164,10 @@ module.exports = {
       path: '\\..\\..\\..\\client/assets/img/bg.png',
       type: 'image/png',
     },
+    '/assets/img/mainbg.png': {
+      path: '\\..\\..\\..\\client/assets/img/mainbg.png',
+      type: 'image/png',
+    },
   },
   require_auth: false, // false doar pt testare
   game_debug: false
