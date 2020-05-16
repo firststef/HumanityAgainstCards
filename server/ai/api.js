@@ -318,56 +318,61 @@ app.get('/ai', (req, res) => {
         // console.log(req.query.request);
         // console.log(req.query.param);
 
-        let parsedQuery = JSON.parse(req.query.param);
-        let ai_instance;
-        //instanta curenta de AI
+        try {
+            let parsedQuery = JSON.parse(req.query.param);
+            let ai_instance;
+            //instanta curenta de AI
 
-        let position = search_room(req.query.room_id);
-        // cautam sa vedem daca exista un AI pentru room_id-ul respectiv
+            let position = search_room(req.query.room_id);
+            // cautam sa vedem daca exista un AI pentru room_id-ul respectiv
 
-        if (position === -1) {
-            // daca nu exista, instantiem unul nou
-            ai_instance = new AI(req.query.room_id);
-            aiPlayers.push(ai_instance);
-        } else {
-            // altfel, il accesam pe cel deja creat
-            ai_instance = aiPlayers[position];
+            if (position === -1) {
+                // daca nu exista, instantiem unul nou
+                ai_instance = new AI(req.query.room_id);
+                aiPlayers.push(ai_instance);
+            } else {
+                // altfel, il accesam pe cel deja creat
+                ai_instance = aiPlayers[position];
+            }
+
+            switch (req.query.request) {
+                // verificam requestul facut catre AI si intoarcem fiecare raspuns in formatul din README
+                case "getAiAnswer":
+                    ai_instance.getAiAnswer(parsedQuery.black_card[0], parsedQuery.white_cards)
+                        .then(result => res.send(JSON.stringify({answer: "Success", result: result})));
+                    break;
+
+                case "trainAi":
+                    (async () => {
+                        for (let white_card of parsedQuery.white_cards) {
+                            let result = await ai_instance.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(white_card[0]._id));
+                            if (result === "Error")
+                                return [result, "Couldn't update the db."];
+                        }
+                        return ["Success", "Updated the db successfully."];
+                    })().then((result) => {
+                        res.send(JSON.stringify({answer: result[0], result: result[1]}));
+                    });
+                    break;
+
+                case "setProbability":
+                    let result = ai_instance.setProbability(parseInt(parsedQuery.p));
+                    if (result === "Error")
+                        res.send(JSON.stringify({answer: "Error", result: "Invalid probability. Set 0-100"}));
+                    res.send(JSON.stringify({answer: "Success", result: "Probability set to " + parsedQuery.p}));
+                    break;
+
+                case "getProbability":
+                    let probability = ai_instance.getProbability();
+                    res.send(JSON.stringify({answer: "Success", result: probability}));
+                    break;
+
+                default:
+                    res.send(JSON.stringify({answer: "Error", result: "Invalid command."}));
+            }
         }
-
-        switch (req.query.request) {
-            // verificam requestul facut catre AI si intoarcem fiecare raspuns in formatul din README
-            case "getAiAnswer":
-                ai_instance.getAiAnswer(parsedQuery.black_card[0], parsedQuery.white_cards)
-                    .then(result => res.send(JSON.stringify({answer: "Success", result: result})));
-                break;
-
-            case "trainAi":
-                (async () => {
-                    for (let white_card of parsedQuery.white_cards) {
-                        let result = await ai_instance.trainAi(parseInt(parsedQuery.black_card[0]._id), parseInt(white_card[0]._id));
-                        if (result === "Error")
-                            return [result, "Couldn't update the db."];
-                    }
-                    return ["Success", "Updated the db successfully."];
-                })().then((result) => {
-                    res.send(JSON.stringify({answer: result[0], result: result[1]}));
-                });
-                break;
-
-            case "setProbability":
-                let result = ai_instance.setProbability(parseInt(parsedQuery.p));
-                if (result === "Error")
-                    res.send(JSON.stringify({answer: "Error", result: "Invalid probability. Set 0-100"}));
-                res.send(JSON.stringify({answer: "Success", result: "Probability set to " + parsedQuery.p}));
-                break;
-
-            case "getProbability":
-                let probability = ai_instance.getProbability();
-                res.send(JSON.stringify({answer: "Success", result: probability}));
-                break;
-
-            default:
-                res.send(JSON.stringify({answer: "Error", result: "Invalid command."}));
+        catch (e) {
+            res.send({answer: "Error", result: e})
         }
     }
 );

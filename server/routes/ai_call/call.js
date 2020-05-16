@@ -32,12 +32,13 @@ module.exports = function (app) {
                              },
                              function (error, response) {
                                  if ( error ) {
-                                     throw error;
+                                     res.status(500).send(JSON.stringify({ success: false, result: "fatal error" }));
                                  } else {
                                      let obj = JSON.parse(response.body);
                                      if ( obj.answer !== "Success" )
-                                         throw obj.result;
-                                     res.status(200).send(JSON.stringify({ success: true, response: obj.result }));
+                                        res.status(500).send(JSON.stringify({ success: false, result: obj.result }));
+                                     else
+                                        res.status(200).send(JSON.stringify({ success: true, response: obj.result }));
                                  }
                              });
                  } catch (e) {

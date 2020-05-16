@@ -75,7 +75,6 @@ function request(data, callback) {
     }).catch(err => console.log(err));
 }
 
-//todo: ui to add to the input array when the selection is complete
 function checkForUpdate() {
     let input = getUserInput();
     let updated = gameClient.update(input);
@@ -167,6 +166,7 @@ function applyChanges(changes) {
         }
         else{
             document.getElementById("role").innerHTML = 'Your role is CZAR';
+            otherPlayedCardsElement.innerHTML = '<div class="wait-text">Please wait for the PLAYERS to choose</div>';
         }
     }
     if (changes.header === 'wait_for_players'){
@@ -213,6 +213,7 @@ function applyChanges(changes) {
         else {
             scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
+        clearInterval(updateInterval);
         alert("Game has ended");
     }
 }
@@ -239,8 +240,8 @@ function replaceSelectedCards(cards){
             }
         }
     );
-
-    otherPlayedCardsElement.innerHTML = otherPlayedStr;
+    if (otherPlayedCardsElement.innerHTML !== otherPlayedStr)
+        otherPlayedCardsElement.innerHTML = otherPlayedStr;
 }
 
 function getCardHtml(card, type){
@@ -269,13 +270,13 @@ function getPlayerTableHtml(players) {
     let playerTableStr = `
         <table class="table table-dark">
                 <thead>
-                <tr>
-                    <th scope="col">Role</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Score</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Role</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                    </tr>
                 </thead>
-                <tbody>`;
+            <tbody>`;
 
     players.forEach((playerObj) => {
         playerTableStr += `

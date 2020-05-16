@@ -129,6 +129,11 @@ body::-webkit-scrollbar {
     text-shadow: 1px 1px black;
 } */
 
+.wait-text {
+    text-align: center;
+    font-size: 27px;
+}
+
 @media only screen and (max-width: 767px) {
     /* For mobile phones: */
     #upper_row {

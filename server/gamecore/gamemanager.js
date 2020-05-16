@@ -92,17 +92,36 @@ async function fetchWhiteCards(cardCount){
     return cardList;
 }
 
+async function fetchEndGame(roomID, sid){
+    let res = await fetch('http://localhost:8081/end_game', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json',
+            session: sid
+        },
+        body: JSON.stringify({roomID: roomID})
+    });
+    res = await res.json();
+    if (res.success !== true){
+        console.log('Failed to send end game on room '+ roomID);
+    }
+}
+
 class GameManager {
-    constructor(players, numberOfAIPlayers) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
+    constructor(roomID, players, numberOfAIPlayers, host) { //should actually be initialized with a gameId, created by looking at the db, assuring it is unique
         this.waitEnded_Players = false;
         this.waitEnded_Czar = false;
 
+        this.roomID = roomID;
+        this.host = host;
         this.players = players;
         this.numberOfPlayers = players.length;
         this.numberOfAIPlayers = numberOfAIPlayers;
-        this.playerIDList = players.map(player => player.sid);
         this.readyPlayers = 0;
         this.playerList = [];
+        this.usedWhiteCardIds = [];
+        this.usedBlackCardIds = [];
 
         this.currentCzarIndex = null;
         this.commonBlackCard = null;
@@ -110,15 +129,14 @@ class GameManager {
         this.selectedWhiteCards = []; //cards selected by normal players; index in this array represents player index
         this.winningCardSet = []; //cards chosen by czar
         this.winnerPlayer = null;
-
         this.maxPoints = 2; //2 is set just for cycle preview; get value from room settings
 
         this.init();
     }
 
     init(){
-        this.playerIDList.forEach((pid) => {
-            let player = new basedata.Player(pid, "player");
+        this.players.forEach((pl) => {
+            let player = new basedata.Player(pl.sid, pl.username);
             player.ai = false;
             this.playerList.push(player);
         });
@@ -154,18 +172,29 @@ class GameManager {
     }
 
     async setNewBlackCard(){
-        //var stack = new Error().stack;
-        //console.log( stack );
         let card = await fetchBlackCard();
         if(card.id !== -1) {
-            this.commonBlackCard = new basedata.Card(card.id, card.text);
-            this.blackCardType = card.type;
+            if (!this.usedBlackCardIds.includes(card.id)){
+                this.commonBlackCard = new basedata.Card(card.id, card.text);
+                this.blackCardType = card.type;
+                this.usedBlackCardIds.push(card.id);
+            }
+            else {
+                await this.setNewBlackCard();
+            }
         }
     }
 
-    async getWhiteCard(){
+    async getWhiteCard() {
         let data = await fetchWhiteCards(1);
-        return new basedata.Card(data[0]._id, data[0].text);
+        if (data.length !== 0) {
+            if (!this.usedWhiteCardIds.includes(data[0]._id)){
+                this.usedWhiteCardIds.push(data[0]._id);
+                return new basedata.Card(data[0]._id, data[0].text);
+            } else {
+                return await this.getWhiteCard();
+            }
+        }
     }
 
     getCleanPlayerList(playerId, playerIndex){
@@ -358,6 +387,10 @@ class GameManager {
         this.waitEnded_Czar = false;
     }
 
+    endGame(){
+        setTimeout(() => fetchEndGame(this.roomID, this.host), 1);
+    }
+
     /**=======Server request handling=======**/
 
     async response(data){
@@ -492,6 +525,9 @@ class GameManager {
                     await this.setNewBlackCard();
                     setTimeout(() => this.makeAiPlayerChoices(), 1);
                 }
+            }
+            else{
+                this.endGame();
             }
 
             return {
