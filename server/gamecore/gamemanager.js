@@ -246,9 +246,9 @@ class GameManager {
         for (let player of this.playerList) {
             if(player.ai === true && player.type === basedata.PlayerTypes.PLAYER){
                 let permutations = basedata.generateCombinations(player.cards, this.blackCardType);
-
-                let data = await fetchAIAnswer(this.commonBlackCard, this.blackCardType, permutations);
-                if (data == null || permutations.findIndex(set => set === data.response) === -1){
+                let cards = player.cards.map(card => [card]);
+                let data = await fetchAIAnswer(this.commonBlackCard, this.blackCardType, cards);
+                if (data == null || !data.every(card => player.cards.includes(card))){
                     console.log('[AI ERROR]: AI request returned with index out of bonds');
                     setTimeout(() => thisRef.response({
                         player_id: player.id,
@@ -359,7 +359,8 @@ class GameManager {
                 }
             }
 
-            this.readyPlayers++;
+            this.readyPlayers = this.selectedWhiteCards.filter(set => {return set.filter(card => card !== null).length > 0 }).length +
+                this.waitEnded_Players;
 
             if(this.readyPlayers === this.numberOfPlayers - 1){
                 //AI Other players choice
