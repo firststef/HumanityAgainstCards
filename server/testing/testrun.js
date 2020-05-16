@@ -48,8 +48,8 @@ unitTester.register('AI get card', tests.testAIGetCard);
 unitTester.register('Get players from room', tests.GetPlayersFromRoom);
 unitTester.register('Get black card', tests.GetBlackCard);
 unitTester.register('Get white cards', tests.GetWhiteCards);
-unitTester.register('Get white cards', tests.testCreateRoom);
-unitTester.register('Get white cards', tests.testGetHostedRooms);
+unitTester.register('Create room', tests.testCreateRoom);
+unitTester.register('Get Hosted Rooms', tests.testGetHostedRooms);
 //aici se sterge o camera nu e chiar safe sa o tot rulez ca test
 //unitTester.register('Get end game', tests.EndGame);
 
