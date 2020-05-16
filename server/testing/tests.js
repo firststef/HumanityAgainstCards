@@ -165,10 +165,6 @@ async function call(unitTester, test, path){
 
 }
 
-module.exports.EndGame=EndGame;
-module.exports.GetPlayersFromRoom=GetPlayersFromRoom;
-module.exports.GetRooms=GetRooms;
-module.exports.testGameStarted=testGameStarted;
 async function testGetHostedRooms(unitTester, test){
     const options = {
         hostname: 'localhost',
@@ -251,6 +247,10 @@ async function testCreateRoom(unitTester, test){
     req.end();
 }
 
+module.exports.EndGame=EndGame;
+module.exports.GetPlayersFromRoom=GetPlayersFromRoom;
+module.exports.GetRooms=GetRooms;
+module.exports.testGameStarted=testGameStarted;
 module.exports.testAIGetCard = testAIGetCard;
 module.exports.GetBlackCard=GetBlackCard;
 module.exports.GetWhiteCards=GetWhiteCards;

@@ -1,4 +1,4 @@
-const gm=require('./gamemanager');
+const gm=require('./gameclient.js');
 
 var roomID;
 var sid;
@@ -270,17 +270,17 @@ function getPlayerTableHtml(players) {
         <table class="table table-dark">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Name</th>
                     <th scope="col">Score</th>
                 </tr>
                 </thead>
                 <tbody>`;
 
-    players.forEach((playerObj, index) => {
+    players.forEach((playerObj) => {
         playerTableStr += `
                 <tr>
-                    <th scope="row">${index + 1}</th>
+                    <th scope="row">${playerObj.type === gm.PlayerTypes.PLAYER ? 'Player' : 'Czar'}</th>
                     <td>${playerObj.name}</td>
                     <td>${playerObj.points}</td>
                 </tr>

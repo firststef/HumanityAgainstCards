@@ -42,8 +42,6 @@ const unitTester = new (require('./unittester').UnitTester)();
 const tests = require('./tests');
 const server = require('child_process').fork('index');
 
-
-
 unitTester.register('Test game_started route', tests.testGameStarted);
 unitTester.register('Test get_rooms route', tests.GetRooms);
 unitTester.register('AI get card', tests.testAIGetCard);

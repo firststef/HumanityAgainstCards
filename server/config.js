@@ -166,5 +166,5 @@ module.exports = {
     },
   },
   require_auth: false, // false doar pt testare
-  game_debug: true
+  game_debug: false
 };

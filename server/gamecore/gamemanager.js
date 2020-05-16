@@ -174,7 +174,8 @@ class GameManager {
         this.playerList.forEach((player)=> {
             let playerObj = {
                 name: player.name,
-                points: player.points
+                points: player.points,
+                type: player.type
             };
             if (player.id === playerId){
                 playerObj.id = player.id;
