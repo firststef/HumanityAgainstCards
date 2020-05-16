@@ -165,5 +165,5 @@ module.exports = {
       type: 'image/png',
     },
   },
-  require_auth: true, // false doar pt testare
+  require_auth: false, // false doar pt testare
 };
