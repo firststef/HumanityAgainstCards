@@ -14,16 +14,11 @@ initFrontend();
 
 //Functions
 function initFrontend(){
-    fakeRequest(initialRequest, request => {
-        if (request.header === 'sent_id'){
-            clientId = request.id;
-            gameClient = new parent.GameClient(clientId);
+    gameClient = new parent.GameClient(parseInt(process.argv[2]));
 
-            let interval = setInterval(()=>{
-                requestUpdate();
-            }, 1000);
-        }
-    });
+    let interval = setInterval(()=>{
+        requestUpdate();
+    }, 1000);
 }
 
 function fakeRequest(data, callback) {
