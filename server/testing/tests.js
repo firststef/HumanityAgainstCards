@@ -36,6 +36,106 @@ async function testAIGetCard(unitTester, test){
     });
 }
 
+   async function testAIGetCard1(unitTester, test){ 
+    http.get('http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={'+
+'"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain\'t one.", "pick": "1" }],'+
+'"white_cards": [[{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text": "Autocannibalism."}],'+
+' [{ "_id": "3", "text": "Autocannibalism."}, { "_id": "4", "text":  "Man meat."}]] }', (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            try{
+                 assert.deepEqual(JSON.parse(data).answer,'Success');
+            }
+            catch (e) {
+                unitTester.notify(test, {status: 'failed', message: e.message});
+                return;
+            }
+            unitTester.notify(test, {status: 'success'});
+        });
+    }).on("error", (err) => {
+        unitTester.notify(test, {status: 'fatal', message: err});
+    });
+    
+   }
+   
+   
+async function testAITrain(unitTester, test){   
+        http.get('http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "30"}', (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            try{
+                 assert.deepEqual(JSON.parse(data).answer,'Success');
+            }
+            catch (e) {
+                unitTester.notify(test, {status: 'failed', message: e.message});
+                return;
+            }
+            unitTester.notify(test, {status: 'success'});
+        });
+    }).on("error", (err) => {
+        unitTester.notify(test, {status: 'fatal', message: err});
+    });
+    
+}
+
+async function testAIGetProbability(unitTester, test){  
+    http.get('http://localhost:8000/ai?room_id=1&request=getProbability&param={}', (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            try{
+                     assert.deepEqual(JSON.parse(data).answer,'Success');
+                     assert.deepEqual(JSON.parse(data).result,30);
+            }
+            catch (e) {
+                unitTester.notify(test, {status: 'failed', message: e.message});
+                return;
+            }
+            unitTester.notify(test, {status: 'success'});
+        });
+    }).on("error", (err) => {
+        unitTester.notify(test, {status: 'fatal', message: err});
+    });
+    
+}
+
+async function testAISetProbability(unitTester, test){   
+    http.get('http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "-1"}', (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            try{
+                      assert.deepEqual(JSON.parse(data).answer,'Error');
+            }
+            catch (e) {
+                unitTester.notify(test, {status: 'failed', message: e.message});
+                return;
+            }
+            unitTester.notify(test, {status: 'success'});
+        });
+    }).on("error", (err) => {
+        unitTester.notify(test, {status: 'fatal', message: err});
+    });
+}
+
 async function testGameStarted(unitTester, test){
 
     call(unitTester, test,"/game_started/"+roomId_for_testing);
@@ -257,3 +357,7 @@ module.exports.GetWhiteCards=GetWhiteCards;
 module.exports.GameHandler=GameHandler;
 module.exports.testGetHostedRooms = testGetHostedRooms;
 module.exports.testCreateRoom = testCreateRoom;
+module.exports.testAIGetCard1 = testAIGetCard1;
+module.exports.testAITrain = testAITrain;
+module.exports.testAIGetProbability = testAIGetProbability;
+module.exports.testAISetProbability = testAISetProbability;

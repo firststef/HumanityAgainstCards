@@ -10,13 +10,12 @@
 </head>
 
 <body>
-<section>
-    <div id="body_div" class="mb-0 jumbotron-fluid d-flex align-items-center min-vh-100 border-radius-0 background black main">
-        <div class="container text-center">
-            <h1 id="h1-second">Humanity Against Cards</h1>
-            <br>
+
+<div id="body_div" class="min-vh-100 d-flex">
+    <div class="container text-center">
+        <h1 id="h1-second">Humanity Against Cards</h1>
+        <div>
             <p class="lead">Are you funnier than a computer?</p>
-            <br>
             <p class="p1-my"> If you have not played before, when you enter this game you are given some cards and
                 there are more people, each with their own cards.</p>
             <p class="p1-my">The server chooses a random sentence and players must choose one of their cards to
@@ -25,33 +24,31 @@
                 the most amusing answer. </p>
             <p class="p1-my">The chosen card earns points. The game continues with another Judge, another sentence,
                 etc. for a certain number of rounds. </p>
-            </p>
             <p class="p1-my">The winner is of course the one with the most points. </p>
-            <br>
+        </div>
 
-            <hr class="my-2">
-            <div id="join-container">
-                <div id="join-guest">
-                    <p>Join as guest</p>
-                    <form action="" method="" onsubmit="return submitName(this)">
-                        <div id="guest-form">
-                            <input id="player-name-input" type="text" name="player-name" placeholder="Your name" required>
-                            <input type="submit" class="button-start" value="START">
-                        </div>
-                    </form>
-                </div>
-                <div id="separator">
-                    <p>OR</p>
-                </div>
-                <div id="join-login">
-                    <p>Login to your account</p>
-                    <button id="join-button" class="button-start"
-                            onclick="window.location = 'login-register'">LOGIN</button>
-                </div>
+        <hr class="my-2">
+        <div id="join-container">
+            <div id="join-guest">
+                <p>Join as guest</p>
+                <form action="" method="" onsubmit="return submitName()">
+                    <div id="guest-form">
+                        <input id="player-name-input" type="text" name="player-name" placeholder="Your name" required>
+                        <input type="submit" class="button-start" value="START">
+                    </div>
+                </form>
+            </div>
+            <div id="separator">
+                <p>OR</p>
+            </div>
+            <div id="join-login">
+                <p>Login to your account</p>
+                <button id="join-button" class="button-start"
+                        onclick="window.location = 'login-register'">LOGIN</button>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <script src="assets/js/purecookie.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -80,7 +77,9 @@
         })
             .then(res => res.json())
             .then(res => {
-                document.cookie = "HAC_SID=" + res.session;
+                if (res.success === true)
+                    document.cookie = "HAC_SID=" + res.session;
+                else throw "There is another user with this name.";
             })
             .then(wait => window.location.href = "/lobbies.html")
             .catch(err => console.log("Could not get cookie: " + err));
