@@ -3,7 +3,6 @@ const gm=require('./gameclient.js');
 var roomID;
 var sid;
 var gameClient;
-var updateInterval;
 var playerHandElement;
 var blackCardElement;
 var scoreBoardElement;
@@ -12,6 +11,9 @@ var otherPlayedCardsElement;
 var temporarySelectedCards = [null, null, null];
 var selectedCards = [];
 var gameId;
+var otherPlayedStr;
+var updateEnabled = true;
+var closeInterval;
 
 window.onload = () => load();
 
@@ -40,9 +42,6 @@ function load() {
     gameClient = new gm.GameClient(sid);
 
     checkForUpdate();
-    updateInterval = setInterval(()=>{
-        checkForUpdate();
-    }, 1000);
 }
 
 function request(data, callback) {
@@ -67,12 +66,23 @@ function request(data, callback) {
                     console.log(response.data.error);
                 callback(response.data);
             }
+            if (updateEnabled){
+                setTimeout(checkForUpdate, 1000);
+            }
         }
         else {
             console.log("[ERROR] Server error - undefined header!");
-            //handle exit gracefully
+
+            if (updateEnabled){
+                setTimeout(checkForUpdate, 1000);
+            }
         }
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        console.log(err);
+        if (updateEnabled){
+            setTimeout(checkForUpdate, 1000);
+        }
+    });
 }
 
 function checkForUpdate() {
@@ -140,7 +150,17 @@ function applyChanges(changes) {
         }
     }
     if (changes.header === 'player_round_end'){
-        document.getElementById(`card${changes.winning_cards[0].id}`).parentNode.style.border = 'green solid 2px';
+        if (changes.winner_player_n !== undefined && !changes.absolute_winner_n){
+            //document.getElementById(`card${changes.winning_cards[0].id}`).parentNode.style.border = 'green solid 2px';
+            updateEnabled = false;
+            showModal("during", changes);
+            replaceSelectedCards([]);
+            updateEnabled = true;
+            setTimeout(checkForUpdate, 3000);
+            closeInterval = setTimeout(() => {
+                document.getElementById("winnerOverlay").style.display = 'none';
+            }, 5000);
+        }
     }
     if (changes.header === 'new_round_for_normal_player'){
         replaceHandCards(changes.player_cards);
@@ -213,8 +233,9 @@ function applyChanges(changes) {
         else {
             scoreBoardTabElement.innerHTML = getPlayerTableHtml(changes.player_list);
         }
-        clearInterval(updateInterval);
-        alert("Game has ended");
+        updateEnabled = false;
+        clearInterval(closeInterval);
+        showModal("end", changes);
     }
 }
 
@@ -227,37 +248,38 @@ function replaceHandCards(cards){
 }
 
 function replaceSelectedCards(cards){
-    let otherPlayedStr = '';
+    let previousOtherPlayedStr = otherPlayedStr;
+    otherPlayedStr = '';
     cards.forEach(set => {
             if (!set.every(e => e === null)) {
                 otherPlayedStr += '<div class="card-set">';
                 set.forEach((card) => {
                     if (card !== null) {
-                        otherPlayedStr += getCardHtml(card, "white");
+                        otherPlayedStr += getCardHtml(card, "white", true);
                     }
                 });
                 otherPlayedStr += '</div>';
             }
         }
     );
-    if (otherPlayedCardsElement.innerHTML !== otherPlayedStr)
+    if (previousOtherPlayedStr !== otherPlayedStr)
         otherPlayedCardsElement.innerHTML = otherPlayedStr;
 }
 
-function getCardHtml(card, type){
+function getCardHtml(card, type, raw){
     if (type === 'white'){
         return `
-        <div class="card bg-light mb-3" id="card${card.id}" onclick="selectCardWithId(event, ${card.id})">
+        <div class="card bg-light mb-3" ${raw ? '' : `id="card${card.id}"`} onclick="selectCardWithId(event, ${card.id})"}>
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
-                <button id="submitButton${card.id}" class="btn btn-success submit-button" onclick="submitCards(event)">Submit</button>
-                <h1 class="card-index" id="cardIndex${card.id}"></h1>
+                <button ${raw ? '' : `id="submitButton${card.id}"`} onclick="submitCards(event)" class="btn btn-success submit-button">Submit</button>
+                <h1 class="card-index" ${raw ? '' :`id="cardIndex${card.id}"`}></h1>
             </div>
         </div>`;
     }
     else if (type === 'black'){
         return `
-        <div class="card bg-dark mb-3">
+        <div class="card black-card bg-dark mb-3">
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
                 <p class="card-type">${card.type}</p>
@@ -350,7 +372,7 @@ function selectCardWithId(event, id) {
         }
 
         selectedCards[0] = id;
-        document.getElementById(`card${id}`).parentNode.style.border = 'green solid 2px';
+        //document.getElementById(`card${id}`).parentNode.style.border = 'green solid 2px';
     }
 }
 
@@ -409,5 +431,25 @@ function submitCards(event) {
             selectedCards = temporarySelectedCards.filter(el => el !== null);
             temporarySelectedCards = [null, null, null];
         }
+    }
+}
+
+function showModal(when, changes) {
+    document.getElementById('winnerOverlay').style.display = 'block';
+    if (when === "during"){
+        document.getElementById("winnerCards").innerHTML = getCardHtml({text: gameClient.getBlackCard().text,
+                type: gameClient.getBlackCardPick()}, "black")
+            + changes.winning_cards.map(card => !card ? '' : getCardHtml(card, "white"), true).join('');
+        document.getElementById("winnerText").innerHTML = 'Round winner: ' + changes.winner_player_n;
+        document.getElementById("winnerFaction").innerHTML = changes.is_winner_ai ? 'AI was funnier!' : 'Humanity was funnier';
+    }
+    else {
+        document.getElementById("winnerCards").innerHTML = getCardHtml({text: gameClient.getBlackCard().text,
+                type: gameClient.getBlackCardPick()}, "black")
+            + changes.winning_cards.map(card => !card ? '' : getCardHtml(card, "white"), true).join('');
+        document.getElementById("winnerText").innerHTML = 'Winner player: ' + changes.winner_player_n;
+        document.getElementById("winnerFaction").innerHTML = changes.is_winner_ai ? 'AI was funnier!' : 'Human was funnier';
+        document.getElementById("finalWin").innerHTML = 'Absolute winner: ' + changes.absolute_winner_n;
+        document.getElementById("finalText").innerHTML = changes.is_absolute_winner_ai ? 'AI has defeated humanity!' : 'Humanity has won';
     }
 }

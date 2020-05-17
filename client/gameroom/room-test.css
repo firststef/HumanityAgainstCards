@@ -1,5 +1,5 @@
 body {
-    -ms-overflow-style: none;
+    background-color: #232323;
 }
 
 body::-webkit-scrollbar {
@@ -16,7 +16,8 @@ body::-webkit-scrollbar {
 }
 
 #upper_row {
-    min-width: 100%;
+    margin-left: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -30,15 +31,24 @@ body::-webkit-scrollbar {
 
 .other-played-cards {
     display: flex;
+    margin-top: 10px;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .current-black-card {
-    color: white;
     position: sticky;
     top: 60px;
     z-index: 1;
+}
+
+.black-card {
+    color: white;
+}
+
+#separator {
+    color: white;
 }
 
 .player-hand {
@@ -84,6 +94,7 @@ body::-webkit-scrollbar {
 }
 
 #bottom_row {
+    margin-left: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -96,12 +107,14 @@ body::-webkit-scrollbar {
 }
 
 .card-set {
-    border: blue solid 2px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background: rgba(200, 200, 200, 0.2);
 }
 
 .card-set .card {
-    height: 150px;
-    width: 100px;
+    height: 220px;
+    width: 150px;
 }
 
 .submit-button {
@@ -132,6 +145,44 @@ body::-webkit-scrollbar {
 .wait-text {
     text-align: center;
     font-size: 27px;
+}
+
+.winner-overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000054;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+}
+
+.winner-modal {
+    width: 75%;
+    height: 600px;
+    background-color: white;
+    top: calc(50vh - 300px);
+    position: relative;
+    left: 12.5%;
+    padding: 20px;
+    padding-top: 60px;
+}
+
+.winner-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.winner-text{
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 16px;
+    right: 30px;
 }
 
 @media only screen and (max-width: 767px) {
