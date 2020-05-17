@@ -76,7 +76,9 @@
         })
             .then(res => res.json())
             .then(res => {
-                document.cookie = "HAC_SID=" + res.session;
+                if (res.success === true)
+                    document.cookie = "HAC_SID=" + res.session;
+                else throw "There is another user with this name.";
             })
             .then(wait => window.location.href = "/lobbies.html")
             .catch(err => console.log("Could not get cookie: " + err));
