@@ -1,5 +1,5 @@
 body {
-    -ms-overflow-style: none;
+    background-color: #232323;
 }
 
 body::-webkit-scrollbar {
@@ -16,7 +16,8 @@ body::-webkit-scrollbar {
 }
 
 #upper_row {
-    min-width: 100%;
+    margin-left: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -30,8 +31,10 @@ body::-webkit-scrollbar {
 
 .other-played-cards {
     display: flex;
+    margin-top: 10px;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-content: flex-start;
 }
 
 .current-black-card {
@@ -39,6 +42,10 @@ body::-webkit-scrollbar {
     position: sticky;
     top: 60px;
     z-index: 1;
+}
+
+#separator {
+    color: white;
 }
 
 .player-hand {
@@ -84,6 +91,7 @@ body::-webkit-scrollbar {
 }
 
 #bottom_row {
+    margin-left: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -96,12 +104,14 @@ body::-webkit-scrollbar {
 }
 
 .card-set {
-    border: blue solid 2px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background: rgba(200, 200, 200, 0.2);
 }
 
 .card-set .card {
-    height: 150px;
-    width: 100px;
+    height: 220px;
+    width: 150px;
 }
 
 .submit-button {
