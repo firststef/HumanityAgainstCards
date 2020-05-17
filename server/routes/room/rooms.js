@@ -21,7 +21,7 @@ module.exports = function (app, secured) {
                          if ( !req.body.room_name ) throw "No room_name provided!";
                          if ( !req.body.score_limit ) throw "No score limit provided!";
                          if ( !req.body.max_players ) throw "No max_players provided!";
-                         if ( req.body.password === undefined ) throw "No max_players provided!";
+                         if ( req.body.password === undefined ) throw "No password provided!";
 
 
                          var v_id = await room.room_max_id().catch((e) => {
@@ -37,6 +37,7 @@ module.exports = function (app, secured) {
                              room_name: req.body.room_name,
                              score_limit: req.body.score_limit,
                              max_players: req.body.max_players,
+                             ai_players: req.body.ai_players,
                              players_in_game: 1,
                              password: req.body.password,
                              game_started: 0
@@ -58,7 +59,7 @@ module.exports = function (app, secured) {
                          if ( !(
                              await room.room_exist(req.body.roomID)
                          ) )
-                             throw " Room with this id dose not exist.";
+                             throw " Room with this id does not exist.";
 
                          else if ( !(
                              await room.delete_room(req.body.roomID)
