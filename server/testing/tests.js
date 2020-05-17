@@ -165,14 +165,10 @@ async function call(unitTester, test, path){
 
 }
 
-module.exports.EndGame=EndGame;
-module.exports.GetPlayersFromRoom=GetPlayersFromRoom;
-module.exports.GetRooms=GetRooms;
-module.exports.testGameStarted=testGameStarted;
 async function testGetHostedRooms(unitTester, test){
     const options = {
         hostname: 'localhost',
-        port: '8081',
+        port: 8081,
         path: '/get_hosted_rooms',
         headers: {
             session: 'dnk2dm5rOGMxNTg5NTQ5ODQzNDIwZmdlNG56ZWs='
@@ -209,13 +205,13 @@ async function testCreateRoom(unitTester, test){
                                     password: "" });
     const options = {
         hostname: 'localhost',
-        port: '8081',
+        port: 8081,
         path: '/rooms',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': data.length,
-            'session': 'bHAweTdsaTlkcmFnb3MxNTg5NTQyODk0NTI5ejlrM20='
+            'session': 'Mm40Y2V3ZXRlc3QwMTU4OTIzNDM5NDk1NmRobWF1Mms='
         },
         body: {
             type: "create_room",
@@ -251,6 +247,10 @@ async function testCreateRoom(unitTester, test){
     req.end();
 }
 
+module.exports.EndGame=EndGame;
+module.exports.GetPlayersFromRoom=GetPlayersFromRoom;
+module.exports.GetRooms=GetRooms;
+module.exports.testGameStarted=testGameStarted;
 module.exports.testAIGetCard = testAIGetCard;
 module.exports.GetBlackCard=GetBlackCard;
 module.exports.GetWhiteCards=GetWhiteCards;

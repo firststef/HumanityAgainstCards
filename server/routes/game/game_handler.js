@@ -6,6 +6,11 @@ const config = require("../../config"),
     map = require("./../../map").RoomMap,
     f_header = "[routes/game/game_handler.js]";
 
+let game_manager;
+if (config.game_debug){
+    setTimeout(() => game_manager = new (engine.GameManager)([{sid: 0}], 1),
+    3000);
+}
 module.exports = function (app, secured) {
     app.post("/game_manager/:roomID",
         secured,
@@ -14,7 +19,9 @@ module.exports = function (app, secured) {
                 if (!req.body) throw "No provided header data !";
                 if (!req.params.roomID) throw "No roomID present";
 
-                let game_manager = map.get(parseInt(req.params.roomID));
+                if (!config.game_debug){
+                    game_manager = map.get(parseInt(req.params.roomID));
+                }
 
                 if (game_manager === undefined)
                     throw "Room not found";

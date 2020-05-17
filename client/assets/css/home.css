@@ -1,11 +1,48 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-shadow: 2px 2px 4px #000000;
+
     color: white;
 }
 
-.main {
-    background-color: black;
+#body_div::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background:url("./../img/mainbg.png");
+    background-size: cover;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+#join-container{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#separator{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#guest-form{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#player-name-input{
+    width: 200px;
 }
 
 .text--my-center{
@@ -58,7 +95,7 @@ p.p1-my{
     text-shadow: none;
 }
 
-h1-second {
+#h1-second {
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:transparent;
@@ -73,7 +110,8 @@ h1-second {
     margin-top: 10px;
 }
 
-.button-Start {
+.button-start {
+    /*
     background-color: #f4511e;
     border: none;
     color: white;
@@ -85,12 +123,104 @@ h1-second {
     transition: 0.3s;
     display: inline-block;
     text-decoration: none;
-    cursor: pointer;
+    cursor: pointer;*/
+
+
+    width: 200px;
+
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    color: #232323;
+    outline: none;
+    border: 2px solid #232323;
+    background-color: white;
+    white-space: nowrap;
+    appearance: none;
+    box-shadow: inset 0 -4px 0 0 #232323;
+    border-radius: 7px;
+    font-size: 18px;
+    line-height: 18px;
+    padding: 0.875rem 1.25rem 1.125rem;
+    min-width: 225px;
+    transition: width 0.2s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-.button-Start:hover {opacity: 1;}
+#join-button{
+    margin-top:30px;
+}
+
+.button-start:hover {opacity: 1;}
 
 .grid-container{
     display: grid;
     grid-gap: 5px 0px;
+}
+
+.cookieConsentContainer {
+    z-index: 999;
+    width:100%;
+    border-radius:18px;
+    box-sizing: border-box;
+    padding: 3px 20px 3px 20px;
+    background: #232323;
+    overflow: hidden;
+    position: fixed;
+    bottom: 1px;
+    right: 0px;
+    display: none;
+
+}
+.cookieConsentContainer .cookieTitle a {
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 22px;
+
+
+}
+.cookieConsentContainer .cookieDesc p {
+    padding: 0;
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 13px;
+    line-height: 20px;
+    margin-bottom: 2px;
+    margin-top: 2px ;
+}
+.cookieConsentContainer .cookieDesc a {
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+.cookieConsentContainer .cookieButton a {
+    float: right;
+    font-family: OpenSans, arial, "sans-serif";
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom:5px;
+    background: #000000;
+    box-sizing: border-box;
+    padding: 15px 24px;
+    text-align: center;
+    transition: background 0.3s;
+    border-radius:25px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+.cookieConsentContainer .cookieButton a:hover {
+    cursor: pointer;
+    background: #3E9B67;
+}
+
+@media (max-width: 980px) {
+    .cookieConsentContainer {
+        bottom: 0px !important;
+        left: 0px !important;
+        width: 100%  !important;
+    }
 }
