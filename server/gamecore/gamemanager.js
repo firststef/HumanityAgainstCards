@@ -34,7 +34,7 @@ async function fetchAIAnswer(blackCard, blackCardType, listOfCards){
             //console.log("ddata", data.response);
             return data.response.map(card => {return {'id': card._id, 'text': card.text}});
         } else {
-            console.log('Error: fetch /ai/sendCards failed -- ', data.response);
+            console.log('Error: fetch /ai/sendCards failed -- ', data);
             return null;
         }
     }
@@ -251,6 +251,7 @@ class GameManager {
         //if all cards from the winning set are in the players' hand then give him points
         if (this.winningCardSet.every(card => player.cards.some(c => JSON.stringify(c) === JSON.stringify(card)))) {
             player.points++;
+            this.round_winner_player = player;
             if (player.points >= this.maxPoints) {
                 this.winnerPlayer = player;
                 //('[SERVER] Winner set(id): ' + +player.id + '; points= ' + player.points);
@@ -503,7 +504,9 @@ class GameManager {
                 header: basedata.RequestHeaders.RESPONSE_WAIT_ENDED_CZAR,
                 wait_end: this.waitEnded_Czar,
                 selected_cards: this.selectedWhiteCards,
-                winning_cards: this.winningCardSet
+                winning_cards: this.winningCardSet,
+                winner_player_n:  this.round_winner_player.name,
+                is_winner_ai: this.round_winner_player ? this.round_winner_player.ai : undefined
             }
         }
 
@@ -537,7 +540,12 @@ class GameManager {
                 black_card: this.commonBlackCard,
                 black_card_type: this.blackCardType,
                 current_czar: this.currentCzarIndex,
-                player_list: this.getCleanPlayerList(data.player_id, playerIndex)
+                player_list: this.getCleanPlayerList(data.player_id, playerIndex),
+                winning_cards: this.winningCardSet,
+                winner_player_n:  this.round_winner_player ? this.round_winner_player.name : undefined,
+                absolute_winner_n: this.winnerPlayer ? this.winnerPlayer.name : undefined,
+                is_winner_ai: this.round_winner_player ? this.round_winner_player.ai : undefined,
+                is_absolute_winner_ai: this.winnerPlayer ? this.winnerPlayer.ai : undefined,
             }
         }
 

@@ -32,13 +32,17 @@ body::-webkit-scrollbar {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .current-black-card {
-    color: white;
     position: sticky;
     top: 60px;
     z-index: 1;
+}
+
+.black-card {
+    color: white;
 }
 
 .player-hand {
@@ -132,6 +136,44 @@ body::-webkit-scrollbar {
 .wait-text {
     text-align: center;
     font-size: 27px;
+}
+
+.winner-overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000054;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+}
+
+.winner-modal {
+    width: 75%;
+    height: 600px;
+    background-color: white;
+    top: calc(50vh - 300px);
+    position: relative;
+    left: 12.5%;
+    padding: 20px;
+    padding-top: 60px;
+}
+
+.winner-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.winner-text{
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 16px;
+    right: 30px;
 }
 
 @media only screen and (max-width: 767px) {

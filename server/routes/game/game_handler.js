@@ -34,6 +34,7 @@ module.exports = function (app, secured) {
                 res.status(200).send(JSON.stringify({success: true, data: response}));
             } catch (e) {
                 res.status(417).send(JSON.stringify({success: false, err: e}));
+                console.log(e);
             }
         });
 };

@@ -52,6 +52,10 @@ class GameClient {
         return false;
     }
 
+    getBlackCard(){
+        return this.commonBlackCard;
+    }
+
     getBlackCardPick(){
         return this.blackCardType;
     }
@@ -241,7 +245,9 @@ class GameClient {
 
                 return {
                     header: 'player_round_end',
-                    winning_cards: this.winningCardSet
+                    winning_cards: this.winningCardSet,
+                    winner_player_n: data.winner_player_n,
+                    is_winner_ai: data.is_winner_ai
                 }
             }
 
@@ -257,12 +263,24 @@ class GameClient {
          */
         if(this.state === basedata.GameStates.END_ROUND && data.header === basedata.RequestHeaders.RESPONSE_END_ROUND) {
             this.playerList = data.player_list;
+            console.log({
+                header: 'game_has_ended',
+                player_list: this.playerList,
+                winning_cards: data.winning_cards,
+                winner_player_n: data.winner_player_n,
+                is_winner_ai: data.is_winner_ai
+            });
             if (data.winner_player !== null) {
                 this.winnerPlayer = data.winner_player;
                 this.state = basedata.GameStates.GAME_END;
                 return {
                     header: 'game_has_ended',
-                    player_list: this.playerList
+                    player_list: this.playerList,
+                    winning_cards: data.winning_cards,
+                    winner_player_n: data.winner_player_n,
+                    absolute_winner_n: data.absolute_winner_n,
+                    is_absolute_winner_ai: data.is_absolute_winner_ai,
+                    is_winner_ai: data.is_winner_ai
                 }
             }
 

@@ -99,6 +99,26 @@
         </div>
     </div>
 
+    <div class="winner-overlay" id="winnerOverlay">
+        <div class="winner-modal">
+            <button class="close-button" type="button" onclick="document.getElementById('winnerOverlay').style.display = 'none';">
+                &times;
+            </button>
+            <div class="winner-cards" id="winnerCards">
+            </div>
+            <h3 class="winner-text" id="winnerFaction">
+                Humanity has won!
+            </h3>
+            <h3 class="winner-text" id="winnerText">
+                Winner player: first
+            </h3>
+            <h1 class="winner-text" id="finalWin">
+            </h1>
+            <h1 class="winner-text" id="finalText">
+            </h1>
+        </div>
+    </div>
+
     <script>
         //Workaround for require on client, plz dont kill
         let module = {exports: {}};

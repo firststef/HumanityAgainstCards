@@ -33,7 +33,7 @@
             <div id="join-container">
                 <div id="join-guest">
                     <p>Join as guest</p>
-                    <form action="" method="" onsubmit="return submitName()">
+                    <form action="" method="" onsubmit="return submitName(this)">
                         <div id="guest-form">
                             <input id="player-name-input" type="text" name="player-name" placeholder="Your name" required>
                             <input type="submit" class="button-start" value="START">
@@ -64,6 +64,10 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script>
+    let sid = getCookie("HAC_SID");
+    if (sid !== null){
+        window.location = "/lobbies.html";
+    }
     function submitName() {
         fetch('/auth/with_name', {
             method: 'post',
