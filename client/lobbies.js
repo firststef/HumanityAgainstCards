@@ -9,6 +9,9 @@ if (document.cookie.split(';').some((item) => item.trim().startsWith('HAC_SID=')
 }
 
 function getRoomHtml(room) {
+    if (room.players === undefined){
+        room.players = [];
+    }
     return `
             <div class="card" id="${room.id}">
                 <h5 class="card-header" >Room name: ${room.room_name} (${room.players_in_game}/${room.max_players})</h5>
@@ -17,6 +20,7 @@ function getRoomHtml(room) {
                     <h5 class="card-title">Goal: ${room.score_limit} </h5>
                     <p class="card-text">Id: ${room.id}</p>
                     <a class="btn btn-primary" onclick="attemptJoinRoom(${room.id})">Join as Player</a>
+                    <a class="btn btn-danger" onclick="">Delete room</a>
                 </div>
             </div>`;
 }

@@ -72,20 +72,20 @@
                             <input id="playerLimit" name="max_players" max="20" min="3" required="required" type="number" value="3">
                         </p>
                         <p>
-                            <label for="spec">Spectator limit</label>
-                            <input id="spec" max="20" min="0" required="required" type="number" value="0">
+                            <label for="aip">Number of AI players</label>
+                            <input id="aip" max="20" min="0" required="required" type="number" value="0">
                         </p>
                         <p>
-                            <label for="idle">Idle time</label>
+                            <label for="idle">Idle time (s)</label>
                             <input id="idle" max="999" min="1" required="required" type="number" value="10">
                         </p>
                         <p>
                             <label for="lobbyname">Lobby name</label>
-                            <input id="lobbyname" name="room_name" required="required" type="text" value="User name's room">
+                            <input id="lobbyname" name="room_name" required="required" type="text" value="Game room">
                         </p>
                         <p>
                             <label for="lobbyPassword">Password</label>
-                            <input id="lobbyPassword" name="password" placeholder="Enter Password" type="password">
+                            <input id="lobbyPassword" name="password" type="password" placeholder="Enter Password">
                         </p>
                         <button class="btn btn-success" type="submit">Submit settings</button>
                     </fieldset>
