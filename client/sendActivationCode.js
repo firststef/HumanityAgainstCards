@@ -1,3 +1,6 @@
+/**
+ * Function used to make a HTTP request to a given URL and method using fetch
+ */
 const sendHttpRequest = (method, url, data) => {
     return fetch(url, {
         method: method,
@@ -16,6 +19,10 @@ const sendHttpRequest = (method, url, data) => {
     });
 };
 
+/**
+ * Function that makes a POST request to the server
+ * transmitting the code necessary for the activation of an account
+ */
 
 function sendActivationCode(){
     let server_message = document.getElementById('activation_message');
