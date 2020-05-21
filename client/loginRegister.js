@@ -1,3 +1,6 @@
+/**
+ * Function used to make a HTTP request to a given URL and method using fetch
+ */
 const sendHttpRequest = (method, url, data) => {
     return fetch(url, {
         method: method,
@@ -17,6 +20,11 @@ const sendHttpRequest = (method, url, data) => {
     });
 };
 
+
+/**
+ * Function that makes a POST request to the server
+ * transmitting the user input for creating a new account
+ */
 function sendRegisterJSON() {
     let server_message = document.getElementById('register_message');
     let username = document.getElementById('register_username');
@@ -48,6 +56,10 @@ function sendRegisterJSON() {
             });
 }
 
+/**
+ * Function that makes a POST request to the server
+ * transmitting the user input for login process
+ */
 function sendLoginJSON() {
     let server_message = document.getElementById('login_message');
     let username = document.getElementById('login_username');
@@ -73,6 +85,12 @@ function sendLoginJSON() {
         });
 }
 
+
+
+/**
+ * Function that makes a POST request to the server
+ * transmitting a reset password request
+ */
 function sendResetRequest() {
     let email = document.getElementById('fp_email');
 
@@ -97,6 +115,11 @@ var lowLetter = /[a-z]/
 var upperLetter=/[A-Z]/;
 var number = /[0-9]/;
 
+/**
+ * Function that verifies if the user password input
+ * is valid(has at least 6 characters, contains a number,an uppercase letter and a lowercase letter)
+ * and if the password and password confirmation input match
+ */
 function check() {
     if (document.getElementById('register_password').value.length < 6) {
         document.getElementById('register_message').style.color = 'red';
