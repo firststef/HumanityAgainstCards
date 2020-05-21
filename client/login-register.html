@@ -8,29 +8,12 @@
           type="text/css">
     <link href="assets/css/login-register.css" rel="stylesheet" type="text/css">
 
-    <style>
-        body{
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh !important;
-        }
-        .form-horizontal{
-            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063 !important;
-            border-radius: 20px;
-        }
-        #f_pass {
-            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063 !important;
-        }
-        
-    </style>
-
 </head>
 <body>
-<h1 class="message">Welcome back to<br/><strong>Humanity Against Cards</strong>!</h1>
+<div class="text">
+    <h1 id="h1-second" class="logo">Welcome back to <br>Humanity Against Cards</h1>
+</div>
 
-<br>
 <div class="row">
     <div class="container">
         <div class="login-register-form-section">
@@ -43,6 +26,8 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="login" onsubmit="return false;">
                     <form class="form-horizontal" method="post" action="">
+                        <br>
+                        <br>
                         <div class="form-group ">
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user"></i></div>
@@ -61,6 +46,7 @@
                         <input type="submit"  value="Login" class="btn btn-success btn-custom" onclick='sendLoginJSON();'>
                     </form>
 
+                    <!--RESET PASSWORD-->
                     <div class="form-group" id="reset_form">
                         <button type="button" class="btn btn-primary" id="f_pass" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Forgot password?</button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,8 +56,8 @@
                                         <form style="text-align: center" onsubmit="return false;">
                                             <label for="fp_email" class="col-form-label" style="align-self:start;">Enter your email address bellow</label>
                                             <div class="form-group">
-                                                <input type="email" id="fp_email" name="fp_email"  style="color: #121212" placeholder="email" required>
-                                                <input type="submit" class="button-Start" value="SEND" id="fp" onclick="sendResetRequest();" style="color: #121212">
+                                                <input type="email" id="fp_email" name="fp_email" placeholder="email" required>
+                                                <input type="submit" class="button-Start" value="Send" id="fp" onclick="sendResetRequest();" style="color: #121212">
                                             </div>
                                         </form>
                                     </div>
