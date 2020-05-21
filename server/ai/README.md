@@ -49,25 +49,55 @@
 ```javascript
 http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }],  "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text": "Autocannibalism."}], [{ "_id": "4", "text":  "Man meat."}], [{ "_id": "3", "text": "Autocannibalism."}]] }
 ```
+Un raspuns posibil:
+```javascript
+{"answer":"Success","result":[{"_id":"3","text":"Autocannibalism."}]}
+```
+
 
 ```javascript
 http://localhost:8000/ai?room_id=1&request=getAiAnswer&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }],  "white_cards": [[{ "_id": "1", "text":  "Man meat."}, { "_id": "2", "text": "Autocannibalism."}], [{ "_id": "3", "text": "Autocannibalism."}, { "_id": "4", "text":  "Man meat."}]] }
 ```
+Un raspuns posibil:
+```javascript
+{"answer":"Success","result":[{"_id":"1","text":"Man meat."},{"_id":"2","text":"Autocannibalism."}]}
+```
+
 
 ```javascript
 http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "1", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}]]}
 ```
+Raspunsul primit:
+```javascript
+{"answer":"Success","result":"Updated the db successfully."}
+```
+
 
 ```javascript
 http://localhost:8000/ai?room_id=1&request=trainAi&param={"black_card": [{ "_id": "2", "text": "I got 99 problems but  ain't one.", "pick": "1" }], "white_cards": [[{ "_id": "1", "text":  "Man meat."}], [{ "_id": "2", "text":  "Man meat."}]]}
+```
+
+Raspunsul primit:
+```javascript
+{"answer":"Success","result":"Updated the db successfully."}
 ```
 
 ```javascript
 http://localhost:8000/ai?room_id=1&request=getProbability&param={}
 ```
 
+Raspunsul primit:
+```javascript
+{"answer":"Success","result":50}
+```
+
 ```javascript
 http://localhost:8000/ai?room_id=1&request=setProbability&param={"p": "30"}
+```
+
+Raspunsul primit:
+```javascript
+{"answer":"Success","result":"Probability set to 30"}
 ```
     
 # Posibile erori
