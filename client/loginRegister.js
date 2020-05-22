@@ -103,11 +103,11 @@ function sendResetRequest() {
     })
         .then(responseData => {
             console.log(responseData);
-            alert("Reset email send! Check email!")
+            alert("HumanityAgainstCards : Reset email send! Check email!");
         })
         .catch(err => {
             console.log(err, err.data);
-            alert("Email not valid!");
+            alert("HumanityAgainstCards : Email not valid!");
         });
 }
 
@@ -129,8 +129,8 @@ function check() {
         document.getElementById('register_message').innerHTML = 'Password must contain an uppercase and a number!';
     } else {
         if (document.getElementById('register_password').value === document.getElementById('register_cpassword').value) {
-            document.getElementById('register_message').style.color = 'green';
-            document.getElementById('register_message').innerHTML = 'Good to go';
+            document.getElementById('register_message').style.color = '#7CFC00';
+            document.getElementById('register_message').innerHTML = 'GOOD TO GO!';
         } else {
             document.getElementById('register_message').style.color = 'red';
             document.getElementById('register_message').innerHTML = 'Passwords not matching!';

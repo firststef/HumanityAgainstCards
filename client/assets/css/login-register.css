@@ -74,7 +74,11 @@ body, html {
 }
 
 
-
+#register_message,#login_message{
+    display: table;
+    margin: auto;
+    font-size: larger;
+}
 .container form{
     width: 100%;
     margin-top:  0.5em;
@@ -84,7 +88,7 @@ body, html {
 .form-horizontal{
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063 !important;
     border-radius: 20px;
-    min-height: 430px;
+    min-height: 400px;
     align-items: center;
 }
 .login-register-form-section {

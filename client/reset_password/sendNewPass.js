@@ -22,7 +22,7 @@ var validatePass = function() {
         if (document.getElementById('new_pass').value === document.getElementById('c_new_pass').value)
         {
             document.getElementById('reset_message').style.color = 'green';
-            document.getElementById('reset_message').innerHTML = 'Good to go';
+            document.getElementById('reset_message').innerHTML = 'GOOD TO GO!';
         } else {
             document.getElementById('reset_message').style.color = 'red';
             document.getElementById('reset_message').innerHTML = 'Passwords not matching!';
