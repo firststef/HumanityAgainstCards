@@ -45,9 +45,8 @@ function sendRegisterJSON() {
     })
         .then(responseData => {
             console.log(responseData);
-            server_message.style.color = 'green';
-            //Display message
-            server_message.innerHTML = 'Success! Go activate your account!';
+            server_message.style.color = '#7CFC00';
+            server_message.innerHTML='SUCCESS!';
             //Show link to activation page
             document.getElementById('account_activation').style.display = 'block';
         }).catch(err => {
