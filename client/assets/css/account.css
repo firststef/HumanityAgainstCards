@@ -1,6 +1,8 @@
-
-
+#disconnect{
+    background: #3E9B67;
+}
 #account{
+    background: radial-gradient(ellipse at bottom, #ff851b 0%, #090a0f 100%);
     margin-left: 10%;
     margin-top: 10%;
     align-items: center;
@@ -11,10 +13,44 @@
     text-decoration: none;
     text-shadow: none;
     background-color: rgba(0, 0, 0, 0.2);
-    align-items: center;
+
+}
+.content {
+    animation: pulsate1 0.7s ease;
+    animation-iteration-count: infinite;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    text-align: center;
+    margin-left: 1%;
+    margin-right: 1%;
+    color: #ffaa60;
+    position: relative;
 }
 
 
+.card-body{
+    text-align: center;
+    color: #ffaa60;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-right: 1%;
+    position: relative;
+    border-radius: 20px;
+}
+@-webkit-keyframes pulsate1 {
+    0% {
+        opacity: 0.5;
+
+    }
+    50% {
+        opacity: 1.0;
+        color: #FFDF00;
+        -webkit-text-stroke: 1px white;
+
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
 
 
 

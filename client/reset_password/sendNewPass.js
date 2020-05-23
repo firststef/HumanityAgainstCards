@@ -1,7 +1,13 @@
+
 var lowLetter = /[a-z]/
 var upperLetter=/[A-Z]/;
 var number = /[0-9]/;
 
+/**
+ * Function that verifies if the user password input
+ * is valid(has at least 6 characters, contains a number,an uppercase letter and a lowercase letter)
+ * and if the password and password confirmation input match
+ */
 var validatePass = function() {
     if (document.getElementById('new_pass').value.length < 6 ){
         document.getElementById('reset_message').style.color = 'red';
@@ -16,7 +22,7 @@ var validatePass = function() {
         if (document.getElementById('new_pass').value === document.getElementById('c_new_pass').value)
         {
             document.getElementById('reset_message').style.color = 'green';
-            document.getElementById('reset_message').innerHTML = 'Good to go';
+            document.getElementById('reset_message').innerHTML = 'GOOD TO GO!';
         } else {
             document.getElementById('reset_message').style.color = 'red';
             document.getElementById('reset_message').innerHTML = 'Passwords not matching!';
@@ -25,6 +31,9 @@ var validatePass = function() {
 }
 
 
+/**
+ * Function used to make a HTTP request to a given URL and method using fetch
+ */
 const sendHttpRequest = (method, url, data) => {
     return fetch(url,{
         method: method,
@@ -48,7 +57,10 @@ const sendHttpRequest = (method, url, data) => {
     });
 };
 
-
+/**
+ * Function that makes a POST request to the server
+ * transmitting the new password
+ */
 function sendNewPassword(){
     let server_message = document.getElementById('reset_message');
     let username = document.getElementById('username').value;

@@ -32,7 +32,10 @@ async function fetchAIAnswer(blackCard, blackCardType, listOfCards){
 
         if (data.success === true) {
             //console.log("ddata", data.response);
-            return data.response.map(card => {return {'id': card._id, 'text': listOfCards.filter(c=> c.id === card._id)[0].text}});
+            return data.response.map(card => {return {
+                'id': card._id,
+                'text': listOfCards.filter(s=> s.filter(c => c.id === card._id).length === 1)[0].filter(c => c.id === card._id)[0].text
+            }});
         } else {
             console.log('Error: fetch /ai/sendCards failed -- ', data);
             return null;
