@@ -61,18 +61,20 @@ body {
 
 .start-button {
   background: black;
+  height: 50px;
   text-transform: uppercase;
   font-size: 1rem;
   text-align: center;
   color: white;
   text-shadow: 1px 1px black;
-  border: 1px solid white;
+  border: 1px solid #007bff;
   border-radius: 6px;
 }
 
 .start-button:hover {
   transition: 0.2s;
-  background: darkgreen;
+  background: #007bff;
+  border-color: #007bff;
   cursor: pointer;
 }
 
@@ -120,10 +122,6 @@ body {
 
 .player b {
   margin-left: 5%;
-}
-
-.start-button {
-  height: 50px;
 }
 
 @media (min-width: 769px) {
