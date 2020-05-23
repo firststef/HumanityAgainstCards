@@ -16,7 +16,7 @@ function profileFill() {
     nick.innerHTML= 'Nickname : ' + profile.nickname;
     email.innerHTML= 'Email : ' + profile.email;
     games_played.innerHTML= 'Games played : ' + profile.games_played;
-    games_won.innerHTML= 'Games played : ' + profile.games_won;
+    games_won.innerHTML= 'Games won : ' + profile.games_won;
 
 }
 
@@ -52,7 +52,6 @@ function disconnect() {
     sendHttpRequest('POST', url,{})
         .then(responseData => {
             console.log(responseData);
-            localStorage.removeItem("json");
             localStorage.removeItem("user_profile");
             eraseCookie("HAC_SID");
             window.location = "/";
