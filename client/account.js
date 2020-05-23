@@ -16,7 +16,7 @@ function profileFill() {
     nick.innerHTML= 'Nickname : ' + profile.nickname;
     email.innerHTML= 'Email : ' + profile.email;
     games_played.innerHTML= 'Games played : ' + profile.games_played;
-    games_won.innerHTML= 'Games played : ' + profile.games_won;
+    games_won.innerHTML= 'Games won : ' + profile.games_won;
 
 }
 
