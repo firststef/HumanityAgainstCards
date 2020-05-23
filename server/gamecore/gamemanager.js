@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 // returns a set from the cards, or null if error
 async function fetchAIAnswer(blackCard, blackCardType, listOfCards){
     let blackCardArray = [];
-    let whiteCards = listOfCards.map(arr => { return arr.map(card => {return {'_id': card.id, 'text': card.text}})});
+    let whiteCards = listOfCards.map(arr => { return arr.map(card => {return {'_id': card.id, 'text': ''}})});
     let black_card = {
         _id : blackCard.id,
         text: blackCard.text,
@@ -32,7 +32,7 @@ async function fetchAIAnswer(blackCard, blackCardType, listOfCards){
 
         if (data.success === true) {
             //console.log("ddata", data.response);
-            return data.response.map(card => {return {'id': card._id, 'text': card.text}});
+            return data.response.map(card => {return {'id': card._id, 'text': listOfCards.filter(c=> c.id === card._id)[0].text}});
         } else {
             console.log('Error: fetch /ai/sendCards failed -- ', data);
             return null;

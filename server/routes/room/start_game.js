@@ -36,7 +36,10 @@ module.exports = function (app, secured) {
                          else throw "Internl error";
                      }
 
-                     let game_manager = new engine.GameManager(req.body.roomID, players, 1, req.headers.session);
+                     if (isNaN(req.ai_players) || req.ai_players < 0)
+                        req.ai_players = 0;
+
+                     let game_manager = new engine.GameManager(req.body.roomID, players, req.ai_players, req.headers.session);
 
                      map.RoomMap.set(parseInt(req.body.roomID), game_manager);
 
