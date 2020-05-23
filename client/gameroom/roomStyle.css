@@ -161,9 +161,10 @@ body::-webkit-scrollbar {
 .winner-modal {
     width: 75%;
     height: 600px;
-    background-color: white;
+    background-color: #474747;
     top: calc(50vh - 300px);
     position: relative;
+    border-radius: 5px;
     left: 12.5%;
     padding: 20px;
     padding-top: 60px;
@@ -173,6 +174,10 @@ body::-webkit-scrollbar {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.winner-info {
+    color: white;
 }
 
 .winner-text{
