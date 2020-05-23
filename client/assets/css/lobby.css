@@ -35,6 +35,21 @@ body {
   overflow: hidden;
 }
 
+.description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  background-color: #232323;
+  text-align: center;
+  font-size: 40px;
+  margin-top: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: whitesmoke;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .navbar-nav button {
@@ -47,17 +62,10 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
   }
-}
 
-.description {
-  width: 100%;
-  height: 200px;
-  background-color: #232323;
-  text-align: center;
-  font-size: 40px;
-  padding-top: 40px;
-  margin-top: 60px;
-  color: whitesmoke;
+  .description {
+    font-size: 20px;
+  }
 }
 
 /* @media only screen and (min-width:576px) and (max-width: 768px) {

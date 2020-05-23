@@ -75,7 +75,7 @@ body::-webkit-scrollbar {
 
 .other-played-cards .card-body:active,
 .player-hand .card-body:active {
-    background: darkgreen;
+    background: #0062cc;
     color: white;
     text-shadow: 1px 1px black;
 }
@@ -124,7 +124,7 @@ body::-webkit-scrollbar {
 }
 
 .player-hand .selected {
-    background: darkgreen !important;
+    background: #0062cc !important;
     color: white;
     text-shadow: 1px 1px, black;
 }

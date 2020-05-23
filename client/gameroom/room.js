@@ -272,7 +272,7 @@ function getCardHtml(card, type, raw){
         <div class="card bg-light mb-3" ${raw ? '' : `id="card${card.id}"`} onclick="selectCardWithId(event, ${card.id})"}>
             <div class="card-body">
                 <p class="card-text">${card.text}</p>
-                <button ${raw ? '' : `id="submitButton${card.id}"`} onclick="submitCards(event)" class="btn btn-success submit-button">Submit</button>
+                <button ${raw ? '' : `id="submitButton${card.id}"`} onclick="submitCards(event)" class="btn btn-primary submit-button">Submit</button>
                 <h1 class="card-index" ${raw ? '' :`id="cardIndex${card.id}"`}></h1>
             </div>
         </div>`;
