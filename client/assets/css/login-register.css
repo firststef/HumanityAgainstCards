@@ -36,11 +36,14 @@ body, html {
     margin-left: 37%;
     border: none;
     color: #6c757d;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063;
+}
+
+#f_pass:hover {
+    text-decoration: underline;
 }
 
 #fp{
-    background: #643712;
+    background: #2887C8;
     color: #ECE5F0 !important;
 }
 
@@ -51,7 +54,7 @@ body, html {
     color: #ECE5F0 !important;
     background: #333333;
     border: none;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #2887C8 ;
 }
 
 #exampleModal{
@@ -64,7 +67,7 @@ body, html {
 
 
 #tab_reg, #tab_log{
-    background: radial-gradient(ellipse at bottom, #643712 0%, #090a0f 100%) !important;
+    background: radial-gradient(ellipse at bottom, #2887C8 0%, rgba(0, 123, 255, 0.19) 100%) !important;
     border-radius: 2px;
 }
 
@@ -84,10 +87,9 @@ body, html {
     width: 100%;
     margin-top:  0.5em;
     padding: 7.5%;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #643712;
 }
 .form-horizontal{
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063 !important;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #2887C8 !important;
     border-radius: 20px;
     min-height: 400px;
     align-items: center;
@@ -129,7 +131,7 @@ body, html {
 
 
 .login-register-form-section .btn-custom {
-    background: radial-gradient(ellipse at bottom, #643712 0%, #090a0f 100%);
+    background: radial-gradient(ellipse at bottom, #2887C8 0%, rgba(0, 123, 255, 0.19) 100%);
     font-size: 20px;
     width: 100%;
     height: 50px;

@@ -43,6 +43,10 @@ const sendHttpRequest = (method, url, data) => {
     });
 };
 
+function deleteCookies() {
+    document.cookie = "HAC_SID= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+}
+
 /**
  * Function that makes a POST request to the server for disconnect
  */
@@ -54,7 +58,7 @@ function disconnect() {
             console.log(responseData);
             localStorage.removeItem("json");
             localStorage.removeItem("user_profile");
-            eraseCookie("HAC_SID");
+            deleteCookies();
             window.location = "/";
         }).catch(err => {
         console.log(err);
