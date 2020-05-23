@@ -49,6 +49,39 @@ module.exports = {
                     }
                 });
         }),
+    get_user_profile: (value) =>
+        new Promise((resolve, reject) => {
+            let connection = database.get_db();
+            connection.db("HumansAgainstCards")
+                .collection("user")
+                .findOne(
+                    { "session.value": value },function (err, result) {
+                    if ( err ) {
+                        console.log(
+                            log.date_now() + f_header,
+                            color.red,
+                            "Error while extracting data !\n",
+                            color.white,
+                            err
+                        );
+                        reject({ err: err });
+                    } else {
+                        if(result!=null){
+                            let return_val={
+                                nickname:result.nickname,
+                                username: result.username,
+                                email:result.email,
+                                games_played:result.games_played,
+                                games_won:result.games_won
+                            }
+                            resolve(return_val);
+
+                        }
+                        resolve(null);
+
+                    }
+                });
+        }),
     /**
      * Returns session for a given user
      * @param {string} user - Parameter through which the session is found in the database
