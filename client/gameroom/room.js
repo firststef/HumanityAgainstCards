@@ -158,7 +158,7 @@ function applyChanges(changes) {
             updateEnabled = true;
             setTimeout(checkForUpdate, 3000);
             closeInterval = setTimeout(() => {
-                document.getElementById("winnerOverlay").style.display = 'none';
+                //document.getElementById("winnerOverlay").style.display = 'none';
             }, 5000);
         }
     }

@@ -137,7 +137,7 @@ module.exports = {
 			type: "text/javascript",
 		},
 		"/game": {
-			path: "\\..\\..\\..\\client/gameroom/room-test.html",
+			path: "\\..\\..\\..\\client/gameroom/room.html",
 			type: "text/html",
 		},
 		"/room.js": {
@@ -160,8 +160,8 @@ module.exports = {
 			path: "\\..\\..\\..\\client/reset_password/sendNewPass.js",
 			type: "text/javascript",
 		},
-		"/room-test.css": {
-			path: "\\..\\..\\..\\client/gameroom/room-test.css",
+		"/roomStyle.css": {
+			path: "\\..\\..\\..\\client/gameroom/roomStyle.css",
 			type: "text/css",
 		},
 		"/assets/img/bg.png": {
