@@ -48,6 +48,13 @@ body{
     display: none;
 }
 
+#reset_message,
+#activation_message{
+    display: table;
+    margin: auto;
+}
+
+
 .footer{
     width: 100%;
     height: 1px;

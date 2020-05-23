@@ -96,6 +96,10 @@ module.exports = {
 			path: "\\..\\..\\..\\client/confirm_account.html",
 			type: "text/html",
 		},
+		"/assets/css/confirm_account.css": {
+			path: "/../../../client/assets/css/confirm_account.css",
+			type: "text/css",
+		},
 		"/assets/css/home.css": {
 			path: "/../../../client/assets/css/home.css",
 			type: "text/css",

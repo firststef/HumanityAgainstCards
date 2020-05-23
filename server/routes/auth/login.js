@@ -38,15 +38,17 @@ module.exports = function (app) {
 			//let old_session=await user.get_old_session(req.body.username,password);
 
 			if (false === (await user.session_update_login(req.body.username, password, cookie_session))) throw "Error at updateing the session !";
+			let user_profile=await user.get_user_profile(cookie_session);
 
 			let response = {
 				success: true,
 				session: cookie_session,
+				user: user_profile
 			};
 
 			//It's ok to send these but we want to set up the cookies for the client
-			cookies.set("username", req.body.username, { signed: true });
-			cookies.set("session", cookie_session, { signed: true });
+			//cookies.set("username", req.body.username, { signed: true });
+			//cookies.set("session", cookie_session, { signed: true });
 
 			res.status(200).send(response);
 		} catch (e) {

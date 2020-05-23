@@ -1,44 +1,57 @@
-.message{
-    margin-top: 1em;
-    text-align: center;
-    text-decoration-color: aliceblue;
-    color: aliceblue;
-}
-#remember{
-    color: lightslategray;
-    text-decoration-color: lightslategray;
-}
+
 body, html {
     font-family: "Ringside Regular A","Ringside Regular B","Lucida Grande","Lucida Sans Unicode",Sans-Serif;
-    background-color: #161616 ;
-    width: 99%;
-
+    background-color: rgb(27, 27, 27) !important;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh !important;
 }
-
+#h1-second {
+    text-shadow: 0 3px 0 #b2a98f, 0 14px 10px rgba(0,0,0,0.15), 0 24px 2px rgba(0,0,0,0.1), 0 34px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Bebas Neue', cursive !important;
+    color: #ECE5F0;
+}
+.text{
+    margin: 0 auto;
+    font-family: 'Bebas Neue', cursive;
+    background-color: rgb(27, 27, 27) !important;
+    border-radius: 10px;
+    padding: 1em !important;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
 #reset_form{
     align-self: center;
-
 }
 
 #f_pass{
     background: inherit;
     text-align: center;
-    margin-top: -20%;
+    margin-top: -40%;
     margin-left: 37%;
     border: none;
     color: #6c757d;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(229,46,113,.2);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063;
 }
 
+#fp{
+    background: #643712;
+    color: #ECE5F0 !important;
+}
 
 #f_pass_form{
     display: flex;
     justify-content: space-around;
     align-items: start;
-    color: aliceblue;
+    color: #ECE5F0 !important;
     background: #333333;
     border: none;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(229,46,113,.2);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063;
 }
 
 #exampleModal{
@@ -48,16 +61,37 @@ body, html {
 #register{
     margin-top: -10px;
 }
-.color{
-    color: white;
+
+
+#tab_reg, #tab_log{
+    background: radial-gradient(ellipse at bottom, #643712 0%, #090a0f 100%) !important;
+    border-radius: 2px;
+}
+
+
+#register_message,#login_message{
+    display: table;
+    margin: auto;
+    font-size: larger;
+}
+
+#account_activation{
+    display: none;
+    text-align: center;
+    color: #7CFC00;
 }
 .container form{
     width: 100%;
     margin-top:  0.5em;
-    padding: 10%;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 rgba(229,46,113,.2);
+    padding: 7.5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #643712;
 }
-
+.form-horizontal{
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 25px 0 #88481063 !important;
+    border-radius: 20px;
+    min-height: 400px;
+    align-items: center;
+}
 .login-register-form-section {
     border-radius: 15px;
     max-width: 580px;
@@ -75,7 +109,8 @@ body, html {
 .login-register-form-section .nav-tabs > li.active > a {
     background-color: #45433E;
     border-color: #45433E;
-    color: #959794;
+    color: white !important;
+
 }
 
 .login-register-form-section .nav-tabs > li > a,
@@ -83,6 +118,8 @@ body, html {
     width: 288px;
     text-align: center;
     border-radius: 0;
+    color: white !important;
+
 }
 
 .login-register-form-section .nav-tabs {
@@ -92,83 +129,25 @@ body, html {
 
 
 .login-register-form-section .btn-custom {
+    background: radial-gradient(ellipse at bottom, #643712 0%, #090a0f 100%);
     font-size: 20px;
     width: 100%;
     height: 50px;
-    background: #672232;
     border-radius: 5px;
-    border: #3b5998;
-    stroke:#9c27b0;
-    fill:rgba(156,39,176,.2);
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    border: #88481063;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
 }
 
 .login-register-form-section .btn-custom:hover {
     width: 100%;
-    background-color: #312d3c;;
+    background-color: #312d3c;
     border-color: #45433E;
 }
 .login-register-form-section .form-group {
     padding: 0 20px;
 }
 
-.btn-google {
-    font-family: Ringside Regular A,Ringside Regular B,Rubik,Lato,Lucida Grande,Lucida Sans Unicode,Tahoma,Sans-Serif;
-    font-size: 25px;
-    line-height: 1.2;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: inline-flex;
-    justify-content: center;
-    opacity: 1;
-    align-items: center;
-    width: calc((100% - 5px));
-    height: 40px;
-    border-radius: 10px;
-    box-shadow: 0 1px 5px 0 rgba(229,46,113,.2);
-    transition: all 0.4s;
-    position: relative;
-    z-index: 1;
-}
-
-.btn-google::before{
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    top: 0;
-    left: 0;
-    background: rgba(229,46,113,.2);
-    opacity: 0;
-    transition: all 0.4s;
-}
-
-.btn-google {
-    stroke:#f44336;
-    fill:rgba(244,67,54,.2)
-}
-
-.btn-google img {
-    width: 20px;
-    margin-right: 15px;
-    padding-bottom: 3px;
-}
-
-
-.btn-google:hover:before {
-    opacity: 1;
-}
-
-
-.btn-google:hover {
-    color: #fff;
-}
 
 
 /* Media Queries */
@@ -205,12 +184,11 @@ body, html {
 
     }
 
-    #tab_log{
+    #tab_log {
         align-self: center;
         width: 100px;
         margin-left: 30px;
         margin-right: 30px;
-
     }
     #tab_reg{
         align-self: center;
@@ -218,26 +196,6 @@ body, html {
         margin-left: 10px;
         margin-right: 30px;
 
-    }
-    .btn-google {
-        font-size: 15px;
-        line-height: 1;
-        padding: 5px;
-        width: calc((100% - 5px) / 2);
-        height: 40px;
-        border-radius: 10px;
-
-    }
-
-    .btn-google::before{
-        border-radius: 7px;
-
-    }
-
-    .btn-google img {
-        width: 15px;
-        margin-right: 10px;
-        padding-bottom: 1px;
     }
 
 }
@@ -290,27 +248,6 @@ body, html {
     }
 
 
-
-    .btn-google {
-        font-size: 15px;
-        padding: 5px;
-        width: calc((100% - 5px) / 2);
-        height: 40px;
-    }
-
-    .btn-google::before{
-        border-radius: 7px;
-
-    }
-
-
-
-
-    .btn-google img {
-        width: 15px;
-        margin-right: 10px;
-        padding-bottom: 1px;
-    }
 
 }
 
