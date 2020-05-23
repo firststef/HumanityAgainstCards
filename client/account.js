@@ -1,4 +1,27 @@
 /**
+ * Function that fills the user profile information
+ */
+window.onload = () => profileFill();
+function profileFill() {
+    let user = document.getElementById('account_username');
+    let nick = document.getElementById('account_nickname');
+    let email = document.getElementById('account_email');
+    let games_played = document.getElementById('account_played');
+    let games_won = document.getElementById('account_won');
+
+    let profile=JSON.parse(localStorage.getItem("user_profile"));
+    // console.log(profile);
+
+    user.innerHTML= 'Username : ' + profile.username;
+    nick.innerHTML= 'Nickname : ' + profile.nickname;
+    email.innerHTML= 'Email : ' + profile.email;
+    games_played.innerHTML= 'Games played : ' + profile.games_played;
+    games_won.innerHTML= 'Games played : ' + profile.games_won;
+
+}
+
+
+/**
  * Function used to make a HTTP request to a given URL and method using fetch
  */
 const sendHttpRequest = (method, url, data) => {
@@ -29,6 +52,8 @@ function disconnect() {
     sendHttpRequest('POST', url,{})
         .then(responseData => {
             console.log(responseData);
+            localStorage.removeItem("json");
+            localStorage.removeItem("user_profile");
             eraseCookie("HAC_SID");
             window.location = "/";
         }).catch(err => {

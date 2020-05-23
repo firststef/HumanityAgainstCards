@@ -75,6 +75,7 @@ function sendLoginJSON() {
             console.log(responseData);
             //set cookie
             document.cookie = "HAC_SID=" + responseData.session;
+             localStorage.setItem("user_profile", JSON.stringify(responseData.user));
             //redirect to account page
             window.location = "/account";
         }).catch(err => {
