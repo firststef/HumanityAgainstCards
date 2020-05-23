@@ -158,8 +158,8 @@ module.exports = {
                     .collection("rooms")
                     .findOne({ id: roomID },
                              (err, doc) => {
-                                 if ( doc !== null ) {
-                                     resolve(true);
+                                 if ( doc !== null  ) {
+                                     resolve(doc.ai_players);
                                  } else {
                                      if ( err ) {
                                          throw err;

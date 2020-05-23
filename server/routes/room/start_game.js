@@ -11,8 +11,8 @@ module.exports = function (app, secured) {
              async (req, res) => {
                  try {
                      if ( !req.body.roomID ) throw "No roomId provided !";
-
-                     if ( !await room.room_exist(parseInt(req.body.roomID)) ) throw "Room does not exist!";
+                     let ai_players=await room.room_exist(parseInt(req.body.roomID))
+                     if ( ai_players===false ) throw "Room does not exist!";
 
                      if ( await room.is_host_to_room(parseInt(req.body.roomID), req.headers.session) === false ) throw "You are not host to this room!";
 
@@ -36,7 +36,7 @@ module.exports = function (app, secured) {
                          else throw "Internl error";
                      }
 
-                     let game_manager = new engine.GameManager(req.body.roomID, players, 1, req.headers.session);
+                     let game_manager = new engine.GameManager(req.body.roomID, players, parseInt(ai_players), req.headers.session);
 
                      map.RoomMap.set(parseInt(req.body.roomID), game_manager);
 
