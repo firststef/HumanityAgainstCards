@@ -1,8 +1,5 @@
-#disconnect{
-    background: #3E9B67;
-}
 #account{
-    background: radial-gradient(ellipse at bottom, #ff851b 0%, #090a0f 100%);
+    background: radial-gradient(ellipse at bottom, #2887C8 0%, rgba(0, 123, 255, 0.19) 100%);
     margin-left: 10%;
     margin-top: 10%;
     align-items: center;
@@ -31,7 +28,7 @@
 
 .card-body{
     text-align: center;
-    color: #ffaa60;
+    color: white;
     padding-top: 5%;
     padding-right: 2%;
     padding-bottom: 5%;
@@ -59,5 +56,14 @@
     }
 }
 
+@media only screen and (max-width: 767px) {
+    .content {
+        display: none;
+    }
 
-
+    #account {
+        margin: 0;
+        width: 100%;
+        font-size: 1em;
+    }
+}
