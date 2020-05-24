@@ -20,18 +20,45 @@ function getRoomHtml(room, isHost) {
                     <h5 class="card-title">Goal: ${room.score_limit} </h5>
                     <p class="card-text">Id: ${room.id}</p>
                     <a class="btn btn-primary" onclick="attemptJoinRoom(${room.id})">Join as Player</a>
-                    ${ isHost ? `<a class="btn btn-danger" onclick="">Delete room</a>` : ''}
+                    ${ isHost ? `<a class="btn btn-danger" onclick="deleteRoom(${room.id})">Delete room</a>` : ''}
                 </div>
             </div>`;
+}
+
+function deleteRoom(roomID){
+    let body = {};
+    body.roomID = roomID;
+    body.type = "delete_room";
+
+    fetch('/rooms', {
+        method: 'post',
+        headers: {
+            "Content-type": "application/json",
+            "session": sid
+        },
+        body: JSON.stringify(body)
+    })
+        .then(res => res.json())
+        .then(res => {
+            getRooms();
+        });
 }
 
 function getRooms() {
     fetch('/get_rooms')
         .then(response => response.json())
-        .then(function (data) {
+        .then(async function (data) {
             let roomsStr = '';
             if (data["success"] === true) {
-                data["rooms"].forEach(room => roomsStr += getRoomHtml(room));
+
+                let result = await fetch("/get_hosted_rooms", {
+                    method: 'GET',
+                    headers: {
+                        "session": sid
+                    },});
+                let hostedRooms = await result.json();
+
+                data["rooms"].forEach(room => {roomsStr += getRoomHtml(room,hostedRooms["rooms"].includes(room.id))});
             }
             document.querySelector(".lobbies").innerHTML = roomsStr;
         })
