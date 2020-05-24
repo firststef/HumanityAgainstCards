@@ -8,7 +8,7 @@ if (document.cookie.split(';').some((item) => item.trim().startsWith('HAC_SID=')
     }
 }
 
-function getRoomHtml(room) {
+function getRoomHtml(room, isHost) {
     if (room.players === undefined){
         room.players = [];
     }
@@ -20,7 +20,7 @@ function getRoomHtml(room) {
                     <h5 class="card-title">Goal: ${room.score_limit} </h5>
                     <p class="card-text">Id: ${room.id}</p>
                     <a class="btn btn-primary" onclick="attemptJoinRoom(${room.id})">Join as Player</a>
-                    <a class="btn btn-danger" onclick="">Delete room</a>
+                    ${ isHost ? `<a class="btn btn-danger" onclick="">Delete room</a>` : ''}
                 </div>
             </div>`;
 }
